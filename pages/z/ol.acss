@@ -1,0 +1,23 @@
+.storeinfo {
+  height: 10vh;
+}
+.test{
+  height: 80vh;
+}
+.am-list-sticky {
+  position: sticky;
+  top: 0px;
+  background-color: #fff;
+  z-index: 2;
+}
+.am-vtabs-bar{
+  width: 80px;
+}
+.am-vtabs-bar-content{
+  width: 90px;
+}
+.am-vtabs-bar-tab{
+  width: 80px;
+  height: 45px;
+  line-break: 45px;
+}

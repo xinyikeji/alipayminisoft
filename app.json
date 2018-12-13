@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/z/ol",
+     "pages/member/page",
+    "pages/order/index"
+  ],
+  "window": {
+    "defaultTitle": "My App"
+  },
+  "tabBar": {
+    "textColor": "#8a8a8a",
+    "selectedColor": "#10aeff",
+    "backgroundColor": "#ffffff",
+    "items": [
+      {
+        "pagePath": "pages/index/index",
+        "icon" :"static/icon/zizhucan.png",
+        "activeIcon": "static/icon/active/zizhucan.png",
+        "name": "点餐"
+      },
+      {
+        "pagePath": "pages/order/index",
+         "icon" :"static/icon/dingdan.png",
+        "activeIcon": "static/icon/active/dingdan.png",
+        "name": "订单"
+      },
+      {
+        "pagePath": "pages/member/page",
+         "icon" :"static/icon/dingdan.png",
+        "activeIcon": "static/icon/active/dingdan.png",
+        "name": "我的"
+      }
+    ]
+  }
+}

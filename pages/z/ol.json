@@ -1,0 +1,10 @@
+{
+  "defaultTitle": "自助点餐",
+  "usingComponents": {
+    "notice": "mini-antui/es/notice/index",
+    "vtabs": "mini-antui/es/vtabs/index",
+    "vtab-content": "mini-antui/es/vtabs/vtab-content/index",
+    "list": "mini-antui/es/list/index",
+    "list-item": "mini-antui/es/list/list-item/index"
+  }
+}

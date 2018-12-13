@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "自助点餐",
+  "usingComponents": {
+    "message": "mini-antui/es/message/index",
+    "notice": "mini-antui/es/notice/index"
+  }
+}

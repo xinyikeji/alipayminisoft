@@ -1,0 +1,3 @@
+<view>
+  <navigator url="../index/index" redirect hover-class="className">测试</navigator>
+</view>
