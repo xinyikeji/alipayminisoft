@@ -1,3 +1,29 @@
 <view>
-  <navigator url="../index/index" redirect hover-class="className">测试</navigator>
+  <search-bar value="{{value}}" placeholder="搜索" onInput="handleInput" onClear="handleClear" onFocus="handleFocus" onBlur="handleBlur" onCancel="handleCancel" onSubmit="handleSubmit" showCancelButton="{{false}}" />
+  <scroll-view style="height: {{windowHeight-44}}px;" scroll-y onScrollToLower="onScrollToLower">
+    <list >
+      <block a:for="{{items5}}">
+        <list-item a:if="{{item.sticky}}" className="am-list-sticky" thumb="{{item.thumb}}" arrow="{{item.arrow}}" align="{{item.align}}" index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{item.sticky}}" wrap="{{true}}">					{{item.title}}{{index}}				
+        </list-item>
+        <list-item a:else className="am-list-order" arrow index="{{index}}" key="order-{{index}}" onClick="onItemClick"	disabled="{{false}}"	wrap >
+          <view slot="extra">
+						{{item.extra}}
+					</view>
+          <view class="order-code">
+            {{item.title}}
+          </view>
+          <view class="order-type">
+            [外卖]
+          </view>
+          <view class="order-date">
+            2018-09-09 11:11:22
+          </view>
+          
+        </list-item>
+      </block>
+      <view slot="footer">
+        没有更多订单了			
+      </view>
+    </list>
+  </scroll-view>
 </view>

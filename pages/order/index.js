@@ -1,35 +1,144 @@
+const newitems = [
+  {
+    title: '2018年01月',
+    sticky: true,
+  },
+  {
+    title: '和合谷阜成门店',
+  },
+  {
+    title: '标题文字换行',
+
+  },
+  {
+    title: '标题文字',
+
+  },
+  {
+    title: '标题文字很',
+  },
+  {
+    title: '标题文字',
+
+  },
+  {
+    title: '标题文字',
+  },
+  {
+    title: '标题文字很',
+  },
+  {
+    title: '标题文字',
+  },
+  {
+    title: '标题文字很',
+  },
+  {
+    title: '标题文字长',
+  },
+  {
+    title: '标题文字',
+  },
+  {
+    title: '标题文字长',
+  },
+  {
+    title: '标题文字很长',
+  },
+];
+
 Page({
-  onLoad(query) {
-    // 页面加载
-    console.info(`Page onLoad with query: ${JSON.stringify(query)}`);
+  data: {
+    windowHeight:44,
+    items5: [
+      {
+        title: '2018年02月',
+        sticky: true,
+      },
+      {
+        title: '小杨生煎XX点',
+        extra: '109.00',
+      },
+      {
+        title: '标题文字换行长',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字很长',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字很',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字换行',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字很长',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字很长',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字换长',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字很长',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字很长长',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字换很长',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字很',
+         extra: '109.00',
+      },
+      {
+        title: '标题文字很',
+         extra: '109.00',
+      },
+    ],
   },
-  onReady() {
-    // 页面加载完成
+  onLoad(){
+    my.getSystemInfo({
+      success: (res) => {
+        this.setData({
+          windowHeight: res.windowHeight
+        })
+      }
+    })
   },
-  onShow() {
-    // 页面显示
+  onScrollToLower() {
+    const { items5 } = this.data;
+    const newItems = items5.concat(newitems);
+    console.log(newItems.length);
+    this.setData({
+      items5: newItems,
+    });
   },
-  onHide() {
-    // 页面隐藏
+  handleTabClick({ index }) {
+    this.setData({
+      activeTab: index,
+    });
   },
-  onUnload() {
-    // 页面被关闭
+  handleTabChange({ index }) {
+    this.setData({
+      activeTab: index,
+    });
   },
-  onTitleClick() {
-    // 标题被点击
-  },
-  onPullDownRefresh() {
-    // 页面被下拉
-  },
-  onReachBottom() {
-    // 页面被拉到底部
-  },
-  onShareAppMessage() {
-    // 返回自定义分享信息
-    return {
-      title: 'My App',
-      desc: 'My App description',
-      path: 'pages/index/index',
-    };
+  handlePlusClick() {
+    my.alert({
+      content: 'plus clicked',
+    });
   },
 });

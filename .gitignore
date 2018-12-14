@@ -1,3 +1,4 @@
 node_modules
 .tea
+debug.log
 .DS_Store

@@ -1,5 +1,5 @@
 <view>
-  <notice enableMarquee="{{true}}">自助点餐任意金额赠送可乐一杯！    
+  <notice enableMarquee="{{true}}">自助点餐送可乐一杯(限每月一杯)！    
   </notice>
   <message title="{{title}}" subTitle="{{subTitle}}" type="success" mainButton="{{messageButton.mainButton}}" onTapMain="showQrcode">
   </message>

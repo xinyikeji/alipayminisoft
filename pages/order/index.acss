@@ -1,0 +1,40 @@
+.tab-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.am-list-sticky {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.am-list-sticky {
+  background-color: #F7F7F7;
+}
+
+.am-list-sticky .am-list-line {
+  min-height: 40px;
+}
+
+.am-list-sticky .am-list-content {
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.am-list-order .order-code{
+  font-size: 16px;
+  line-height: 1.4;
+}
+.am-list-order .order-type{
+  font-size: 10px;
+  line-height: 1.4;
+}
+.am-list-order .order-date{
+  font-size: 10px;
+  line-height: 1.4;
+  color: #8a8a8a
+}

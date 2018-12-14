@@ -1,1 +1,10 @@
-{}
+{
+  "defaultTitle": "会员中心",
+  "usingComponents":{
+    "card": "mini-antui/es/card/index",
+    "grid": "mini-antui/es/grid/index",
+    "list": "mini-antui/es/list/index",
+    "notice": "mini-antui/es/notice/index",
+    "list-item": "mini-antui/es/list/list-item/index"
+  }
+}

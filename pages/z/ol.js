@@ -10,6 +10,7 @@ Page({
     goodsData: {
 
     },
+    value:9,
     activeTab: 2,
     tabs: [
       { title: '生煎', anchor: 'a', badgeType: 'dot' },
@@ -34,62 +35,65 @@ Page({
         sticky: true,
       },
       {
-        title: '标题文字不换行很长很长很长很长很长很长很长很长很长很长',
-        arrow: true,
+        title: '标题文字不',
+        brief: '描述信息',
         align: 'middle',
       },
       {
-        title: '标题文字换行很长很长很长很长很长很长很长很长很长很长',
-        arrow: true,
+        title: '标题字换行',
+        brief: '测试',
         align: 'top',
       },
       {
-        title: '标题文字很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
-        extra: '没有箭头',
+        title: '标题文字很',
+        brief: '没有箭头',
         align: 'bottom',
       },
       {
-        title: '标题文字很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
+        title: '标题文很长',
+        brief: '子元素垂直对齐',
+        align: 'top',
+      },
+      {
+        title: '标题换行很',
+        brief: '子元素垂直对齐',
+        arrow: true,
+      },
+      {
+        title: '标题字很长很',
+        brief: '没有箭头',
+      },
+      {
+        title: '标题很长很',
+        brief: '子元素垂直对齐',
+        align: 'top',
+      },
+      {
+        title: '标题字很长',
+        brief: '子元素垂直对齐',
+        arrow: true,
+      },
+      {
+        title: '标题字很长长',
+        brief: '没有箭头',
+      },
+      {
+        title: '标题字很长',
         extra: '子元素垂直对齐',
         align: 'top',
       },
       {
-        title: '标题文字换行很长很长很长很长很长很长很长很长很长很长',
+        title: '标题字换行长',
+        brief: '没有箭头',
         arrow: true,
       },
       {
-        title: '标题文字很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
-        extra: '没有箭头',
+        title: '标题很长长',
+        brief: '没有箭头',
       },
       {
-        title: '标题文字很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
-        extra: '子元素垂直对齐',
-        align: 'top',
-      },
-      {
-        title: '标题文字换行很长很长很长很长很长很长很长很长很长很长',
-        arrow: true,
-      },
-      {
-        title: '标题文字很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
-        extra: '没有箭头',
-      },
-      {
-        title: '标题文字很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
-        extra: '子元素垂直对齐',
-        align: 'top',
-      },
-      {
-        title: '标题文字换行很长很长很长很长很长很长很长很长很长很长',
-        arrow: true,
-      },
-      {
-        title: '标题文字很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
-        extra: '没有箭头',
-      },
-      {
-        title: '标题文字很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
-        extra: '子元素垂直对齐',
+        title: '标题字很长',
+        brief: '子元素垂直对齐',
         align: 'middle',
       },
     ],

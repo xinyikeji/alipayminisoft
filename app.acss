@@ -1,5 +1,11 @@
 page {
+  background-color: #F7F7F7;
+  box-sizing: border-box;
+}
+
+.page {
+  font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 24rpx;
+  padding: 32rpx;
   flex: 1;
-  display: flex;
-  background: #f7f7f7;
 }

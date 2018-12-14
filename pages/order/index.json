@@ -1,3 +1,9 @@
 {
-  "defaultTitle": "我的订单"
+  "defaultTitle": "我的订单",
+  "usingComponents":{
+    "search-bar": "mini-antui/es/search-bar/index",
+    "list": "mini-antui/es/list/index",
+    "list-item": "mini-antui/es/list/list-item/index",
+    "card": "mini-antui/es/card/index"
+  }
 }

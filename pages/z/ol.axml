@@ -1,13 +1,28 @@
 <view>
-  <view class="storeinfo">    6789      
+  <view class="storeinfo">
+
   </view>
   <vtabs tabs="{{tabs}}" className="test" onTabClick="handleChange" onChange="onChange" activeTab="{{activeTab}}">
     <block a:for="{{tabs}}">
       <vtab-content anchor="{{item.anchor}}">
         <list>
           <block a:for="{{items5}}" a:for-item="itemName">
-            <list-item className="{{itemName.sticky ? 'am-list-sticky' : ''}}" thumb="{{itemName.thumb}}" align="{{itemName.align}}" index="{{index}}" key="items5-{{index}}" wrap disabled="{{itemName.sticky}}"> 
-              	{{itemName.title}}{{index}}	{{item.anchor}}
+            <list-item a:if="{{itemName.sticky}}" class="am-list-sticky" thumb="{{itemName.thumb}}" align="{{itemName.align}}" index="{{index}}" key="items5-{{index}}"             wrap disabled="{{itemName.sticky}}">            	{{itemName.title}}{{index}}	{{item.anchor}}                        
+            </list-item>
+            <list-item a:else thumb="{{itemName.thumb}}" 
+            index="items-multiple-{{index}}" 
+            key="items-multiple-{{index}}" 
+            multipleLine="{{true}}"           
+            wrap 
+            disabled="true">
+              {{itemName.title}}					
+              <view class="am-list-brief">
+                {{itemName.brief}}
+              </view>
+              <view slot="extra">
+                <stepper onChange="callBackFn" step="{{1}}" readOnly="{{false}}" 
+                value="{{value}}" min="{{2}}" max="{{12}}" />				
+              </view>
             </list-item>
           </block>
         </list>

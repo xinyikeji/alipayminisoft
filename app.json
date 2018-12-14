@@ -2,8 +2,10 @@
   "pages": [
     "pages/index/index",
     "pages/z/ol",
-     "pages/member/page",
-    "pages/order/index"
+    "pages/member/page",
+    "pages/order/index",
+    "pages/w/w",
+    "pages/member/info/info"
   ],
   "window": {
     "defaultTitle": "My App"
@@ -15,20 +17,26 @@
     "items": [
       {
         "pagePath": "pages/index/index",
-        "icon" :"static/icon/zizhucan.png",
+        "icon": "static/icon/zizhucan.png",
         "activeIcon": "static/icon/active/zizhucan.png",
         "name": "点餐"
       },
       {
+        "pagePath": "pages/w/w",
+        "icon": "static/icon/waimaixinxi.png",
+        "activeIcon": "static/icon/active/waimaixinxi.png",
+        "name": "外卖"
+      },
+      {
         "pagePath": "pages/order/index",
-         "icon" :"static/icon/dingdan.png",
+        "icon": "static/icon/dingdan.png",
         "activeIcon": "static/icon/active/dingdan.png",
         "name": "订单"
       },
       {
         "pagePath": "pages/member/page",
-         "icon" :"static/icon/dingdan.png",
-        "activeIcon": "static/icon/active/dingdan.png",
+        "icon": "static/icon/user.png",
+        "activeIcon": "static/icon/active/user.png",
         "name": "我的"
       }
     ]
