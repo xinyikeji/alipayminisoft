@@ -29,9 +29,11 @@
   overflow: hidden;
   line-height: 5vh;
 }
-.goodslist{
+
+.goodslist {
   height: 80vh;
 }
+
 .goods {
   display: inline-flex;
 }
@@ -50,12 +52,14 @@
 .goods .goodsprice {
   font-size: 12px;
 }
-.goods .yprice{
+
+.goods .yprice {
   font-size: 10px;
   text-decoration: line-through;
   color: #dddddd;
   padding-left: 6px;
 }
+
 .goodsstepper {
   overflow: hidden;
 }
@@ -84,12 +88,40 @@
 
 .cartbuttons {
   margin: 10px;
-  background: #10aeff;
   height: 40px;
   border-top-right-radius: 20px 50%;
   border-top-left-radius: 20px 50%;
   border-bottom-left-radius: 20px 50%;
   border-bottom-right-radius: 20px 50%;
+  display: flex;
+  background: #eeeeee;
+}
+
+.shoppcar {
+  width: 20px;
+  padding: 8px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+}
+
+.priceinfo {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  line-height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.goShopping {
+  width: 100px;
+  line-height: 40px;
+  background: #10aeff;
+  border-top-right-radius: 20px 50%;
+  border-bottom-right-radius: 20px 50%;
+  text-align: center;
+  color: #FFFFFF;
+  font-weight: bold;
 }
 
 .am-list-sticky {

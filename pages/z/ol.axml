@@ -44,6 +44,15 @@
   </vtabs>
   <view class="cartinfo">
     <view class="cartbuttons">
+      <view class="shoppcar">
+        <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+      </view>
+      <view class="priceinfo">
+        ￥19.88
+      </view>
+      <view class="goShopping">
+          去结算
+      </view>
     </view>
   </view>
 </view>
