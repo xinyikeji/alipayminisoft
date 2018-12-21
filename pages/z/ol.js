@@ -10,91 +10,57 @@ Page({
     goodsData: {
 
     },
-    value:9,
-    activeTab: 2,
+    value: 9,
+    activeTab: 0,
     tabs: [
       { title: '生煎', anchor: 'a', badgeType: 'dot' },
       { title: '汤品', anchor: 'b', badgeType: 'text', badgeText: '新' },
       { title: '小吃', anchor: 'c' },
-      { title: '选项四', anchor: 'd' },
-      { title: '选项五', anchor: 'e' },
-      { title: '选项六', anchor: 'f' },
-      { title: '选项六1', anchor: '1f' },
-      { title: '选项六2', anchor: '2f' },
-      { title: '选项六3', anchor: '3f' },
-      { title: '选项六1', anchor: '11f' },
-      { title: '选项六21', anchor: '21f' },
-      { title: '选项六32', anchor: '32f' },
-      { title: '选项六43', anchor: '43f' },
     ],
     items5: [
       {
-        title: '固定到头部',
+        title: "分类",
         brief: '描述信息',
         arrow: true,
         sticky: true,
       },
       {
+        thumb: 'https://tfsimg.alipay.com/images/partner/T12rhxXkxcXXXXXXXX',
+        title: '标题文字不标题文字不标题文字不',
+        price: "10.22",
+        brief: '描述信息',
+        align: 'middle',
+      },
+      {
+        thumb: 'https://tfsimg.alipay.com/images/partner/T12rhxXkxcXXXXXXXX',
+        title: '标题字换行',
+        price: "10.22",
+        brief: '测试',
+        align: 'top',
+      },
+      {
         title: '标题文字不',
         brief: '描述信息',
+        price: "10.22",
         align: 'middle',
       },
       {
         title: '标题字换行',
         brief: '测试',
+        price: "10.22",
         align: 'top',
       },
       {
-        title: '标题文字很',
-        brief: '没有箭头',
-        align: 'bottom',
-      },
-      {
-        title: '标题文很长',
-        brief: '子元素垂直对齐',
-        align: 'top',
-      },
-      {
-        title: '标题换行很',
-        brief: '子元素垂直对齐',
-        arrow: true,
-      },
-      {
-        title: '标题字很长很',
-        brief: '没有箭头',
-      },
-      {
-        title: '标题很长很',
-        brief: '子元素垂直对齐',
-        align: 'top',
-      },
-      {
-        title: '标题字很长',
-        brief: '子元素垂直对齐',
-        arrow: true,
-      },
-      {
-        title: '标题字很长长',
-        brief: '没有箭头',
-      },
-      {
-        title: '标题字很长',
-        extra: '子元素垂直对齐',
-        align: 'top',
-      },
-      {
-        title: '标题字换行长',
-        brief: '没有箭头',
-        arrow: true,
-      },
-      {
-        title: '标题很长长',
-        brief: '没有箭头',
-      },
-      {
-        title: '标题字很长',
-        brief: '子元素垂直对齐',
+        title: '标题文字不',
+        brief: '描述信息',
+        price: "10.22",
         align: 'middle',
+      },
+      {
+        title: '标题字换行',
+        brief: '测试',
+        price: "10.22",
+        align: 'top',
       },
     ],
   },
@@ -117,14 +83,6 @@ Page({
         })
       }
     })
-    my.setNavigationBar({
-      title:"XXX门店",
-      success: (res) => {
-        
-      },
-    });
-
-    console.log(http)
     //判断是否已经授信
 
     //加载商品数据和门店数据
@@ -133,6 +91,9 @@ Page({
   getGoodsData() {
     // 获取数据
 
+  },
+  callBackFn(value) {
+    console.log(value);
   },
   onShareAppMessage() {
     // 返回自定义分享信息

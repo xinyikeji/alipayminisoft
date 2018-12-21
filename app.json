@@ -5,7 +5,9 @@
     "pages/member/page",
     "pages/order/index",
     "pages/w/w",
-    "pages/member/info/info"
+    "pages/member/info/info",
+    "pages/member/coupon/coupon",
+    "pages/member/integral/integral"
   ],
   "window": {
     "defaultTitle": "My App"

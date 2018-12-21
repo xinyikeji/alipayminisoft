@@ -5,6 +5,9 @@ Page({
     messageButton: {
       mainButton: {
         buttonText: "扫码点餐"
+      },
+      subButton: {
+        buttonText: "预约点餐"
       }
     }
   },

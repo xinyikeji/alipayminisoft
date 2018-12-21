@@ -1,22 +1,123 @@
 .storeinfo {
   height: 10vh;
+  padding: 3px 10px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eeeeee;
 }
-.test{
+
+.storename {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 5vh;
+}
+
+.storeinfo .storename .replace {
+  font-weight: normal;
+  color: #10aeff
+}
+
+.storeinfo .storename .long {
+  font-size: 10px;
+  font-weight: normal;
+  color: #ffbe00;
+}
+
+.storetelphone {
+  font-size: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 5vh;
+}
+.goodslist{
   height: 80vh;
 }
+.goods {
+  display: inline-flex;
+}
+
+.am-list-item {
+  padding-left: 6px;
+}
+
+.goods .goodsinfo {
+  overflow: hidden;
+  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.goods .goodsprice {
+  font-size: 12px;
+}
+.goods .yprice{
+  font-size: 10px;
+  text-decoration: line-through;
+  color: #dddddd;
+  padding-left: 6px;
+}
+.goodsstepper {
+  overflow: hidden;
+}
+
+.goodsstepper image {
+  float: right;
+}
+
+.goodsstepper text {
+  float: right;
+  line-height: 24px;
+  width: 40px;
+  text-align: center;
+}
+
+.cartinfo {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 10000;
+  height: 10vh;
+  background-color: #FFF;
+  border-top: 1px solid #eeeeee;
+}
+
+.cartbuttons {
+  margin: 10px;
+  background: #10aeff;
+  height: 40px;
+  border-top-right-radius: 20px 50%;
+  border-top-left-radius: 20px 50%;
+  border-bottom-left-radius: 20px 50%;
+  border-bottom-right-radius: 20px 50%;
+}
+
 .am-list-sticky {
   position: sticky;
   top: 0px;
-  background-color: #fff;
   z-index: 2;
+  background-color: #F7F7F7;
 }
-.am-vtabs-bar{
+
+.am-list-sticky .am-list-line {
+  min-height: 40px;
+}
+
+.am-list-sticky .am-list-content {
+  font-size: 14px;
+  line-height: 24px;
+  border: 0px;
+}
+
+.am-vtabs-bar {
   width: 80px;
 }
-.am-vtabs-bar-content{
+
+.am-vtabs-bar-content {
   width: 90px;
 }
-.am-vtabs-bar-tab{
+
+.am-vtabs-bar-tab {
   width: 80px;
   height: 45px;
   line-break: 45px;
