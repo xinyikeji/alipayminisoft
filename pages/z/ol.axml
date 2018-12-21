@@ -31,7 +31,8 @@
                 </view>
                 <view class="goodsstepper">
                   <image src="/static/icon/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
-                  <text>                    111                  
+                  <text>
+                    111                  
                   </text>
                   <image src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
                 </view>
@@ -45,7 +46,11 @@
   <view class="cartinfo">
     <view class="cartbuttons">
       <view class="shoppcar">
-        <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+        <badge a:if="{{clickgooddnumber > 0}}" text="{{clickgooddnumber}}">
+          <view slot="inner" style="height: 26px; width: 26px;">
+            <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+          </view>
+        </badge>
       </view>
       <view class="priceinfo">
         ￥19.88

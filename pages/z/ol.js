@@ -10,6 +10,7 @@ Page({
     goodsData: {
 
     },
+    clickgooddnumber:1,
     value: 9,
     activeTab: 0,
     tabs: [
