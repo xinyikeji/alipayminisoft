@@ -1,32 +1,53 @@
+import http from '/libs/http'
 App({
   onLaunch(options) {
-    //判断本地用户是否已经存在登陆信息
-    //
-    my.getAuthCode({
-      scopes: 'auth_base',
-      success: (res) => {
-        my.alert({
-          content: res.authCode,
-        });
-      },
-    });
 
+
+  },
+  getUserInfo(callback) {
+    if (this.dataInfo.userInfo) {
+      callback(this.dataInfo.userInfo);
+      return;
+    }
+
+    const UserCache = my.getStorageSync({
+      key: 'userinfo', // 缓存数据的key
+    });
+    if (UserCache.data) {
+      this.dataInfo.userInfo = UserCache.data;
+      callback(UserCache.data);
+      return;
+    }
+    const extJson = my.getExtConfigSync();
+    var _this = this;
     my.getAuthCode({
       scopes: 'auth_user',
       success: (res) => {
-        my.getAuthUserInfo({
-          success: (userInfo) => {
-            my.alert({
-              content: userInfo.nickName
+        http.post({
+          authcode: res.authCode,
+          alipayappid: extJson.aliappid,
+          method: "alisoft.Login.codeToinfo"
+        }, function(status, rest) {
+          if (status && rest.data.code === 1) {
+            _this.dataInfo.userInfo = rest.data.data;
+            my.setStorageSync({
+              key: 'userinfo', // 缓存数据的key
+              data: rest.data.data, // 要缓存的数据
             });
-            my.alert({
-              content: userInfo.avatar
-            });
+            callback(rest.data.data);
+          } else {
+            callback(false);
           }
-        });
+        })
       },
     });
-
+  },
+  dataInfo: {
+    islogin: false,
+    userInfo: null,
+    storeList: [],
+    storeObj: {},
+    goodsData: {}
   },
   onShow(options) {
     // 从后台被 scheme 重新打开

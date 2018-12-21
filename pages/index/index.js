@@ -1,3 +1,5 @@
+import http from '/libs/http'
+const app = getApp();
 Page({
   data: {
     title: "尊敬的用户",
@@ -10,6 +12,11 @@ Page({
         buttonText: "预约点餐"
       }
     }
+  },
+  onLoad(){
+    app.getUserInfo(function (userinfo){
+        console.log(userinfo)
+    })
   },
   showQrcode() {
     my.navigateTo({
@@ -24,4 +31,27 @@ Page({
       path: 'pages/index/index',
     };
   },
+  onGetAuthorize() {
+    my.getPhoneNumber({
+      success: (res) => {
+        let encryptedData = res.response
+        http.post({
+          encryptedData: encryptedData,
+          cachekey: '1111111111',
+          method: "alisoft.Login.bindUser"
+        }, function(staus, rest) {
+
+        })
+
+        console.log(encryptedData)
+      },
+      fail: (res) => {
+        console.log(res)
+        console.log('getPhoneNumber_fail')
+      },
+    });
+  },
+  onAuthError() {
+    console.log('getPhoneNumber_error')
+   }
 });

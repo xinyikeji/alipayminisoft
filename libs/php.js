@@ -55,7 +55,7 @@ function json_decode (strJson) { // eslint-disable-line camelcase
     See http://www.JSON.org/js.html
   */
 
-  var $global = (typeof window !== 'undefined' ? window : global)
+  var $global = (typeof window !== 'undefined' ? window : global) || {}
   $global.$locutus = $global.$locutus || {}
   var $locutus = $global.$locutus
   $locutus.php = $locutus.php || {}
@@ -152,7 +152,7 @@ function json_encode (mixedVal) { // eslint-disable-line camelcase
     See http://www.JSON.org/js.html
   */
 
-  var $global = (typeof window !== 'undefined' ? window : global)
+  var $global = (typeof window !== 'undefined' ? window : global) || {};
   $global.$locutus = $global.$locutus || {}
   var $locutus = $global.$locutus
   $locutus.php = $locutus.php || {}
@@ -1904,7 +1904,7 @@ function utf8_encode (argString) { // eslint-disable-line camelcase
 }
 function i18n_loc_get_default () { // eslint-disable-line camelcase
 
-  var $global = (typeof window !== 'undefined' ? window : global)
+  var $global = (typeof window !== 'undefined' ? window : global) || {}
   $global.$locutus = $global.$locutus || {}
   var $locutus = $global.$locutus
   $locutus.php = $locutus.php || {}
@@ -2044,7 +2044,7 @@ function ksort (inputArr, sortFlags) {
   var sortByReference = false
   var populateArr = {}
 
-  var $global = (typeof window !== 'undefined' ? window : global)
+  var $global = (typeof window !== 'undefined' ? window : global) || {}
   $global.$locutus = $global.$locutus || {}
   var $locutus = $global.$locutus
   $locutus.php = $locutus.php || {}
