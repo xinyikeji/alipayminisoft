@@ -46,7 +46,7 @@
   <view class="cartinfo">
     <view class="cartbuttons">
       <view class="shoppcar">
-        <badge a:if="{{clickgooddnumber > 0}}" text="{{clickgooddnumber}}">
+        <badge a:if="{{clickgoodsnumber > 0}}" text="{{clickgoodsnumber}}">
           <view slot="inner" style="height: 26px; width: 26px;">
             <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
           </view>

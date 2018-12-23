@@ -1,16 +1,16 @@
 import http from '/libs/http'
-
+const app = getApp();
 Page({
   data: {
     loading: true,
     windowHeight: 80,
+    options: {},
     storeData: {
 
     },
-    goodsData: {
-
-    },
-    clickgooddnumber:1,
+    goodsData: {},
+    userInfo: {},
+    clickgoodsnumber: 1,
     value: 9,
     activeTab: 0,
     tabs: [
@@ -76,7 +76,11 @@ Page({
       activeTab: index,
     });
   },
-  onLoad(query) {
+  onLoad(options) {
+    console.log(options)
+    this.setData({
+      options: options
+    })
     my.getSystemInfo({
       success: (res) => {
         this.setData({
@@ -84,14 +88,38 @@ Page({
         })
       }
     })
-    //判断是否已经授信
 
-    //加载商品数据和门店数据
-
+    var _this = this;
+    app.getUserInfo(function(userinfo) {
+      if (userinfo) {
+        _this.setData({
+          userInfo: userinfo
+        })
+        //开始拉取用户基本数据
+        _this.getStoreInfo();
+      }
+    })
+  },
+  getStoreInfo() {
+    var _this = this;
+    app.getStoreInfo(this.data.options.id, function(storeinfo) {
+      if (storeinfo) {
+        _this.setData({
+          storeData: storeinfo
+        })
+        _this.getGoodsData();
+      }
+      console.log(storeinfo)
+    })
   },
   getGoodsData() {
     // 获取数据
-
+    app.getGoodsInfo(this.data.options.id, function(goodsdata) {
+      _this.setData({
+        goodsData: goodsdata
+      })
+      console.log(goodsdata)
+    })
   },
   callBackFn(value) {
     console.log(value);
