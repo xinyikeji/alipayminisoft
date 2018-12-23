@@ -28,6 +28,7 @@ App({
           alipayappid: extJson.aliappid,
           method: "alisoft.Login.codeToinfo"
         }, function(status, rest) {
+          console.log(status,rest);
           if (status && rest.data.code === 1) {
             _this.dataInfo.userInfo = rest.data.data;
             my.setStorageSync({
@@ -41,6 +42,19 @@ App({
         })
       },
     });
+  },
+  getUserAccount(openid, callback) {
+    http.post({
+      openid: openid,
+      usercoupon: '1',
+      method: "member.MemberInfo.getMemberInfoDetail",
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        callback(rest.data.data);
+      } else {
+        callback(false);
+      }
+    })
   },
   dataInfo: {
     islogin: false,

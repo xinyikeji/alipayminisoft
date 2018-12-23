@@ -38,3 +38,7 @@
   line-height: 1.4;
   color: #8a8a8a
 }
+.nodata{
+  line-height: 100px;
+  text-align: center;
+}

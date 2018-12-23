@@ -1,23 +1,11 @@
+const app = getApp();
 Page({
   data: {
-    thumb: 'https://tfsimg.alipay.com/images/partner/T12rhxXkxcXXXXXXXX',
-    list3: [
-      {
-        icon: 'https://gw.alipayobjects.com/zos/rmsportal/VBqNBOiGYkCjqocXjdUj.png',
-        text: '￥878.98',
-        desc: '账户余额',
-      },
-      {
-        icon: 'https://gw.alipayobjects.com/zos/rmsportal/VBqNBOiGYkCjqocXjdUj.png',
-        text: '7683',
-        desc: '积分余额',
-      },
-      {
-        icon: 'https://gw.alipayobjects.com/zos/rmsportal/VBqNBOiGYkCjqocXjdUj.png',
-        text: '5',
-        desc: '优惠券码',
-      }
-    ],
+    userInfo: {
+      nickname: "获取中...",
+      iconurl: 'https://tfsimg.alipay.com/images/partner/T12rhxXkxcXXXXXXXX',
+      ucode: "获取中..."
+    },
     itemsThumbMultiple: [
       {
         thumb: 'https://paimgcdn.baidu.com/2C6E14EAB0EDF738?src=http%3A%2F%2Fms.bdimg.com%2Fdsp-image%2F1393641007.jpg&rz=urar_2_968_600&v=0',
@@ -36,9 +24,23 @@ Page({
       },
     ],
   },
+  onLoad() {
+    var _this = this;
+    app.getUserInfo(function(userinfo) {
+      if (userinfo) {
+        _this.setData({
+          userInfo: userinfo
+        })
+        //开始拉取用户基本数据
+        app.getUserAccount(userinfo.openid,function (userAccount){
+            console.log(userAccount)
+        })
+      }
+    })
+  },
   onCardClick: function(ev) {
     my.navigateTo({
-      url:"info/info"
+      url: "info/info"
     });
   }
 });

@@ -29,7 +29,7 @@ const getSign = function(data,secret) {
 }
 const post = function(postdata, callback) {
   console.log(postdata)
-  my.request({
+  my.httpRequest({
     url: APIURL,
     data: getPostData(postdata),
     method: 'POST',

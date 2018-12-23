@@ -1,6 +1,5 @@
 <view>
-  <notice>自助点餐送可乐一杯(限每月一杯)！</notice>
-  <card thumb="{{thumb}}" title="647564839372" subTitle="邱天下雨" onClick="onCardClick" footerImg="{{footerImg}}" />
+  <card thumb="{{userInfo.iconurl}}" title="{{userInfo.ucode}}" subTitle="{{userInfo.nickname}}" onClick="onCardClick" />
   <view style="margin-top: 10px;" />
   <view class="am-grid am-grid-2">
     <view style="width:50%" class="am-grid-item has-desc">
