@@ -1,4 +1,4 @@
-import http from '/libs/http'
+import api from '/libs/api'
 const app = getApp();
 Page({
   data: {
@@ -13,11 +13,6 @@ Page({
     clickgoodsnumber: 1,
     value: 9,
     activeTab: 0,
-    tabs: [
-      { title: '生煎', anchor: 'a', badgeType: 'dot' },
-      { title: '汤品', anchor: 'b', badgeType: 'text', badgeText: '新' },
-      { title: '小吃', anchor: 'c' },
-    ],
     items5: [
       {
         title: "分类",
@@ -88,33 +83,50 @@ Page({
         })
       }
     })
-
     var _this = this;
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
+
         _this.setData({
           userInfo: userinfo
         })
         //开始拉取用户基本数据
         _this.getStoreInfo();
+      } else {
+        my.alert({
+          title: '获取用户信息失败'
+        });
       }
     })
   },
   getStoreInfo() {
     var _this = this;
-    app.getStoreInfo(this.data.options.id, function(storeinfo) {
+    api.getStoreInfo(this.data.options.id, function(storeinfo) {
       if (storeinfo) {
-        _this.setData({
-          storeData: storeinfo
+        my.getLocation({
+          success(res) {
+            my.hideLoading();
+
+            storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
+            storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
+            _this.setData({
+              storeData: storeinfo
+            })
+            console.log(res)
+          },
+          fail() {
+            my.hideLoading();
+            my.alert({ title: '定位失败' });
+          },
         })
         _this.getGoodsData();
       }
-      console.log(storeinfo)
     })
   },
   getGoodsData() {
+    var _this = this;
     // 获取数据
-    app.getGoodsInfo(this.data.options.id, function(goodsdata) {
+    api.getGoodsInfo(this.data.options.id, function(goodsdata) {
       _this.setData({
         goodsData: goodsdata
       })

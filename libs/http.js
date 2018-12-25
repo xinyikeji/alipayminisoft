@@ -1,6 +1,3 @@
-const APPID = 100068;
-const SECRET = '553c050a6f9b636832c62c40'
-const XINYITOKEN = '87bfe246d5642277b008f8b346a9230d18dbf850';
 const APIURL = 'https://api.xinyisoft.net'
 import php from './php.js'
 
@@ -28,7 +25,6 @@ const getSign = function(data,secret) {
   return php.md5(queryString.join('&'));
 }
 const post = function(postdata, callback) {
-  console.log(postdata)
   my.httpRequest({
     url: APIURL,
     data: getPostData(postdata),

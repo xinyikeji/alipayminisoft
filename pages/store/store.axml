@@ -1,0 +1,22 @@
+<view>
+  <map id="storemap" scale="{{scale}}"
+  onCalloutTap="onCalloutTap" markers="{{markers}}" onMarkerTap="markertap" 
+  show-location style="width: 100%; height: 300px;">
+  </map>
+  <list>
+    <block a:for="{{storelist}}">
+      <list-item
+        index="{{index}}"
+        onClick="setStoreTomap"
+        key="items-{{index}}"
+        last="{{index === (items.length - 1)}}"
+      >
+      {{item.storename}}
+        <view class="am-list-brief">{{item.address}}</view>
+        <view slot="extra">
+          {{item.longvalueFormat}}
+        </view>
+      </list-item>
+    </block>
+  </list>
+</view>

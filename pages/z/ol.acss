@@ -4,6 +4,9 @@
   background-color: #ffffff;
   border-bottom: 1px solid #eeeeee;
 }
+.replacestore{
+  display: inline;
+}
 
 .storename {
   font-weight: bold;
@@ -13,13 +16,15 @@
 
 .storeinfo .storename .replace {
   font-weight: normal;
-  color: #10aeff
+  color: #10aeff;
+  margin-right: 6px;
 }
 
 .storeinfo .storename .long {
   font-size: 10px;
   font-weight: normal;
   color: #ffbe00;
+  margin-left: 6px;
 }
 
 .storetelphone {
@@ -37,7 +42,9 @@
 .goods {
   display: inline-flex;
 }
-
+.goodspic{
+  padding: 3px;
+}
 .am-list-item {
   padding-left: 6px;
 }

@@ -1,31 +1,33 @@
 <view>
   <view class="storeinfo">
     <view class="storename">
-      <text class="replace">[换门店]                  
-      </text>门店名称                  
-      <text class="long">距离10.32KM                  
+      <text class="replace">
+        <navigator url="../store/store" class="replacestore" redirect >[换门店]</navigator>                
+      </text>{{storeData.storename}}               
+      <text class="long">距离{{storeData.longvalueFormat}}                  
       </text>
     </view>
-    <view class="storetelphone">电话：010-99889988 地址：北京市珠江摩尔国际大厦五号楼二单元1001            
+    <view class="storetelphone">电话：{{storeData.tel_phone}}  地址：{{storeData.address}} 
     </view>
   </view>
-  <vtabs tabs="{{tabs}}" className="goodslist" onTabClick="handleChange" onChange="onChange" activeTab="{{activeTab}}">
-    <block a:for="{{tabs}}">
+  <vtabs tabs="{{goodsData.typeTabData}}" className="goodslist" onTabClick="handleChange" onChange="onChange" activeTab="{{activeTab}}">
+    <block a:for="{{goodsData.typeTabData}}">
       <vtab-content anchor="{{item.anchor}}">
         <list>
-          <block a:for="{{items5}}" a:for-item="itemName">
-            <list-item a:if="{{itemName.sticky}}" class="am-list-sticky" align="{{itemName.align}}" index="{{index}}" key="items5-{{index}}"             wrap disabled="{{itemName.sticky}}">            	{{itemName.title}}{{index}}	{{item.anchor}}                                                                        
-            </list-item>
-            <list-item a:else index="items-multiple-{{index}}" key="items-multiple-{{index}}" multipleLine="{{true}}"             wrap disabled="true">
+          <list-item class="am-list-sticky" index="{{item.anchor}}" key="goods-type-{{item.anchor}}" wrap disabled>
+            {{item.title}}                                                                        
+          </list-item>
+          <block a:for="{{goodsData.goodsTypeData[item.anchor]}}" a:for-index="indexGoods" a:for-item="itemGoods">
+            <list-item index="items-goods-{{indexGoods}}" key="items-goods-{{indexGoods}}" multipleLine="{{true}}" wrap disabled="{{true}}">
               <view class="goodslist-item">
                 <view class="goods">
-                  <view class="goodspic" a:if="{{itemName.thumb}}">
-                    <image src="{{itemName.thumb}}" style="width:60px;height:45px;" mode="aspectFit" />
+                  <view class="goodspic" a:if="{{itemGoods.shoppic}}">
+                    <image src="{{itemGoods.shoppic}}" style="width:60px;height:45px;" mode="aspectFill" />
                   </view>
                   <view>
-                    <view class="goodsinfo">{{itemName.title}}                    
+                    <view class="goodsinfo">{{itemGoods.goodsname}}                    
                     </view>
-                    <view class="goodsprice">￥{{itemName.price}} <text class="yprice"> ￥{{itemName.price}} <text>                   
+                    <view class="goodsprice">￥{{itemGoods.priceFormat}} <text class="yprice"> ￥{{itemGoods.priceFormat}} <text>                   
                     </view>
                   </view>
                 </view>
