@@ -77,7 +77,6 @@ var settab =
                         indexMap.push(ret[0]);
                       })
                     }
-
                     _this.setData({
                       indexMap: indexMap
                     })
@@ -130,18 +129,62 @@ var settab =
         scrollTop: this.data.indexMap[e.currentTarget.dataset.index].top - 79
       })
     },
-    plusGoods(event){
-      this.setData({
-        showSelect: true,
-        showSelectGoodsData: this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid]
+    decGoods(event) {
+      console.log(event.currentTarget.dataset)
+      var _this = this;
+      clickgoods.decGoodsByGoodsid({
+        storeid: this.data.options.id,
+        goodsid: event.currentTarget.dataset.goodsid,
+        success: function(res) {
+          _this.setData({
+            shopCart: res
+          })
+        },fail(res){
+          console.log(res)
+        }
       })
     },
-    showGoodsInfo(event){
+    plusGoods(event) {
+      var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
+      var _this = this;
+      if (goodsData.suitflag === 0) {
+        var goodsTmp = {
+          goodsid: goodsData.goodsid,
+          gtid: goodsData.gtid,
+          pocket: 1,
+          goodsno: 1,
+          mprice: goodsData.price,
+          discount: 100,
+          youhuiprice: 0,
+          suitflag: 0,
+          is_give: 0,
+          is_package: 0,
+          remarks: "",
+          yprice: goodsData.price
+        };
+
+        clickgoods.addGoodsToShoppingCart({
+          storeid: this.data.options.id,
+          goodsdata: goodsTmp,
+          success: function(res) {
+            _this.setData({
+              shopCart: res
+            })
+          }
+        });
+      } else {
+        this.setData({
+          showSelect: true,
+          showSelectGoodsData: goodsData
+        })
+      }
+    },
+    showGoodsInfo(event) {
       this.setData({
         showGoodsInfo: true,
         showGoodsInfoData: this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid]
       })
-      
+
     },
     onSelectPopupClose() {
       this.setData({

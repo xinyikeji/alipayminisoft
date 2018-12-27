@@ -8,32 +8,6 @@ App({
   setLog(logdata){
     
   },
-  // getConfig(){
-  //   var datainfo = my.getStorageSync({
-  //     key: 'StoreBaseConfig-' + storeid, // 缓存数据的key
-  //   });
-  //   if (datainfo.data) {
-  //     callback(datainfo.data);
-  //     return;
-  //   }
-  //   const extJson = my.getExtConfigSync();
-  //   http.post({
-  //     method: "alipay.StoreInfoAlipay.getStoreBaseConfig",
-  //     alipay_appid: extJson.aliappid,
-  //     type: 1,
-  //     storeid: storeid
-  //   }, function(status, rest) {
-  //     if (status && rest.data.code === 1) {
-  //       my.setStorageSync({
-  //         key: "StoreBaseConfig-" + storeid,
-  //         value: rest.data.data
-  //       })
-  //       callback(rest.data.data);
-  //     } else {
-  //       callback(false);
-  //     }
-  //   })
-  // },
   getUserInfo(callback) {
     const UserCache = my.getStorageSync({
       key: 'userinfo', // 缓存数据的key

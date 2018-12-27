@@ -13,7 +13,8 @@
     "pages/member/address/address",
     "pages/member/about/about",
     "pages/demo/demo",
-    "pages/shopping/shopping"
+    "pages/shopping/shopping",
+    "pages/shopping/bill/bill"
   ],
   "window": {
     "defaultTitle": "My App"

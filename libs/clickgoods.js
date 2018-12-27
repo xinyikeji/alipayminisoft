@@ -1,4 +1,5 @@
 import http from './http'
+import php from './php'
 
 export default {
   getShoppingCart(storeid) {
@@ -10,7 +11,6 @@ export default {
     } else {
       var defaultData = {
         goodsnumber: 0,
-        goodsprice: 0, //商品的价格
         type: 1,//1堂食2外卖
         people: 0, //就餐人数
         reservation: 0,//是否预约单
@@ -22,8 +22,8 @@ export default {
         remark: "", //整单备注
         need_invoice: 1,//是否需要发票，1是2不需要
         prefix: "ZFBZZ",
-        goodsnumbers:{},
-        typenumbers:{},
+        goodsnumbers: {},
+        typenumbers: {},
         store: {
           storeid: storeid
         },
@@ -141,17 +141,33 @@ export default {
       return;
     }
     var shoppingInfo = this.getShoppingCart(option.storeid);
-    option.goodsdata.key = this.getUUID();
+    option.goodsdata.key = php.md5(php.json_encode(option.goodsdata));
+    for (var i in shoppingInfo.goods) {
+      if (shoppingInfo.goods[i].key === option.goodsdata.key) {
+        this.incGoodsToShoppingCart({
+          storeid: option.storeid,
+          key: option.goodsdata.key,
+          success: option.success,
+          fail: option.fail
+        });
+        return;
+      }
+    }
+
     shoppingInfo.goods.push(option.goodsdata);
     shoppingInfo.goodsnumber++;
-    if(shoppingInfo.goodsnumbers[option.goodsdata.goodsid] ){
+    shoppingInfo.sprice += option.goodsdata.yprice;
+    shoppingInfo.total_price += option.goodsdata.yprice;
+    shoppingInfo.discount_price += option.goodsdata.youhuiprice;
+
+    if (shoppingInfo.goodsnumbers[option.goodsdata.goodsid]) {
       shoppingInfo.goodsnumbers[option.goodsdata.goodsid]++;
-    }else{
+    } else {
       shoppingInfo.goodsnumbers[option.goodsdata.goodsid] = 1;
     }
-    if(shoppingInfo.typenumbers[option.goodsdata.gtid] ){
+    if (shoppingInfo.typenumbers[option.goodsdata.gtid]) {
       shoppingInfo.typenumbers[option.goodsdata.gtid]++;
-    }else{
+    } else {
       shoppingInfo.typenumbers[option.goodsdata.gtid] = 1;
     }
     my.setStorage({
@@ -180,10 +196,31 @@ export default {
     for (var i in shoppingInfo.goods) {
       if (shoppingInfo.goods[i].key === option.key) {
         //@todo 未来第二份半价等优惠活动在这里完善计算即可
+
+        shoppingInfo.sprice -= shoppingInfo.goods[i].yprice;
+        shoppingInfo.total_price -= shoppingInfo.goods[i].yprice;
+        shoppingInfo.discount_price -= shoppingInfo.goods[i].youhuiprice;
+
         shoppingInfo.goods[i].goodsno++;
         shoppingInfo.goods[i].yprice = shoppingInfo.goods[i].goodsno * shoppingInfo.goods[i].mprice;
         shoppingInfo.goods[i].youhuiprice = 0;
         shoppingInfo.goods[i].sprice = shoppingInfo.goods[i].yprice;
+
+        shoppingInfo.sprice += shoppingInfo.goods[i].yprice;
+        shoppingInfo.total_price += shoppingInfo.goods[i].yprice;
+        shoppingInfo.discount_price += shoppingInfo.goods[i].youhuiprice;
+
+        if (shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]) {
+          shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]++;
+        } else {
+          shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid] = 1;
+        }
+        if (shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]) {
+          shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]++;
+        } else {
+          shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid] = 1;
+        }
+
       }
     }
     shoppingInfo.goodsnumber++;
@@ -198,6 +235,32 @@ export default {
       }
     });
 
+  },
+  decGoodsByGoodsid(option) {
+    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.storeid) {
+      option.fail({ error: true, message: "没有设置storeid" })
+      return;
+    }
+    if (!option.goodsid) {
+      option.fail({ error: true, message: "没有要增加商品的key" })
+      return;
+    }
+    var shoppingInfo = this.getShoppingCart(option.storeid);
+    console.log(shoppingInfo.goods)
+    for (var i in shoppingInfo.goods) {
+      if (shoppingInfo.goods[i].goodsid == option.goodsid) {
+        console.log(shoppingInfo.goods[i])
+        this.decGoodsToShoppingCart({
+          storeid: option.storeid,
+          key: shoppingInfo.goods[i].key,
+          success: option.success,
+          fail: option.fail
+        })
+        break
+      }
+    }
   },
   decGoodsToShoppingCart(option) {
     if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
@@ -215,13 +278,37 @@ export default {
       if (shoppingInfo.goods[i].key === option.key) {
         //@todo 未来第二份半价等优惠活动在这里完善计算即可
         shoppingInfo.goods[i].goodsno--;
+
+        //还原总价
+        shoppingInfo.sprice -= shoppingInfo.goods[i].yprice;
+        shoppingInfo.total_price -= shoppingInfo.goods[i].yprice;
+        shoppingInfo.discount_price -= shoppingInfo.goods[i].youhuiprice;
+
         // 如果商品减至0，则直接调用删除方法
         if (shoppingInfo.goods[i].goodsno === 0) {
+          if (shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]) {
+            delete shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid];
+          }
+          if (shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]) {
+            delete shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid];
+          }
           shoppingInfo.goods.splice(i, 1);
         } else {
           shoppingInfo.goods[i].yprice = shoppingInfo.goods[i].goodsno * shoppingInfo.goods[i].mprice;
           shoppingInfo.goods[i].youhuiprice = 0;
           shoppingInfo.goods[i].sprice = shoppingInfo.goods[i].yprice;
+
+          //计算总价
+          shoppingInfo.sprice += shoppingInfo.goods[i].yprice;
+          shoppingInfo.total_price += shoppingInfo.goods[i].yprice;
+          shoppingInfo.discount_price += shoppingInfo.goods[i].youhuiprice;
+
+          if (shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]) {
+            shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]--;
+          }
+          if (shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]) {
+            shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]--;
+          }
         }
       }
     }

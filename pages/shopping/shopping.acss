@@ -1,10 +1,42 @@
 .storeinfo {
-  height: 80px;
-  background-color: blueviolet;
+  height: 60px;
+  background-color: #FFF;
   position: fixed;
   top: 0px;
   left: 0px;
   right: 0px;
+  padding: 10px;
+}
+
+.replacestore {
+  display: inline;
+}
+
+.storename {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.storeinfo .storename .replace {
+  font-weight: normal;
+  color: #10aeff;
+  margin-right: 6px;
+}
+
+.storeinfo .storename .long {
+  font-size: 12px;
+  font-weight: normal;
+  color: #ffbe00;
+  margin-left: 6px;
+}
+
+.storetelphone {
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 24px;
 }
 
 .clickgoods {
@@ -13,6 +45,7 @@
   top: 80px;
   left: 0px;
   right: 0px;
+  background: #ffffff;
 }
 
 .goodstype {
@@ -21,31 +54,32 @@
   overflow: hidden;
 }
 
-.typelist-text{
+.typelist-text {
   width: 100px;
-  overflow: hidden;
+  padding-right: 4px;
   height: 52px;
   line-height: 52px;
   text-align: center;
   font-size: 16px;
   border-left: 4px solid #EEEEEE;
 }
-.typelist-text.active{
+
+.typelist-text.active {
   background: #FFFFFF;
   border-left: 4px solid #10AEFF;
 }
 
-
 .goodslist {
-  background: yellow;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   flex: 1;
 }
+
 .goods {
   display: inline-flex;
 }
-.goodspic{
+
+.goodspic {
   padding: 3px;
 }
 
@@ -57,7 +91,9 @@
 }
 
 .goods .goodsprice {
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 24px;
 }
 
 .goods .yprice {
@@ -68,31 +104,95 @@
 }
 
 .goodsstepper {
-  overflow: hidden;
+  padding-right: 10px;
 }
 
 .goodsstepper image {
   float: right;
 }
 
-.goodsstepper text {
+.goodsstepper .numbers {
   float: right;
   line-height: 24px;
   width: 40px;
   text-align: center;
 }
 
+.goodsstepper .am-badge {
+  float: right;
+}
+
+.goodsstepper .select-suit {
+  border: 1px solid #10AEFF;
+  background-color: #10AEFF;
+  color: #FFFFFF;
+  font-size: 14px;
+  line-height: 24px;
+  border-radius: 5px;
+  width: 60px;
+  text-align: center;
+  float: right;
+}
+
 .shoppingcart {
-  height: 80px;
-  background-color: aquamarine;
+  height: 60px;
+  background-color: #FFFFFF;
   position: fixed;
   bottom: 0px;
   left: 0px;
   right: 0px;
 }
 
-.am-badge-text{
-  top:3px;
+.cartbuttons {
+  margin: 10px;
+  height: 40px;
+  border-top-right-radius: 20px 50%;
+  border-top-left-radius: 20px 50%;
+  border-bottom-left-radius: 20px 50%;
+  border-bottom-right-radius: 20px 50%;
+  display: flex;
+  background: #eeeeee;
+}
+
+.shoppcar {
+  width: 20px;
+  padding: 8px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+}
+
+.priceinfo {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  line-height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.total_price {
+  text-decoration: line-through;
+  font-size: 12px;
+  color: #909399;
+  padding-left: 8px;
+}
+
+.goShopping {
+  width: 100px;
+  line-height: 40px;
+  background: #10aeff;
+  border-top-right-radius: 20px 50%;
+  border-bottom-right-radius: 20px 50%;
+  text-align: center;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.am-badge-text {
+  top: 3px;
+  right: 3px;
 }
 
 .am-list-sticky {
@@ -104,37 +204,45 @@
   line-height: 32px;
   padding-left: 10px;
 }
-.am-list-sticky text{
+
+.am-list-sticky text {
   font-size: 12px;
   padding-left: 10px;
   color: #ffbe00
 }
-.goodsdetail{
+
+.goodsdetail {
   background-color: #FFFFFF;
   overflow: hidden;
   padding: 10px;
 }
-.goodsdetail-image image{
+
+.goodsdetail-image image {
   border-radius: 5px;
 }
-.goodsdetail-name{
+
+.goodsdetail-name {
   font-size: 16px;
   line-height: 32px;
   font-weight: bold;
 }
-.goodsdetail-desc{
+
+.goodsdetail-desc {
   font-size: 14px;
   line-height: 32px;
 }
-.goodsdetail-button{
+
+.goodsdetail-button {
   overflow: hidden;
 }
-.goodsdetail-button text{
+
+.goodsdetail-button text {
   line-height: 32px;
   font-size: 14px;
   font-weight: bold;
   color: #ffbe00;
 }
-.goodsdetail-button button{
+
+.goodsdetail-button button {
   float: right;
 }

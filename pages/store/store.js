@@ -51,7 +51,7 @@ Page({
     const storeinfo = this.data.storelist[event.currentTarget.dataset.index];
     if (storeinfo.shop_type === 0) {
       my.redirectTo({
-        url: "../z/ol?id=" + storeinfo.storeid
+        url: "../shopping/shopping?id=" + storeinfo.storeid
       })
     }
     console.log(storeinfo)

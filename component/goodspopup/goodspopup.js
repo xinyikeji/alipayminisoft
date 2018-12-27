@@ -16,11 +16,8 @@ Component({
     }
   },
   didMount() {
-    console.log('11111111111', event)
-    console.log(this.props.goodsInfo);
     var _this = this;
     my.createSelectorQuery().select('.datainfoview').boundingClientRect().exec(function(ret) {
-      console.log(ret)
       var height = (ret[0].height > (_this.props.windowHeight - 300)) ? (_this.props.windowHeight - 300) : ret[0].height;
       _this.setData({
         scrollHeight: height
@@ -30,16 +27,12 @@ Component({
   },
   didUpdate(event) {
     var _this = this;
-    console.log('22222222222222', event)
-
     my.createSelectorQuery().select('.datainfoview').boundingClientRect().exec(function(ret) {
-      console.log(ret)
       var height = (ret[0].height > (_this.props.windowHeight - 300)) ? (_this.props.windowHeight - 300) : ret[0].height;
       _this.setData({
         scrollHeight: height
       })
     })
-
   },
   didUnmount() {
     console.log('33333333333333')
