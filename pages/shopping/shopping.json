@@ -1,0 +1,9 @@
+{
+  "defaultTitle": "自助点餐",
+  "allowsBounceVertical": false,
+  "usingComponents": {
+    "badge": "mini-antui/es/badge/index",
+    "list": "mini-antui/es/list/index",
+    "list-item": "mini-antui/es/list/list-item/index"
+  }
+}

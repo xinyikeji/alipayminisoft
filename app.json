@@ -12,7 +12,8 @@
     "pages/qucan/qucan",
     "pages/member/address/address",
     "pages/member/about/about",
-    "pages/demo/demo"
+    "pages/demo/demo",
+    "pages/shopping/shopping"
   ],
   "window": {
     "defaultTitle": "My App"

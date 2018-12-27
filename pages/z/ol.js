@@ -1,5 +1,6 @@
 import api from '/libs/api'
 import php from '/libs/php'
+import clickgoods from '/libs/clickgoods'
 const app = getApp();
 Page({
   data: {
@@ -16,7 +17,8 @@ Page({
     showTop: false,
     showData: {},
     showInfoData: {},
-    showDataEmpty: []
+    showDataEmpty: [],
+    shopCart: {}
   },
   handleChange(index) {
     console.log('handleChange', index)
@@ -46,8 +48,10 @@ Page({
         _this.setData({
           userInfo: userinfo
         })
-        //开始拉取用户基本数据
+        // 开始拉取门店基本数据
         _this.getStoreInfo();
+        // 读取当前门店购物车数据
+
       } else {
         my.alert({
           title: '获取用户信息失败'
@@ -81,17 +85,46 @@ Page({
     var _this = this;
     // 获取数据
     api.getGoodsInfo(this.data.options.id, function(goodsdata) {
-      _this.setData({
-        goodsData: goodsdata
+      console.log('all goodsdata', goodsdata)
+      var userinfo = _this.data.userInfo;
+      userinfo.name = userinfo.nickname;
+      clickgoods.setUserInfo({
+        storeid: _this.data.options.id,
+        user: userinfo,
+        success: function(res) {
+          _this.setData({
+            shopCart: res,
+            goodsData: goodsdata
+          })
+          _this.reloadData();
+        }
       })
-
+    })
+  },
+  reloadData() {
+    var goodsdata = this.data.goodsData;
+    var shopCart = this.data.shopCart;
+    for (var i in goodsdata.typeTabData) {
+      if (shopCart.typenumbers[goodsdata.typeTabData[i].anchor]) {
+        goodsdata.typeTabData[i].badgeType = 'text';
+        goodsdata.typeTabData[i].badgeText = shopCart.typenumbers[goodsdata.typeTabData[i].anchor];
+      } else {
+        if (goodsdata.typeTabData[i].badgeType) {
+          delete goodsdata.typeTabData[i].badgeType;
+          delete goodsdata.typeTabData[i].badgeText;
+        }
+      }
+    }
+    console.log('reloaddata',goodsdata);
+    _this.setData({
+      goodsData: goodsdata
     })
   },
   // 设置商品规格页面隐藏
   onPopupClose() {
     this.setData({
       showTop: false,
-      showDataEmpty:['1']
+      showDataEmpty: ['1']
     });
   },
   onInfoPopupClose() {
@@ -106,13 +139,28 @@ Page({
     })
   },
   plusGoods(event) {
-    console.log(event);
-    console.log(this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid])
-    this.setData({
-      showTop: true,
-      showInfoTop: false,
-      showData: this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid]
-    })
+    var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
+    var _this = this;
+    if (goodsData.suitflag === 0) {
+      clickgoods.addGoodsToShoppingCart({
+        storeid: this.data.options.id,
+        goodsdata: goodsData,
+        success: function(res) {
+          console.log('goodsData', res);
+          _this.setData({
+            shopCart: res
+          })
+          _this.reloadData();
+        }
+      });
+    } else {
+      this.setData({
+        showTop: true,
+        showInfoTop: false,
+        showData: goodsData
+      })
+    }
+
   },
   callBackFn(value) {
     console.log(value);

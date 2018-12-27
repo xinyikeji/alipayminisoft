@@ -60,12 +60,12 @@ export default {
       }
     })
   },
-  getIntegralList(openid,page,callback) {
+  getIntegralList(openid, page, callback) {
     http.post({
       method: "member.OpenUser.getIntegralWater",
-      openid:openid,
+      openid: openid,
       page: page,
-      page_size:30
+      page_size: 30
     }, function(status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
@@ -75,7 +75,7 @@ export default {
       }
     })
   },
-  getIntegralShoppingList(openid,callback) {
+  getIntegralShoppingList(openid, callback) {
     var storeinfo = my.getStorageSync({
       key: 'getIntegralList-all', // 缓存数据的key
     });
@@ -86,7 +86,7 @@ export default {
     const extJson = my.getExtConfigSync();
     http.post({
       method: "member.OpenIntegralMall.getIntegralList",
-      openid:openid,
+      openid: openid,
       page: 1
     }, function(status, rest) {
       if (status && rest.data.code === 1) {
@@ -105,8 +105,16 @@ export default {
     var datainfo = my.getStorageSync({
       key: 'store-goods-all-' + storeid, // 缓存数据的key
     });
-    if (datainfo.data) {
-      callback(datainfo.data);
+    var dataobjinfo = my.getStorageSync({
+      key: 'store-goods-all-obj-' + storeid, // 缓存数据的key
+    });
+    if (datainfo.data && dataobjinfo.data) {
+      callback({
+        goodstype: datainfo.data.goodstype,
+        goodsdata: datainfo.data.goodsdata,
+        goodsObj: dataobjinfo.data.goodsObj,
+        goodsTypeData: dataobjinfo.data.goodsTypeData
+      });
       return;
     }
     const extJson = my.getExtConfigSync();
@@ -117,7 +125,6 @@ export default {
       ptype: 2,
       storeid: storeid
     }, function(status, rest) {
-      console.log(status, rest)
       if (status && rest.data.code === 1) {
         http.post({
           method: "miniapp.GoodsInfo.getGoodsInfo",
@@ -128,36 +135,32 @@ export default {
         }, function(status, restgoods) {
           if (status && restgoods.data.code === 1) {
             //处理数据
-            var goodsObj = {}, goodsTypeData = {}, typeTabData = [];
+            var goodsObj = {}, goodsTypeData = {};
             for (var i in restgoods.data.data) {
               restgoods.data.data[i].priceFormat = (restgoods.data.data[i].price / 100).toFixed(2)
               goodsObj[restgoods.data.data[i]['goodsid']] = restgoods.data.data[i];
               if (!goodsTypeData[restgoods.data.data[i]['gtid']]) goodsTypeData[restgoods.data.data[i]['gtid']] = [];
               goodsTypeData[restgoods.data.data[i]['gtid']].push(restgoods.data.data[i]);
             }
-            for (var j in rest.data.data) {
-              typeTabData.push({
-                title: rest.data.data[j].name,
-                anchor: rest.data.data[j].gtid,
-                info: rest.data.data[j]
-              })
-            }
-            my.setStorageSync({
+            my.setStorage({
               key: "store-goods-all-" + storeid,
               data: {
                 goodstype: rest.data.data,
                 goodsdata: restgoods.data.data,
+              }
+            })
+            my.setStorage({
+              key: "store-goods-all-obj-" + storeid,
+              data: {
                 goodsObj: goodsObj,
                 goodsTypeData: goodsTypeData,
-                typeTabData: typeTabData
               }
             })
             callback({
               goodstype: rest.data.data,
               goodsdata: restgoods.data.data,
               goodsObj: goodsObj,
-              goodsTypeData: goodsTypeData,
-              typeTabData: typeTabData
+              goodsTypeData: goodsTypeData
             });
           } else {
             callback(false);

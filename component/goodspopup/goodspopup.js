@@ -2,37 +2,33 @@ Component({
   mixins: [],
   data: {
     showSuitSelect: false,
-    windowWidth: 0,
-    windowHeight: 0,
+    
     suitData:[]
   },
   props: {
     goodsInfo: {},
+    windowWidth: 0,
+    windowHeight: 0,
     suitData: [],
     onSelected: (data) => {
 
     }
   },
   didMount() {
-
-    my.getSystemInfo({
-      success: (res) => {
-        this.setData({
-          windowHeight: res.windowHeight,
-          windowWidth: res.windowWidth
-        })
-      }
-    })
+    console.log('11111111111',event)
+    console.log(this.props.goodsInfo)
   },
-  didUpdate() {
-    console.log('3333333333333333333')
+  didUpdate(event) {
+
+    console.log('22222222222222',event)
+
   },
   didUnmount() {
-    console.log('2222222222222222')
-   },
+    console.log('33333333333333')
+  },
   methods: {
     showSuitSelectPopup(event) {
-      // console.log(event.currentTarget, this.props.goodsInfo.child[event.currentTarget.dataset.index])
+      
       this.setData({
         showSuitSelect: true,
         suitData: this.props.goodsInfo.child[event.currentTarget.dataset.index]

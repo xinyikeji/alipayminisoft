@@ -50,11 +50,18 @@
   <view class="cartinfo">
     <view class="cartbuttons">
       <view class="shoppcar">
-        <badge a:if="{{clickgoodsnumber > 0}}" text="{{clickgoodsnumber}}">
+        <block a:if="{{shopCart.goodsnumber && shopCart.goodsnumber > 0}}">
+          <badge  text="{{shopCart.goodsnumber}}">
+            <view slot="inner" style="height: 26px; width: 26px;">
+              <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+            </view>
+          </badge>
+        </block>
+        <block a:else>
           <view slot="inner" style="height: 26px; width: 26px;">
             <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
           </view>
-        </badge>
+        </block>
       </view>
       <view class="priceinfo">
         ￥19.88
@@ -65,10 +72,10 @@
     </view>
   </view>
   <popup show="{{showTop}}" zIndex="10"  onClose="onPopupClose" disableScroll="{{false}}">
-    <goods-popup goodsInfo="{{showData}}" suitData="{{ showDataEmpty }}"></goods-popup>
+    <goods-popup goodsInfo="{{showData}}" a:if="{{showTop}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></goods-popup>
   </popup>
   <popup show="{{showInfoTop}}" zIndex="10"  onClose="onInfoPopupClose">
-    <view  class="goodsdetail" style="min-height:{{windowHeight/2}}px;max-height:{{windowHeight-100}}px">
+    <view  class="goodsdetail">
       <view class="goodsdetail-image">
         <image src="{{showInfoData.shoppic}}" style="width:100%;" mode="aspectFill" />
       </view>

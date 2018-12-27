@@ -53,7 +53,12 @@
   border: 1px solid #10aeff;
   color: #FFFFFF;
 }
-
+.guigeview{
+  overflow: hidden;
+}
+.guigeview .goodsitem{
+  display: inline-block;
+}
 .suitview{
   overflow: hidden;
 }
@@ -76,7 +81,15 @@
 .suit-item image{
   border-radius: 5px;
 }
-
+.suit-name{
+  font-size: 14px;
+  line-height: 24px;
+}
+.suit-price{
+  font-size: 12px;
+  color: #ffbe00;
+  line-height: 18px;
+}
 
 .goodsinfo-garnish{
   overflow: hidden;
@@ -121,7 +134,7 @@
 }
 .goodsinfo-groupsuit .suititle text{
   line-height: 26px;
-  font-size: 14px;
+  font-size: 12px;
   color: #ffbe00;
   padding: 0px 6px;
 }

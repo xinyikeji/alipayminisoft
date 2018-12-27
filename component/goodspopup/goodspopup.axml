@@ -12,29 +12,29 @@
                 <view class="suitview">
                   <block a:for="{{goodsInfo.child}}" a:for-item="childitem" a:for-index="idxName">
                     <view class="suit-item" onTap="showSuitSelectPopup" a:if="{{itemName.default == 1}}"  
-                      a:for-item="itemName" data-index="{{idxName}}"  style="width:{{((windowWidth-60)/3)}}px" a:for="{{childitem}}">
-                      <image a:if="{{itemName.shoppic}}" src="{{itemName.shoppic}}" style="width:{{((windowWidth-90)/3)}}px;height:{{((windowWidth-90)/3)/4*3}}px" mode="aspectFill" />
-                      <image a:else src="{{goodsInfo.shoppic}}"  style="width:{{((windowWidth-90)/3)}}px;height:{{((windowWidth-90)/3)/4*3}}px" mode="aspectFill" />
-                      <view>
+                      a:for-item="itemName" data-index="{{idxName}}"  style="width:{{((windowWidth-70)/4)}}px" a:for="{{childitem}}">
+                      <image a:if="{{itemName.shoppic}}" src="{{itemName.shoppic}}" style="width:{{((windowWidth-100)/4)}}px;height:{{((windowWidth-100)/4)/4*3}}px" mode="aspectFill" />
+                      <image a:else src="{{goodsInfo.shoppic}}"  style="width:{{((windowWidth-100)/4)}}px;height:{{((windowWidth-100)/4)/4*3}}px" mode="aspectFill" />
+                      <view class="suit-name">
                         {{itemName.goodsname}}
                       </view>
-                      <view>
+                      <view class="suit-price">
                         +{{itemName.addprice}}
                       </view>
                     </view>
                   </block>
                 </view>
               </view>
-              <view a:if="{{goodsInfo.showSuitSelect}}" class="suitdata">
+              <view a:if="{{showSuitSelect}}" class="suitdata">
                 <view class="suititle">请选择替换项</view>
                 <view class="suitview">
-                  <view class="suit-item" data-index="{{idxName}}" a:for-index="idxName" style="width:{{((windowWidth-60)/3)}}px" a:for="{{suitData}}">
-                    <image a:if="{{item.shoppic}}" src="{{item.shoppic}}" style="width:{{((windowWidth-90)/3)}}px;height:{{((windowWidth-90)/3)/4*3}}px" mode="aspectFill" />
-                    <image a:else src="{{goodsInfo.shoppic}}"  style="width:{{((windowWidth-90)/3)}}px;height:{{((windowWidth-90)/3)/4*3}}px" mode="aspectFill" />
-                    <view>
+                  <view class="suit-item" data-index="{{idxName}}" a:for-index="idxName" style="width:{{((windowWidth-70)/4)}}px" a:for="{{suitData}}">
+                    <image a:if="{{item.shoppic}}" src="{{item.shoppic}}" style="width:{{((windowWidth-100)/4)}}px;height:{{((windowWidth-100)/4)/4*3}}px" mode="aspectFill" />
+                    <image a:else src="{{goodsInfo.shoppic}}"  style="width:{{((windowWidth-100)/4)}}px;height:{{((windowWidth-100)/4)/4*3}}px" mode="aspectFill" />
+                    <view class="suit-name">
                       {{item.goodsname}}
                     </view>
-                    <view>
+                    <view class="suit-price">
                       +{{item.addprice}}
                     </view>
                   </view>
@@ -43,21 +43,33 @@
           </block>
           <block a:elif="{{goodsInfo.suitflagtype === 2}}">
              <!-- 组合套餐 -->
-             <view class="goodsinfo-groupsuit">
-              <view class="suititle">主食 <text>4选1</text></view>
-              <view>
-                <text class="goodsitem active">备注1</text>
-                <text class="goodsitem">备注1</text>
-              </view>
+             <view class="goodsinfo-groupsuit" a:for-item="groupSuitItem" a:for="{{goodsInfo.info}}">
+               <view class="suititle">{{groupSuitItem.gziname}}<text>{{groupSuitItem.zuhenum}}选{{groupSuitItem.selectnum}}</text></view>
+                <view class="suitview">
+                  <block a:for="{{groupSuitItem.list}}" a:for-item="childitem" a:for-index="childidxName">
+                    <view class="suit-item" style="width:{{((windowWidth-70)/4)}}px">
+                      <image a:if="{{childitem.shoppic}}" src="{{childitem.shoppic}}" style="width:{{((windowWidth-100)/4)}}px;height:{{((windowWidth-100)/4)/4*3}}px" mode="aspectFill" />
+                      <image a:else src="{{goodsInfo.shoppic}}"  style="width:{{((windowWidth-100)/4)}}px;height:{{((windowWidth-100)/4)/4*3}}px" mode="aspectFill" />
+                      <view class="suit-name">
+                        {{childitem.goodsname}}
+                      </view>
+                      <view class="suit-price">
+                        +{{childitem.addprice}}
+                      </view>
+                    </view>
+                  </block>
+                </view>
             </view>
           </block>
           <block a:elif="{{goodsInfo.suitflagtype === 3}}">
              <!-- 规格商品 -->
-             <view class="goodsinfo-groupsuit">
-              <view class="suititle">主食 <text>4选1</text></view>
-              <view>
-                <text class="goodsitem active">备注1</text>
-                <text class="goodsitem">备注1</text>
+             <view class="goodsinfo-remarks">
+              <view class="remarkstitle">规格</view>
+              <view class="guigeview">
+                <block a:for="{{goodsInfo.child}}" a:for-item="suitItemName">
+                  <text class="remarks active" a:if="{{suitItemName.isdefault === 1}}" >{{suitItemName.goodsname}} ￥{{suitItemName.price}}</text>
+                  <text class="remarks" a:else>{{suitItemName.goodsname}} ￥{{suitItemName.price}}</text>
+                </block>
               </view>
             </view>
           </block>
@@ -69,10 +81,10 @@
             <view class="garnish"  style="width:{{((windowWidth-60)/3)}}px" a:for="{{goodsInfo.garnish}}" a:for-item="itemName">
               <image a:if="{{itemName.shoppic}}" src="{{itemName.shoppic}}" style="width:{{((windowWidth-90)/3)}}px;height:{{((windowWidth-90)/3)/4*3}}px" mode="aspectFill" />
               <image a:else src="{{goodsInfo.shoppic}}"  style="width:{{((windowWidth-90)/3)}}px;height:{{((windowWidth-90)/3)/4*3}}px" mode="aspectFill" />
-              <view>
+              <view class="suit-name">
                 {{itemName.goodsname}}
               </view>
-              <view>
+              <view class="suit-price">
                 {{itemName.price}}
               </view>
               <view>

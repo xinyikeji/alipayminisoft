@@ -45,9 +45,6 @@
 .goodspic{
   padding: 3px;
 }
-.am-list-item {
-  padding-left: 6px;
-}
 
 .goods .goodsinfo {
   overflow: hidden;

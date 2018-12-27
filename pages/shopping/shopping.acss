@@ -1,0 +1,111 @@
+.storeinfo {
+  height: 80px;
+  background-color: blueviolet;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.clickgoods {
+  display: flex;
+  position: fixed;
+  top: 80px;
+  left: 0px;
+  right: 0px;
+}
+
+.goodstype {
+  width: 100px;
+  background: #EEEEEE;
+  overflow: hidden;
+}
+
+.typelist-text{
+  width: 100px;
+  overflow: hidden;
+  height: 52px;
+  line-height: 52px;
+  text-align: center;
+  font-size: 16px;
+  border-left: 4px solid #EEEEEE;
+}
+.typelist-text.active{
+  background: #FFFFFF;
+  border-left: 4px solid #10AEFF;
+}
+
+
+.goodslist {
+  background: yellow;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+.goods {
+  display: inline-flex;
+}
+.goodspic{
+  padding: 3px;
+}
+
+.goods .goodsinfo {
+  overflow: hidden;
+  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.goods .goodsprice {
+  font-size: 12px;
+}
+
+.goods .yprice {
+  font-size: 10px;
+  text-decoration: line-through;
+  color: #dddddd;
+  padding-left: 6px;
+}
+
+.goodsstepper {
+  overflow: hidden;
+}
+
+.goodsstepper image {
+  float: right;
+}
+
+.goodsstepper text {
+  float: right;
+  line-height: 24px;
+  width: 40px;
+  text-align: center;
+}
+
+.shoppingcart {
+  height: 80px;
+  background-color: aquamarine;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.am-badge-text{
+  top:3px;
+}
+
+.am-list-sticky {
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+  background-color: #F7F7F7;
+  font-size: 14px;
+  line-height: 32px;
+  padding-left: 10px;
+}
+.am-list-sticky text{
+  font-size: 12px;
+  padding-left: 10px;
+  color: #ffbe00
+}
