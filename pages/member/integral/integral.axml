@@ -1,3 +1,26 @@
 <view>
-  New Page
+  <view>
+    <scroll-view a:if="{{integralList.length > 0}}" style="height:{{windowHeight}}px" scroll-y onScrollToLower="onScrollToLower">
+    <list>
+      <view slot="header">        积分记录      
+      </view>
+      <block a:for="{{integralList}}">
+        <list-item arrow="{{false}}" index="{{index}}" key="items-{{index}}" last="{{index === (items.length - 1)}}">                         
+          <view class="am-list-brief">
+            {{item.code}}     
+            <view>{{item.ctime}}  </view>     
+          </view>
+          <view slot="extra"> 
+            <text a:if="{{item.integral > 0}}" style="color:#61b865;">
+              + {{item.integral}}      
+            </text>
+            <text a:else  style="color:#f76260;">
+              - {{item.integral}}      
+            </text>        
+          </view>
+        </list-item>
+      </block>
+    </list>
+    </scroll-view>
+  </view>
 </view>

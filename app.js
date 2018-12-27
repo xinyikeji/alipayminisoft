@@ -2,11 +2,11 @@ import http from '/libs/http'
 App({
   onLaunch(options) {
       this.dataInfo.runkey = this.getUUID();
-
-
+      console.log(options)
+    // my.clearStorage();
   },
   setLog(logdata){
-
+    
   },
   // getConfig(){
   //   var datainfo = my.getStorageSync({

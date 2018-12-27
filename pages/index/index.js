@@ -20,7 +20,7 @@ Page({
   },
   showQrcode() {
     my.navigateTo({
-      url: '../z/ol?id=1&t=100'
+      url: '../z/ol?id=3&t=100'
     });
   },
   onShareAppMessage() {

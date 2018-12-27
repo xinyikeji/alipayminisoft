@@ -7,6 +7,8 @@
     "list": "mini-antui/es/list/index",
     "stepper": "mini-antui/es/stepper/index",
     "badge": "mini-antui/es/badge/index",
-    "list-item": "mini-antui/es/list/list-item/index"
+    "list-item": "mini-antui/es/list/list-item/index",
+    "popup": "mini-antui/es/popup/index",
+    "goods-popup" :"/component/goodspopup/goodspopup"
   }
 }

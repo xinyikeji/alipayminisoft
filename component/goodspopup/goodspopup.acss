@@ -1,0 +1,132 @@
+
+.goodsinfodetail{
+  background: #FFF;
+  padding: 10px;
+  overflow: hidden;
+  padding-bottom: 40px;
+}
+.goodsinfo-image image{
+  border-radius: 5px;
+}
+.goodsinfo-name{
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 32px;
+  border-bottom: 1px solid #EEEEEE;
+}
+.goodsinfo-desc{
+  font-size: 14px;
+  line-height: 24px;
+}
+.goodsinfo-button{
+  padding-top: 10px;
+  background-color: #FFFFFF;
+  border-top: 1px solid #EEEEEE;
+}
+.goodsinfo-button text{
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 32px;
+}
+.goodsinfo-button button{
+  float: right;
+}
+.goodsinfo-remarks{
+  padding: 0px 0px 6px 0px;
+}
+.goodsinfo-remarks .remarkstitle{
+  line-height: 26px;
+}
+.goodsinfo-remarks .remarks{
+  font-size: 12px;
+  padding: 0px 10px;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid #DDDDDD;
+  border-radius: 12px;
+  margin-right: 5px;
+  margin-top: 5px;
+  display: inline-block;
+}
+.goodsinfo-remarks .remarks.active{
+  background: #10aeff;
+  border: 1px solid #10aeff;
+  color: #FFFFFF;
+}
+
+.suitview{
+  overflow: hidden;
+}
+.suitselected{
+  overflow: hidden;
+}
+.suitslecets{
+  overflow: hidden;
+}
+.suit-item{
+  float: left;
+  margin: 5px 5px;
+  box-sizing: content-box;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 10px;
+  border: 1px solid #EEEEEE;
+  border-radius: 5px;
+}
+.suit-item image{
+  border-radius: 5px;
+}
+
+
+.goodsinfo-garnish{
+  overflow: hidden;
+  padding: 6px 0px 6px 0px;
+}
+.garnish{
+  float: left;
+  margin: 5px 5px;
+  box-sizing: content-box;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 10px;
+}
+.garnish image{
+  border-radius: 5px;
+}
+.goodsstepper-v {
+  overflow: hidden;
+  text-align: center;
+  display: inline-flex;
+}
+.goodsstepper-v text {
+  line-height: 24px;
+  width: 40px;
+}
+
+.goodsinfo-groupsuit{
+  padding: 6px 0px 6px 0px;
+}
+.goodsinfo-groupsuit .goodsitem{
+  font-size: 12px;
+  padding: 3px 8px;
+  height: 26px;
+  line-height: 26px;
+  border: 1px solid #DDDDDD;
+  border-radius: 12px;
+  margin-right: 5px;
+}
+.goodsinfo-groupsuit .suititle{
+  line-height: 26px;
+  font-size: 16px;
+}
+.goodsinfo-groupsuit .suititle text{
+  line-height: 26px;
+  font-size: 14px;
+  color: #ffbe00;
+  padding: 0px 6px;
+}
+.goodsinfo-groupsuit .goodsitem.active{
+  background: #10aeff;
+  border: 1px solid #10aeff;
+  color: #FFFFFF;
+}

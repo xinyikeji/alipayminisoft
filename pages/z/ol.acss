@@ -81,13 +81,45 @@
   width: 40px;
   text-align: center;
 }
+.goodsdetail{
+  background: #FFF;
+  padding: 10px;
+  overflow: hidden;
+  padding-bottom: 40px;
+}
 
+.goodsdetail-image image{
+  border-radius: 5px;
+}
+.goodsdetail-name{
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 32px;
+  border-bottom: 1px solid #EEEEEE;
+}
+.goodsdetail-desc{
+  font-size: 14px;
+  line-height: 24px;
+}
+.goodsdetail-button{
+  padding-top: 10px;
+  background-color: #FFFFFF;
+  border-top: 1px solid #EEEEEE;
+}
+.goodsdetail-button text{
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 32px;
+}
+.goodsdetail-button button{
+  float: right;
+}
 .cartinfo {
   position: fixed;
   bottom: 0px;
   left: 0px;
   right: 0px;
-  z-index: 10000;
+  z-index: 10;
   height: 10vh;
   background-color: #FFF;
   border-top: 1px solid #eeeeee;

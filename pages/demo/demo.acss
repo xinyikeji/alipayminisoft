@@ -1,0 +1,16 @@
+.am-list-sticky {
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+  background-color: #F7F7F7;
+}
+
+.am-list-sticky .am-list-line {
+  min-height: 40px;
+}
+
+.am-list-sticky .am-list-content {
+  font-size: 14px;
+  line-height: 24px;
+  border: 0px;
+}

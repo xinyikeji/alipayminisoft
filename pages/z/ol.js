@@ -1,4 +1,5 @@
 import api from '/libs/api'
+import php from '/libs/php'
 const app = getApp();
 Page({
   data: {
@@ -11,75 +12,30 @@ Page({
     goodsData: {},
     userInfo: {},
     clickgoodsnumber: 1,
-    value: 9,
     activeTab: 0,
-    items5: [
-      {
-        title: "分类",
-        brief: '描述信息',
-        arrow: true,
-        sticky: true,
-      },
-      {
-        thumb: 'https://tfsimg.alipay.com/images/partner/T12rhxXkxcXXXXXXXX',
-        title: '标题文字不标题文字不标题文字不',
-        price: "10.22",
-        brief: '描述信息',
-        align: 'middle',
-      },
-      {
-        thumb: 'https://tfsimg.alipay.com/images/partner/T12rhxXkxcXXXXXXXX',
-        title: '标题字换行',
-        price: "10.22",
-        brief: '测试',
-        align: 'top',
-      },
-      {
-        title: '标题文字不',
-        brief: '描述信息',
-        price: "10.22",
-        align: 'middle',
-      },
-      {
-        title: '标题字换行',
-        brief: '测试',
-        price: "10.22",
-        align: 'top',
-      },
-      {
-        title: '标题文字不',
-        brief: '描述信息',
-        price: "10.22",
-        align: 'middle',
-      },
-      {
-        title: '标题字换行',
-        brief: '测试',
-        price: "10.22",
-        align: 'top',
-      },
-    ],
+    showTop: false,
+    showData: {},
+    showInfoData: {},
+    showDataEmpty: []
   },
   handleChange(index) {
+    console.log('handleChange', index)
     this.setData({
       activeTab: index,
     });
   },
-  onChange(index) {
-    console.log('onChange', index);
-    this.setData({
-      activeTab: index,
-    });
+  onListChange(index) {
+    console.log(index)
   },
   onLoad(options) {
-    console.log(options)
     this.setData({
       options: options
     })
     my.getSystemInfo({
       success: (res) => {
         this.setData({
-          windowHeight: res.windowHeight
+          windowHeight: res.windowHeight,
+          windowWidth: res.windowWidth
         })
       }
     })
@@ -106,13 +62,11 @@ Page({
         my.getLocation({
           success(res) {
             my.hideLoading();
-
             storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
             storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
             _this.setData({
               storeData: storeinfo
             })
-            console.log(res)
           },
           fail() {
             my.hideLoading();
@@ -130,7 +84,34 @@ Page({
       _this.setData({
         goodsData: goodsdata
       })
-      console.log(goodsdata)
+
+    })
+  },
+  // 设置商品规格页面隐藏
+  onPopupClose() {
+    this.setData({
+      showTop: false,
+      showDataEmpty:['1']
+    });
+  },
+  onInfoPopupClose() {
+    this.setData({
+      showInfoTop: false
+    })
+  },
+  showInfoPopup(event) {
+    this.setData({
+      showInfoTop: true,
+      showInfoData: this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid]
+    })
+  },
+  plusGoods(event) {
+    console.log(event);
+    console.log(this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid])
+    this.setData({
+      showTop: true,
+      showInfoTop: false,
+      showData: this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid]
     })
   },
   callBackFn(value) {

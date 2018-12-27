@@ -8,7 +8,11 @@
     "pages/member/info/info",
     "pages/member/coupon/coupon",
     "pages/member/integral/integral",
-    "pages/store/store"
+    "pages/store/store",
+    "pages/qucan/qucan",
+    "pages/member/address/address",
+    "pages/member/about/about",
+    "pages/demo/demo"
   ],
   "window": {
     "defaultTitle": "My App"
@@ -25,16 +29,10 @@
         "name": "点餐"
       },
       {
-        "pagePath": "pages/w/w",
-        "icon": "static/icon/waimaixinxi.png",
-        "activeIcon": "static/icon/active/waimaixinxi.png",
-        "name": "外卖"
-      },
-      {
-        "pagePath": "pages/order/index",
+        "pagePath": "pages/qucan/qucan",
         "icon": "static/icon/dingdan.png",
         "activeIcon": "static/icon/active/dingdan.png",
-        "name": "订单"
+        "name": "取餐"
       },
       {
         "pagePath": "pages/member/page",

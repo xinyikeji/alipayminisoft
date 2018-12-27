@@ -1,0 +1,47 @@
+<view>
+<vtabs tabs="{{type}}" className="goodslist" onTabClick="handleChange" onChange="onListChange" activeTab="{{activeTab}}">
+    <block a:for="{{type}}" a:for-item="typeitemname">
+      <vtab-content anchor="{{typeitemname.anchor}}">
+        <view style="height:{{(goods[typeitemname.anchor].length * 108) + 40}}px;">
+          <list>
+            <list-item class="am-list-sticky"  wrap disabled>
+              {{typeitemname.title}}                                                                        
+            </list-item>
+            <block a:for="{{goods[typeitemname.anchor]}}" a:for-index="indexGoods" a:for-item="itemGoods">
+              <list-item index="items-goods-{{indexGoods}}" key="items-goods-{{indexGoods}}" multipleLine="{{true}}" wrap disabled="{{true}}">
+                <view class="goodslist-item">
+                  <view class="goods">
+                    <view class="goodspic" onTap="showInfoPopup" data-goodsid="{{itemGoods.goodsid}}" a:if="{{itemGoods.shoppic}}">
+                      <image src="{{itemGoods.shoppic}}_800" style="width:60px;height:45px;" mode="aspectFill" />
+                    </view>
+                    <view>
+                      <view class="goodsinfo">{{itemGoods.goodsname}}                    
+                      </view>
+                      <view class="goodsprice">￥{{itemGoods.priceFormat}} <text class="yprice"> ￥{{itemGoods.priceFormat}} <text>                   
+                      </view>
+                    </view>
+                  </view>
+                  <view class="goodsstepper">
+                    <image onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
+                    <text>
+                      111                  
+                    </text>
+                    <image onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
+                  </view>
+                </view>
+              </list-item>
+            </block>
+          </list>
+        </view>
+      </vtab-content>
+    </block>
+  </vtabs>
+  <popup show="{{true}}" zIndex="10"  onClose="onPopupClose" disableScroll="{{false}}">
+      <scroll-view style="height:400px;" scroll-y="{{true}}">
+          <view a:for="{{type}}" style="height:200px;border:1px solid #DDDDDD;background:#FFFFFF">
+              嵌套滚动{{item.anchor}}
+          </view>
+      </scroll-view>
+  </popup>
+
+</view>

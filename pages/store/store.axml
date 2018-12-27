@@ -1,20 +1,18 @@
 <view>
-  <map id="storemap" scale="{{scale}}"
-  onCalloutTap="onCalloutTap" markers="{{markers}}" onMarkerTap="markertap" 
-  show-location style="width: 100%; height: 300px;">
+  <map id="storemap" scale="{{scale}}" markers="{{markers}}" show-location style="width: 100%; height: 300px;">
   </map>
   <list>
     <block a:for="{{storelist}}">
-      <list-item
-        index="{{index}}"
-        onClick="setStoreTomap"
-        key="items-{{index}}"
-        last="{{index === (items.length - 1)}}"
-      >
-      {{item.storename}}
-        <view class="am-list-brief">{{item.address}}</view>
-        <view slot="extra">
-          {{item.longvalueFormat}}
+      <list-item index="{{index}}" onClick="setStoreTomap" key="items-{{index}}" last="{{index === (items.length - 1)}}" disabled="{{index === nowindex}}"> 
+        {{item.storename}} 
+        <view class="am-list-brief">
+         <text style="color:#10aeff;font-size:12px;">{{item.longvalueFormat}}
+        </text> {{item.address}}
+        </view>
+        <view slot="extra" a:if="{{index === nowindex}}">
+          <button type="default" class="diancanbutton" data-index="{{index}}" onTap="gotoClickGoodsTap">
+            去点餐
+          </button>
         </view>
       </list-item>
     </block>

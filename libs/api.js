@@ -10,17 +10,18 @@ export default {
     }
     const extJson = my.getExtConfigSync();
     http.post({
-      method: "alipay.StoreInfoAlipay.getStoreList",
-      alipay_appid: extJson.aliappid,
+      method: "miniapp.StoreInfo.getStoreInfo",
+      third_appid: extJson.aliappid,
       type: 1,
+      ptype: 2,
       storeid: storeid
     }, function(status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorageSync({
           key: "storeinfo-" + storeid,
-          data: rest.data.data[0]
+          data: rest.data.data
         })
-        callback(rest.data.data[0]);
+        callback(rest.data.data);
       } else {
         callback(false);
       }
@@ -36,8 +37,9 @@ export default {
     }
     const extJson = my.getExtConfigSync();
     http.post({
-      method: "alipay.StoreInfoAlipay.getStoreList",
-      alipay_appid: extJson.aliappid,
+      method: "miniapp.StoreInfo.getStoreList",
+      third_appid: extJson.aliappid,
+      ptype: 2,
       type: 1
     }, function(status, rest) {
       if (status && rest.data.code === 1) {
@@ -58,6 +60,47 @@ export default {
       }
     })
   },
+  getIntegralList(openid,page,callback) {
+    http.post({
+      method: "member.OpenUser.getIntegralWater",
+      openid:openid,
+      page: page,
+      page_size:30
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        callback(rest.data.data);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
+  getIntegralShoppingList(openid,callback) {
+    var storeinfo = my.getStorageSync({
+      key: 'getIntegralList-all', // 缓存数据的key
+    });
+    if (storeinfo.data) {
+      callback(storeinfo.data);
+      return;
+    }
+    const extJson = my.getExtConfigSync();
+    http.post({
+      method: "member.OpenIntegralMall.getIntegralList",
+      openid:openid,
+      page: 1
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        my.setStorageSync({
+          key: "getIntegralList-all",
+          data: rest.data.data
+        })
+        callback(rest.data.data);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
   getGoodsInfo(storeid, callback) {
     var datainfo = my.getStorageSync({
       key: 'store-goods-all-' + storeid, // 缓存数据的key
@@ -68,16 +111,19 @@ export default {
     }
     const extJson = my.getExtConfigSync();
     http.post({
-      method: "alipay.GoodsInfo.getGoodsTypeList",
-      alipay_appid: extJson.aliappid,
+      method: "miniapp.GoodsInfo.getGoodsTypeList",
+      third_appid: extJson.aliappid,
       type: 1,
+      ptype: 2,
       storeid: storeid
     }, function(status, rest) {
+      console.log(status, rest)
       if (status && rest.data.code === 1) {
         http.post({
-          method: "alipay.GoodsInfo.getGoodsInfo",
-          alipay_appid: extJson.aliappid,
+          method: "miniapp.GoodsInfo.getGoodsInfo",
+          third_appid: extJson.aliappid,
           type: 1,
+          ptype: 2,
           storeid: storeid
         }, function(status, restgoods) {
           if (status && restgoods.data.code === 1) {

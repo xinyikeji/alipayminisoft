@@ -1,28 +1,44 @@
 <view>
-  <card thumb="{{userInfo.iconurl}}" title="{{userInfo.ucode}}" subTitle="{{userInfo.nickname}}" onClick="onCardClick" />
+  <card thumb="{{userInfo.iconurl}}" title="{{userInfo.ucode}}" subTitle="{{userInfo.nickname}} [{{userAccount.level}}]" onClick="onCardClick" />
   <view style="margin-top: 10px;" />
   <view class="am-grid am-grid-2">
     <view style="width:50%" class="am-grid-item has-desc">
-      <view class="am-grid-item-wrapper">
+      <navigator url="integral/integral" class="am-grid-item-wrapper">
         <view class="gridinfo">
-          <view class="am-grid-text">767
+          <view class="am-grid-text">{{userAccount.account_integral}}
           </view>
           <view class="am-grid-desc">积分余额
           </view>
         </view>
-      </view>
+      </navigator>
     </view>
     <view style="width:50%" class="am-grid-item has-desc">
-      <view class="am-grid-item-wrapper">
+      <navigator url="coupon/coupon"  class="am-grid-item-wrapper">
         <view class="gridinfo">
-          <view class="am-grid-text">8张
+          <view class="am-grid-text">{{userAccount.usercoupon.length}}张
           </view>
           <view class="am-grid-desc">优惠券
           </view>
         </view>
-      </view>
+      </navigator>
     </view>
   </view>
+  <list>
+			<view slot="header">
+			</view>
+			<block a:for="{{menulist}}">
+				<list-item
+					thumb="{{item.thumb}}"
+					arrow="{{true}}"
+					onClick="onMenuClick"
+					index="{{item.link}}"
+					last="{{index === (menulist.length - 1)}}"
+					key="items-multiple-{{index}}"
+				>
+					{{item.title}}
+				</list-item>
+			</block>
+		</list>
   <list>
 			<view slot="header">
 				积分兑换

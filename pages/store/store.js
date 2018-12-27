@@ -3,18 +3,13 @@ const app = getApp();
 Page({
   data: {
     scale: 14,
+    nowindex: 0,
     longitude: 120.131441,
     latitude: 30.279383,
     markers: []
   },
   onLoad() {
 
-  },
-  markertap(e) {
-    console.log('marker tap', e);
-  },
-  onCalloutTap(e) {
-    console.log('onCalloutTap', e);
   },
   onReady(e) {
     this.mapCtx = my.createMapContext('storemap');
@@ -24,13 +19,12 @@ Page({
     var _this = this;
     api.getStoreList(function(storelist) {
       console.log(storelist)
-      if(!storelist) {
-        return ;
+      if (!storelist) {
+        return;
       }
-      
+
       my.getLocation({
         success(res) {
-          var customCalloutMarkers = [], storeinfo = null;
           for (var i in storelist) {
             storelist[i].longvalue = parseInt(app.getLong(res.latitude, res.longitude, storelist[i].lat, storelist[i].lng));
             storelist[i].longvalueFormat = app.getLongFormat(storelist[i].longvalue);
@@ -38,35 +32,9 @@ Page({
           storelist.sort(function(x, y) {
             return x.longvalue > y.longvalue;
           })
-          for (var j in storelist) {
-            storeinfo = storelist[j];
 
-            customCalloutMarkers.push({
-              id: storeinfo.storeid,
-              latitude: storeinfo.lat,
-              longitude: storeinfo.lng,
-              width: 32,
-              height: 32,
-              iconPath: '/static/icon/weizhi.png',
-              "customCallout": {
-                "type": 1,
-                "time": "3",
-                "descList": [{
-                  "desc": "距离您",
-                  "descColor": "#333333"
-                }, {
-                  "desc": storeinfo.longvalueFormat,
-                  "descColor": "#108EE9"
-                }],
-                "isShow": 1
-              },
-              markerLevel: 2
-            });
-          }
-          console.log(customCalloutMarkers)
           _this.setData({
-            storelist: storelist,
-             markers: customCalloutMarkers
+            storelist: storelist
           })
           _this.setStoreTomap({ index: 0 });
 
@@ -78,6 +46,16 @@ Page({
       })
     })
   },
+  gotoClickGoodsTap(event) {
+
+    const storeinfo = this.data.storelist[event.currentTarget.dataset.index];
+    if (storeinfo.shop_type === 0) {
+      my.redirectTo({
+        url: "../z/ol?id=" + storeinfo.storeid
+      })
+    }
+    console.log(storeinfo)
+  },
   setStoreTomap(event) {
     console.log(event)
     if (!my.canIUse('createMapContext.return.updateComponents')) {
@@ -87,13 +65,36 @@ Page({
       });
       return;
     }
+    this.setData({
+      nowindex: event.index
+    })
     const storeinfo = this.data.storelist[event.index];
-    console.log(storeinfo)
+    console.log('storeinfo', storeinfo)
 
     this.mapCtx.updateComponents({
       scale: 14,
       longitude: storeinfo.lng,
-      latitude: storeinfo.lat
+      latitude: storeinfo.lat,
+      markers: [{
+        id: storeinfo.storeid,
+        latitude: storeinfo.lat,
+        longitude: storeinfo.lng,
+        width: 32,
+        height: 32,
+        iconPath: '/static/icon/weizhi.png',
+        "customCallout": {
+          "type": 2,
+          "descList": [{
+            "desc": storeinfo.storename,
+            "descColor": "#333333"
+          }, {
+            "desc": storeinfo.longvalueFormat,
+            "descColor": "#108EE9"
+          }],
+          "isShow": 1
+        },
+        markerLevel: 2
+      }]
     });
   }
 });
