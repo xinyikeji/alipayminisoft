@@ -74,7 +74,7 @@
   box-sizing: content-box;
   text-align: center;
   overflow: hidden;
-  padding-top: 10px;
+  padding-top: 5px;
   border: 1px solid #EEEEEE;
   border-radius: 5px;
 }

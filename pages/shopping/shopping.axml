@@ -31,7 +31,7 @@
       </scroll-view>
     </view>
     <view class="goodslist">
-      <scroll-view style="height:{{windowHeight-160}}px" scroll-y="{{true}}" scroll-with-animation="{{true}}" scroll-animation-duration="{{500}}" scroll-top="{{scrollTop}}" onScroll="goodsListOnScroll">
+      <scroll-view style="height:{{windowHeight-160}}px" scroll-y="{{!showSelect}}" scroll-with-animation="{{true}}" scroll-animation-duration="{{500}}" scroll-top="{{scrollTop}}" onScroll="goodsListOnScroll">
         <list>
         <block a:for="{{goodsData.goodstype}}" a:for-item="typeGoodsItemName">
           <view class="goodslist-item{{typeGoodsItemName.gtid}}">
@@ -43,9 +43,9 @@
                 </text>
               </view>
             </list-item>
-            <list-item a:for="{{goodsData.goodsTypeData[typeGoodsItemName.gtid]}}" a:for-item="itemGoods">
+            <list-item a:for="{{goodsData.goodsTypeData[typeGoodsItemName.gtid]}}" a:for-item="itemGoods" multipleLine="{{true}}" wrap disabled="{{true}}">
               <view class="goods">
-                <view class="goodspic" onTap="showInfoPopup" data-goodsid="{{itemGoods.goodsid}}" a:if="{{itemGoods.shoppic}}">
+                <view class="goodspic" onTap="showGoodsInfo" data-goodsid="{{itemGoods.goodsid}}" a:if="{{itemGoods.shoppic}}">
                   <image src="{{itemGoods.shoppic}}_800" style="width:60px;height:45px;" mode="aspectFill" />
                 </view>
                 <view>
@@ -72,4 +72,24 @@
   </view>
   <view class="shoppingcart" style="height:100px">
   </view>
+  <popup show="{{showSelect}}" zIndex="10"  onClose="onSelectPopupClose" disableScroll="{{false}}">
+    <goods-popup goodsInfo="{{showSelectGoodsData}}" a:if="{{showSelect}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></goods-popup>
+  </popup>
+  <popup show="{{showGoodsInfo}}" zIndex="10"  onClose="onGoodsInfoPopupClose">
+    <view  class="goodsdetail">
+      <view class="goodsdetail-image">
+        <image src="{{showGoodsInfoData.shoppic}}" style="width:100%;" mode="aspectFill" />
+      </view>
+      <view class="goodsdetail-name">
+        {{showGoodsInfoData.goodsname}}
+      </view>
+      <view class="goodsdetail-desc">
+        {{showGoodsInfoData.desc}}
+      </view>
+      <view class="goodsdetail-button">
+       <text>￥ {{showGoodsInfoData.priceFormat}}</text>
+        <button type="primary" onTap="defaultTap" size="mini">选套餐</button>
+      </view>
+    </view>
+  </popup>
 </view>

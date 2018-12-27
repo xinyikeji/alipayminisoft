@@ -13,7 +13,11 @@ var settab =
       userInfo: {},
       options: {},
       shopCart: {},
-      goodsData: {}
+      goodsData: {},
+      showSelect: false,
+      showSelectGoodsData: {},
+      showGoodsInfo: false,
+      showGoodsInfoData: {}
     },
     onLoad(options) {
       if (!options.id) options.id = 3;
@@ -124,6 +128,29 @@ var settab =
       this.setData({
         avtiveType: e.currentTarget.dataset.index,
         scrollTop: this.data.indexMap[e.currentTarget.dataset.index].top - 79
+      })
+    },
+    plusGoods(event){
+      this.setData({
+        showSelect: true,
+        showSelectGoodsData: this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid]
+      })
+    },
+    showGoodsInfo(event){
+      this.setData({
+        showGoodsInfo: true,
+        showGoodsInfoData: this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid]
+      })
+      
+    },
+    onSelectPopupClose() {
+      this.setData({
+        showSelect: false
+      })
+    },
+    onGoodsInfoPopupClose() {
+      this.setData({
+        showGoodsInfo: false
       })
     }
   });

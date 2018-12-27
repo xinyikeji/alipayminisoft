@@ -4,6 +4,8 @@
   "usingComponents": {
     "badge": "mini-antui/es/badge/index",
     "list": "mini-antui/es/list/index",
+    "popup": "mini-antui/es/popup/index",
+    "goods-popup" :"/component/goodspopup/goodspopup",
     "list-item": "mini-antui/es/list/list-item/index"
   }
 }

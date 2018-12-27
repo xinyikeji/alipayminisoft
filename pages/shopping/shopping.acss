@@ -109,3 +109,32 @@
   padding-left: 10px;
   color: #ffbe00
 }
+.goodsdetail{
+  background-color: #FFFFFF;
+  overflow: hidden;
+  padding: 10px;
+}
+.goodsdetail-image image{
+  border-radius: 5px;
+}
+.goodsdetail-name{
+  font-size: 16px;
+  line-height: 32px;
+  font-weight: bold;
+}
+.goodsdetail-desc{
+  font-size: 14px;
+  line-height: 32px;
+}
+.goodsdetail-button{
+  overflow: hidden;
+}
+.goodsdetail-button text{
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffbe00;
+}
+.goodsdetail-button button{
+  float: right;
+}
