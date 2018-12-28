@@ -17,7 +17,8 @@ var settab =
       showSelect: false,
       showSelectGoodsData: {},
       showGoodsInfo: false,
-      showGoodsInfoData: {}
+      showGoodsInfoData: {},
+      showShoppingCart: false,
     },
     onLoad(options) {
       if (!options.id) options.id = 3;
@@ -139,7 +140,7 @@ var settab =
           _this.setData({
             shopCart: res
           })
-        },fail(res){
+        }, fail(res) {
           console.log(res)
         }
       })
@@ -151,6 +152,7 @@ var settab =
         var goodsTmp = {
           goodsid: goodsData.goodsid,
           gtid: goodsData.gtid,
+          goodsname: goodsData.goodsname,
           pocket: 1,
           goodsno: 1,
           mprice: goodsData.price,
@@ -186,6 +188,11 @@ var settab =
       })
 
     },
+    showShoppingCartPopup() {
+      this.setData({
+        showShoppingCart: true
+      })
+    },
     onSelectPopupClose() {
       this.setData({
         showSelect: false
@@ -194,6 +201,11 @@ var settab =
     onGoodsInfoPopupClose() {
       this.setData({
         showGoodsInfo: false
+      })
+    },
+    onShoppingCartlose() {
+      this.setData({
+        showShoppingCart: false
       })
     }
   });

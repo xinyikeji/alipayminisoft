@@ -6,6 +6,7 @@
     "list": "mini-antui/es/list/index",
     "popup": "mini-antui/es/popup/index",
     "goods-popup" :"/component/goodspopup/goodspopup",
+    "shopping-cart" :"/component/shoppingcart/shoppingcart",
     "list-item": "mini-antui/es/list/list-item/index"
   }
 }

@@ -102,14 +102,12 @@
           <block a:if="{{shopCart.goodsnumber && shopCart.goodsnumber > 0}}">
             <badge  text="{{shopCart.goodsnumber}}">
               <view slot="inner" style="height: 26px; width: 26px;">
-                <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+                <image onTap="showShoppingCartPopup" src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
               </view>
             </badge>
           </block>
           <block a:else>
-            <view slot="inner" style="height: 26px; width: 26px;">
-              <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
-            </view>
+            <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
           </block>
         </view>
         <view class="priceinfo">
@@ -140,5 +138,8 @@
         <button type="primary" onTap="defaultTap" size="mini">选套餐</button>
       </view>
     </view>
+  </popup>
+  <popup show="{{showShoppingCart}}" zIndex="10"  onClose="onShoppingCartlose">
+    <shopping-cart a:if="{{showShoppingCart}}" billPath="/pages/shopping/bill/bill" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></shopping-cart>
   </popup>
 </view>

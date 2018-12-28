@@ -1,0 +1,55 @@
+<view>
+  <view>
+    <view class="shopping-cart-goodslist" style="height:{{scrollHeight}}px;">
+      <scroll-view style="height:{{scrollHeight}}px" scroll-y="{{true}}">
+        <list>
+          <block a:for="{{shopCart.goods}}">
+            <list-item
+              thumb="{{item.shoppic}}"
+              arrow="{{false}}"
+              index="{{item.key}}"
+              disabled="{{true}}"
+              key="items-{{item.key}}"
+              wrap="{{true}}"
+              last="{{index === (shopCart.goods - 1)}}"
+            >
+            {{item.goodsname}}
+              <view class="am-list-brief">{{item.mprice}}</view>
+              <view slot="extra">
+                <image onTap="plusGoods" data-goodsid="{{item.goodsid}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
+                <text class="numbers">
+                  {{item.goodsno}}               
+                </text>
+                <image onTap="decGoods" data-goodsid="{{item.goodsid}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
+              </view>
+            </list-item>
+          </block>
+        </list>
+      </scroll-view>
+    </view>
+    <view class="shopping-caert-shoppingcart">
+      <view class="shopping-caert-cartinfo">
+        <view class="shopping-caert-cartbuttons">
+          <view class="shopping-caert-shoppcar">
+            <block a:if="{{shopCart.goodsnumber && shopCart.goodsnumber > 0}}">
+              <badge text="{{shopCart.goodsnumber}}">
+                <view slot="inner" style="height: 26px; width: 26px;">
+                  <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+                </view>
+              </badge>
+            </block>
+            <block a:else>
+              <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+            </block>
+          </view>
+          <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}           
+            <text class="shopping-caert-total_price">{{(shopCart.total_price/100).toFixed(2)}}          
+            </text>
+          </view>
+          <navigator url="{{billPath}}" class="shopping-caert-goShopping">去结算                
+          </navigator>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
