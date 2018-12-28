@@ -153,6 +153,7 @@ var settab =
           goodsid: goodsData.goodsid,
           gtid: goodsData.gtid,
           goodsname: goodsData.goodsname,
+          shoppic: goodsData.shoppic,
           pocket: 1,
           goodsno: 1,
           mprice: goodsData.price,
@@ -162,7 +163,8 @@ var settab =
           is_give: 0,
           is_package: 0,
           remarks: "",
-          yprice: goodsData.price
+          yprice: goodsData.price,
+          sprice: goodsData.price
         };
 
         clickgoods.addGoodsToShoppingCart({
@@ -191,6 +193,31 @@ var settab =
     showShoppingCartPopup() {
       this.setData({
         showShoppingCart: true
+      })
+    },
+    changeShoppingCart(cartData) {
+      var _this = this;
+      _this.setData({
+        shopCart: cartData
+      })
+      if (cartData.goodsnumber < 1) {
+        if (_this.data.showShoppingCart) {
+          _this.onShoppingCartlose();
+        }
+      }
+    },
+    clearShoppingCart() {
+      var _this = this;
+      clickgoods.clearShoppingCart({
+        storeid: _this.data.options.id,
+        success: function(res) {
+          _this.setData({
+            shopCart: res
+          })
+          if (_this.data.showShoppingCart) {
+            _this.onShoppingCartlose();
+          }
+        }
       })
     },
     onSelectPopupClose() {

@@ -40,7 +40,7 @@
       </scroll-view>
     </view>
     <view class="goodslist">
-      <scroll-view style="height:{{windowHeight-140}}px" scroll-y="{{!showSelect}}" scroll-with-animation="{{true}}" scroll-animation-duration="{{500}}" scroll-top="{{scrollTop}}" onScroll="goodsListOnScroll">
+      <scroll-view style="height:{{windowHeight-140}}px" scroll-y="{{!showSelect && !showShoppingCart}}" scroll-with-animation="{{true}}" scroll-animation-duration="{{500}}" scroll-top="{{scrollTop}}" onScroll="goodsListOnScroll">
         <list>
         <block a:for="{{goodsData.goodstype}}" a:for-item="typeGoodsItemName">
           <view class="goodslist-item{{typeGoodsItemName.gtid}}">
@@ -111,7 +111,7 @@
           </block>
         </view>
         <view class="priceinfo">
-          ￥{{(shopCart.sprice/100).toFixed(2)}} <text class="total_price">{{(shopCart.total_price/100).toFixed(2)}}</text> 
+          ￥{{(shopCart.sprice/100).toFixed(2)}} <text class="total_price">￥{{(shopCart.total_price/100).toFixed(2)}}</text> 
         </view>
         <navigator url="bill/bill" class="goShopping">
             去结算
@@ -139,7 +139,7 @@
       </view>
     </view>
   </popup>
-  <popup show="{{showShoppingCart}}" zIndex="10"  onClose="onShoppingCartlose">
-    <shopping-cart a:if="{{showShoppingCart}}" billPath="/pages/shopping/bill/bill" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></shopping-cart>
+  <popup show="{{showShoppingCart}}" zIndex="10"  onClose="onShoppingCartlose" disableScroll="{{false}}">
+    <shopping-cart a:if="{{showShoppingCart}}" onClearShoppingCart="clearShoppingCart" onChang="changeShoppingCart" billPath="/pages/shopping/bill/bill" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></shopping-cart>
   </popup>
 </view>

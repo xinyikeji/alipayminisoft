@@ -1,5 +1,30 @@
+.shopping-cart {
+  background-color: #FFFFFF;
+  overflow: hidden;
+}
+
+.shopping-cart-title {
+  height: 40px;
+  line-height: 40px;
+  padding: 0px 10px;
+}
+
+.shopping-cart-clear-icon{
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  float: right;
+  margin: 0px 5px;
+  margin-top: 9px;
+}
+.shopping-cart-clear-text{
+  display: inline-block;
+  line-height: 40px;
+  float: right;
+}
 .shopping-cart-goodslist {
   background-color: #FFFFFF;
+  margin-bottom: 60px;
 }
 
 .shopping-caert-shoppingcart {
@@ -56,4 +81,20 @@
   text-align: center;
   color: #FFFFFF;
   font-weight: bold;
+}
+
+.shopping-caert-goodsprice {
+  padding-left: 8px;
+  font-size: 14px;
+  color: #ffbe00;
+}
+
+.shopping-caert-plusbutton image, .shopping-caert-plusbutton text {
+  float: right;
+}
+
+.shopping-caert-plusbutton text {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
 }

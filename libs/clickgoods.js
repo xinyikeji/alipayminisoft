@@ -156,7 +156,7 @@ export default {
 
     shoppingInfo.goods.push(option.goodsdata);
     shoppingInfo.goodsnumber++;
-    shoppingInfo.sprice += option.goodsdata.yprice;
+    shoppingInfo.sprice += option.goodsdata.sprice;
     shoppingInfo.total_price += option.goodsdata.yprice;
     shoppingInfo.discount_price += option.goodsdata.youhuiprice;
 
@@ -197,7 +197,7 @@ export default {
       if (shoppingInfo.goods[i].key === option.key) {
         //@todo 未来第二份半价等优惠活动在这里完善计算即可
 
-        shoppingInfo.sprice -= shoppingInfo.goods[i].yprice;
+        shoppingInfo.sprice -= shoppingInfo.goods[i].sprice;
         shoppingInfo.total_price -= shoppingInfo.goods[i].yprice;
         shoppingInfo.discount_price -= shoppingInfo.goods[i].youhuiprice;
 
@@ -206,7 +206,7 @@ export default {
         shoppingInfo.goods[i].youhuiprice = 0;
         shoppingInfo.goods[i].sprice = shoppingInfo.goods[i].yprice;
 
-        shoppingInfo.sprice += shoppingInfo.goods[i].yprice;
+        shoppingInfo.sprice += shoppingInfo.goods[i].sprice;
         shoppingInfo.total_price += shoppingInfo.goods[i].yprice;
         shoppingInfo.discount_price += shoppingInfo.goods[i].youhuiprice;
 
@@ -278,19 +278,19 @@ export default {
       if (shoppingInfo.goods[i].key === option.key) {
         //@todo 未来第二份半价等优惠活动在这里完善计算即可
         shoppingInfo.goods[i].goodsno--;
-
+        shoppingInfo.goodsnumber--;
         //还原总价
-        shoppingInfo.sprice -= shoppingInfo.goods[i].yprice;
+        shoppingInfo.sprice -= shoppingInfo.goods[i].sprice;
         shoppingInfo.total_price -= shoppingInfo.goods[i].yprice;
         shoppingInfo.discount_price -= shoppingInfo.goods[i].youhuiprice;
 
         // 如果商品减至0，则直接调用删除方法
         if (shoppingInfo.goods[i].goodsno === 0) {
           if (shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]) {
-            delete shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid];
+            shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid] --;
           }
           if (shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]) {
-            delete shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid];
+            shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid] --;
           }
           shoppingInfo.goods.splice(i, 1);
         } else {
@@ -299,7 +299,7 @@ export default {
           shoppingInfo.goods[i].sprice = shoppingInfo.goods[i].yprice;
 
           //计算总价
-          shoppingInfo.sprice += shoppingInfo.goods[i].yprice;
+          shoppingInfo.sprice += shoppingInfo.goods[i].sprice;
           shoppingInfo.total_price += shoppingInfo.goods[i].yprice;
           shoppingInfo.discount_price += shoppingInfo.goods[i].youhuiprice;
 
@@ -312,7 +312,7 @@ export default {
         }
       }
     }
-    shoppingInfo.goodsnumber--;
+
     my.setStorage({
       data: shoppingInfo, // 要缓存的数据
       key: 'shoppingcart' + option.storeid, // 缓存数据的key
@@ -338,8 +338,22 @@ export default {
     var shoppingInfo = this.getShoppingCart(option.storeid);
     for (var i in shoppingInfo.goods) {
       if (shoppingInfo.goods[i].key === option.key) {
+        shoppingInfo.goods[i].goodsno--;
+        //还原总价
+        shoppingInfo.sprice -= shoppingInfo.goods[i].sprice;
+        shoppingInfo.total_price -= shoppingInfo.goods[i].yprice;
+        shoppingInfo.discount_price -= shoppingInfo.goods[i].youhuiprice;
+
         //@todo 未来第二份半价等优惠活动在这里完善计算即可
         shoppingInfo.goodsnumber = shoppingInfo.goodsnumber - shoppingInfo.goods[i].goodsno;
+
+        if (shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]) {
+          shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid] -= shoppingInfo.goods[i].goodsno;
+        }
+        if (shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]) {
+          shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid] -= shoppingInfo.goods[i].goodsno;
+        }
+
         shoppingInfo.goods.splice(i, 1);
       }
     }
@@ -361,11 +375,9 @@ export default {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
     }
-
-    my.setStorage({
-      data: null, // 要缓存的数据
+    my.removeStorage({
       key: 'shoppingcart' + option.storeid, // 缓存数据的key
-      success: function() {
+      success: (res) => {
         option.success(this.getShoppingCart(option.storeid));
       },
       fail: function() {
