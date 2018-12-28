@@ -43,12 +43,6 @@ export default {
       type: 1
     }, function(status, rest) {
       if (status && rest.data.code === 1) {
-        for (var i in rest.data.data) {
-          my.setStorageSync({
-            key: "storeinfo-" + rest.data.data[i].storeid,
-            data: rest.data.data[i]
-          })
-        }
         my.setStorageSync({
           key: "storeinfo-all",
           data: rest.data.data
@@ -94,6 +88,17 @@ export default {
           key: "getIntegralList-all",
           data: rest.data.data
         })
+        callback(rest.data.data);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
+  uploadOrder(data,callback) {
+    data.method = "order.xinyiorder.uploadOrder";
+    http.post(data, function(status, rest) {
+      if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
         console.log(status, rest)

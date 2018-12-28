@@ -18,10 +18,10 @@ const getSign = function(data,secret) {
   var value = '';
   for (var key in data) {
     value = data[key];
-    if (typeof value === 'object') value = php.json_encode(value, JSON_UNESCAPED_UNICODE)
+    if (typeof value === 'object') value = php.json_encode(value)
     queryString.push(key + '=' + value);
   }
-  console.log(queryString.join('&'))
+  // console.log(queryString.join('&'))
   return php.md5(queryString.join('&'));
 }
 const post = function(postdata, callback) {
@@ -33,7 +33,7 @@ const post = function(postdata, callback) {
       'custom-header': 'Alipaysoft/application' //自定义请求头信息
     },
     success(res) {
-      console.log(res)
+      // console.log(res)
       callback(true, res)
     },
     fail(res) {

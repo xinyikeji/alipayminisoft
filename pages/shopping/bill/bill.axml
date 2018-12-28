@@ -1,3 +1,56 @@
 <view>
-  New Page
+<view class="shopping-cart">
+    <view class="shopping-cart-title">
+      <button type="primary" size="mini" onTap="defaultTap">堂食</button>
+      <button type="default" size="mini" onTap="defaultTap">外带</button>
+    </view>
+    <view class="shopping-cart-goodslist" style="height:{{windowHeight-100}}px;">
+      <scroll-view style="height:{{windowHeight-100}}px" scroll-y="{{true}}">
+        <view class="shopping-cart-goodslist-view">
+          <list>
+            <block a:for="{{shopCart.goods}}">
+              <list-item
+                thumb="{{item.shoppic}}_128"
+                arrow="{{false}}"
+                index="{{item.key}}"
+                disabled="{{true}}"
+                key="items-{{item.key}}"
+                wrap="{{true}}"
+                last="{{index === (shopCart.goods - 1)}}"
+              >
+              {{item.goodsname}} x{{item.goodsno}}
+                <view slot="extra">
+                   <text class="shopping-caert-goodsprice"> ￥{{(item.tmpprice/100).toFixed(2)}}</text>
+                </view>
+              </list-item>
+            </block>
+          </list>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="shopping-caert-shoppingcart">
+      <view class="shopping-caert-cartinfo">
+        <view class="shopping-caert-cartbuttons">
+          <view class="shopping-caert-shoppcar">
+            <block a:if="{{shopCart.goodsnumber && shopCart.goodsnumber > 0}}">
+              <badge text="{{shopCart.goodsnumber}}">
+                <view slot="inner" style="height: 26px; width: 26px;">
+                  <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+                </view>
+              </badge>
+            </block>
+            <block a:else>
+              <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+            </block>
+          </view>
+          <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}           
+            <text class="shopping-caert-total_price">￥{{(shopCart.total_price/100).toFixed(2)}}          
+            </text>
+          </view>
+          <view onTap="sendOrderToServer" class="shopping-caert-goShopping">支付订单                
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

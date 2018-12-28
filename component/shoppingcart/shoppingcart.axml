@@ -19,7 +19,7 @@
                 last="{{index === (shopCart.goods - 1)}}"
               >
               {{item.goodsname}}
-                <text class="shopping-caert-goodsprice">￥{{(item.sprice/100).toFixed(2)}}</text>
+                <text class="shopping-caert-goodsprice">￥{{(item.tmpprice/100).toFixed(2)}}</text>
                 <view slot="extra">
                   <view class="shopping-caert-plusbutton">
                     <image onTap="incGoods" data-key="{{item.key}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />

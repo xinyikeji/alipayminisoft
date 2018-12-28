@@ -67,9 +67,9 @@
               <view class="goodsinfo-remarks">
                 <view class="remarkstitle">规格</view>
                 <view class="guigeview">
-                  <block a:for="{{goodsInfo.child}}" a:for-item="suitItemName">
-                    <text class="remarks active" a:if="{{suitItemName.isdefault === 1}}" >{{suitItemName.goodsname}} ￥{{suitItemName.price}}</text>
-                    <text class="remarks" a:else>{{suitItemName.goodsname}} ￥{{suitItemName.price}}</text>
+                  <block a:for="{{goodsInfo.child}}" a:for-index="suitIndex" a:for-item="suitItemName">
+                    <text class="remarks active" a:if="{{suitItemName.isdefault === 1}}" >{{suitItemName.goodsname}} ￥{{suitItemName.priceFormat}}</text>
+                    <text class="remarks" data-index="{{suitIndex}}" onTap="setSpecifications" a:else>{{suitItemName.goodsname}} ￥{{suitItemName.priceFormat}}</text>
                   </block>
                 </view>
               </view>
@@ -105,7 +105,11 @@
             <view a:for="{{goodsInfo.remarks}}" a:for-item="remarksItem">
               <view class="remarkstitle">{{remarksItem.name}}</view>
               <view>
-                <text class="remarks" data-grid="{{itemName.grid}}" a:for="{{remarksItem.data}}" a:for-item="itemName">{{itemName.title}}</text>
+                <block a:for="{{remarksItem.data}}" a:for-item="itemName">
+                  <text class="remarks active" onTap="setRemarks" a:if="{{selectRemarksItem[itemName.grid]}}" data-grid="{{itemName.grid}}" >{{itemName.title}}</text>
+                  <text class="remarks" a:else onTap="setRemarks" data-grid="{{itemName.grid}}">{{itemName.title}}</text>
+                </block>
+                
               </view>
               
             </view>
@@ -114,8 +118,8 @@
       </scroll-view>
       
       <view class="goodsinfo-button">
-       <text>￥ {{goodsInfo.priceFormat}}</text>
-        <button type="primary" onTap="defaultTap" size="mini">加入购物车</button>
+       <text>￥ {{(goodsTmp.tmpprice/100).toFixed(2)}}</text>
+        <button type="primary" onTap="plusGoods" size="mini">加入购物车</button>
       </view>
     </view>
     

@@ -41,17 +41,7 @@ var settab =
           _this.setData({
             userInfo: userinfo
           })
-          userinfo.name = userinfo.nickname;
-          clickgoods.setUserInfo({
-            storeid: _this.data.options.id,
-            user: userinfo,
-            success: function(res) {
-              console.log('showCart ', res)
-              _this.setData({
-                shopCart: res
-              })
-            }
-          })
+
           // 开始拉取门店基本数据
           my.showLoading({
             content: "数据加载中"
@@ -65,6 +55,25 @@ var settab =
                   _this.setData({
                     storeData: storeinfo
                   })
+                  storeinfo.name = storeinfo.storename;
+                  userinfo.name = userinfo.nickname;
+                  clickgoods.setUserInfo({
+                    storeid: _this.data.options.id,
+                    user: userinfo,
+                    success: function(res) {
+                      clickgoods.setStoreInfo({
+                        storeid: _this.data.options.id,
+                        store: storeinfo,
+                        success: function(res) {
+                          console.log('showCart ', res)
+                          _this.setData({
+                            shopCart: res
+                          })
+                        }
+                      })
+                    }
+                  })
+
                   api.getGoodsInfo(_this.data.options.id, function(goodsdata) {
                     console.log('all goodsdata', goodsdata)
                     my.hideLoading();
@@ -164,7 +173,11 @@ var settab =
           is_package: 0,
           remarks: "",
           yprice: goodsData.price,
-          sprice: goodsData.price
+          sprice: goodsData.price,
+          one_sprice: goodsData.price,
+          one_yprice: goodsData.price,
+          tmp_oneprice: goodsData.price,
+          tmpprice: goodsData.price
         };
 
         clickgoods.addGoodsToShoppingCart({
@@ -182,6 +195,13 @@ var settab =
           showSelectGoodsData: goodsData
         })
       }
+    },
+    AddToShoppingCart(res) {
+      console.log('onAddToShoppingCart', res);
+      this.setData({
+        showSelect: false,
+        shopCart: res
+      })
     },
     showGoodsInfo(event) {
       this.setData({
@@ -210,13 +230,22 @@ var settab =
       var _this = this;
       clickgoods.clearShoppingCart({
         storeid: _this.data.options.id,
-        success: function(res) {
-          _this.setData({
-            shopCart: res
+        success: function(resdata) {
+          var userinfo = _this.data.userInfo;
+          userinfo.name = userinfo.nickname;
+          clickgoods.setUserInfo({
+            storeid: _this.data.options.id,
+            user: userinfo,
+            success: function(res) {
+              _this.setData({
+                shopCart: res
+              })
+              if (_this.data.showShoppingCart) {
+                _this.onShoppingCartlose();
+              }
+            }
           })
-          if (_this.data.showShoppingCart) {
-            _this.onShoppingCartlose();
-          }
+
         }
       })
     },

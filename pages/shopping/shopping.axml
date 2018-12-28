@@ -120,7 +120,7 @@
     </view>
   </view>
   <popup show="{{showSelect}}" zIndex="10"  onClose="onSelectPopupClose" disableScroll="{{false}}">
-    <goods-popup goodsInfo="{{showSelectGoodsData}}" a:if="{{showSelect}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></goods-popup>
+    <goods-popup onAddToShoppingCart="AddToShoppingCart" goodsInfo="{{showSelectGoodsData}}" a:if="{{showSelect}}" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></goods-popup>
   </popup>
   <popup show="{{showGoodsInfo}}" zIndex="10"  onClose="onGoodsInfoPopupClose">
     <view  class="goodsdetail">
