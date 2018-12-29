@@ -157,7 +157,7 @@ var settab =
     plusGoods(event) {
       var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
       var _this = this;
-      if (goodsData.suitflag === 0) {
+      if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
         var goodsTmp = {
           goodsid: goodsData.goodsid,
           gtid: goodsData.gtid,

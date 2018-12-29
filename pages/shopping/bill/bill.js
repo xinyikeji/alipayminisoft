@@ -60,7 +60,8 @@ Page({
     })
   },
   sendOrderToServer() {
-    var orderData = this.data.shopCart;
+    var orderData = clickgoods.getShoppingCart(this.data.storeInfo.storeid);
+    var _this = this;
     clickgoods.getOrderId({
       storeid: this.data.options.id,
       storecode: this.data.storeInfo.storecode,
@@ -81,8 +82,41 @@ Page({
         delete orderData.typenumbers;
         uploadData.order = php.json_encode(orderData);
         // console.log(uploadData)
-        api.uploadOrder(uploadData, function(status, res) {
-          console.log(status, res)
+        my.showLoading({
+          content: "正在创建订单",
+        });
+        api.uploadOrder(uploadData, function(res) {
+          my.hideLoading();
+          if (res) {
+            my.showLoading({
+              content: "正在提交支付",
+            });
+            const extJson = my.getExtConfigSync();
+            console.log(orderData);
+            api.createAlipay({
+              orderno: res.order_no,
+              third_appid: extJson.aliappid,
+              openid: _this.data.userInfo.openid,
+              storeid: _this.data.storeInfo.storeid,
+              type: 1,
+              price: orderData.sprice / 100,
+            }, function(respay) {
+              my.hideLoading();
+              if (respay) {
+                my.tradePay({
+                  tradeNO: respay.trade_no,
+                  success: function(res) {
+                    my.alert({ title: "成功了", content: php.json_encode(res) });
+                  },
+                  fail: function(res) {
+                    my.alert({ title: "失败了", content: php.json_encode(res) });
+                  },
+                });
+              }
+              console.log(respay)
+            })
+          }
+          console.log(res)
         })
       }
     })

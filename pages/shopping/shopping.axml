@@ -69,21 +69,35 @@
                   <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
                     <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
                       <view slot="inner">
-                        <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}</view>                                      
+                        <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}</view>
                       </view>
                     </badge>
                   </block>
                   <block a:else>
-                    <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}</view>                                      
+                    <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}</view>
                   </block>
                 </block>
                 <block a:else>
-                  <image onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
-                  <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                    <text class="numbers">
-                      {{shopCart.goodsnumbers[itemGoods.goodsid]}}               
-                    </text>
-                     <image onTap="decGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
+                  <block a:if="{{itemGoods.garnish && itemGoods.garnish.length > 0}}">
+                    <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
+                      <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
+                        <view slot="inner">
+                          <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜</view>
+                        </view>
+                      </badge>
+                    </block>
+                    <block a:else>
+                      <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜</view>
+                    </block>
+                  </block>
+                  <block a:else>
+                    <image onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
+                    <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
+                      <text class="numbers">
+                        {{shopCart.goodsnumbers[itemGoods.goodsid]}}               
+                      </text>
+                      <image onTap="decGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
+                    </block>
                   </block>
                 </block>
               </view>

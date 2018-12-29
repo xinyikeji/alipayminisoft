@@ -25,7 +25,7 @@ export default {
           storeid: storeid,
           name: ''
         },
-        copenid:"", //创建人
+        // copenid: "", //创建人
         discount_price: 0,// 订单优惠金额
         sprice: 0, //实收金额（需要支付的金额）
         remark: "", //整单备注
@@ -68,10 +68,10 @@ export default {
     for (var i in shoppingInfo.user) {
       if (option.user[i]) shoppingInfo.user[i] = option.user[i];
     }
-    //设置订单创建人
-    if(option.user.openid) {
-      shoppingInfo.copenid = option.user.openid;
-    }
+    // //设置订单创建人
+    // if (option.user.openid) {
+    //   shoppingInfo.copenid = option.user.openid;
+    // }
 
     my.setStorage({
       data: shoppingInfo, // 要缓存的数据
@@ -402,14 +402,15 @@ export default {
           if (shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]) {
             shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]--;
           }
-        }
-        //套餐处理
-        if (shoppingInfo.goods[i].suitflag === 1) {
-          for (var j in shoppingInfo.goods[i].child) {
-            shoppingInfo.goods[i].child[j].goodsno = shoppingInfo.goods[i].child[j].one_goodsno * shoppingInfo.goods[i].goodsno;
-            shoppingInfo.goods[i].child[j].sprice = shoppingInfo.goods[i].child[j].yprice = shoppingInfo.goods[i].child[j].addprice = shoppingInfo.goods[i].child[j].one_price * shoppingInfo.goods[i].goodsno;
+          //套餐处理
+          if (shoppingInfo.goods[i].suitflag === 1) {
+            for (var j in shoppingInfo.goods[i].child) {
+              shoppingInfo.goods[i].child[j].goodsno = shoppingInfo.goods[i].child[j].one_goodsno * shoppingInfo.goods[i].goodsno;
+              shoppingInfo.goods[i].child[j].sprice = shoppingInfo.goods[i].child[j].yprice = shoppingInfo.goods[i].child[j].addprice = shoppingInfo.goods[i].child[j].one_price * shoppingInfo.goods[i].goodsno;
+            }
           }
         }
+
 
 
       }

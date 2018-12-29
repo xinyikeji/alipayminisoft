@@ -106,6 +106,17 @@ export default {
       }
     })
   },
+  createAlipay(data,callback) {
+    data.method = "miniapp.OnlinePay.getAliPayPaymentOrderno";
+    http.post(data, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        callback(rest.data.data);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
   getGoodsInfo(storeid, callback) {
     var datainfo = my.getStorageSync({
       key: 'store-goods-all-' + storeid, // 缓存数据的key
