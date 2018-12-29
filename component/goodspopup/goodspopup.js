@@ -290,6 +290,49 @@ Component({
     },
     plusGoods() {
       var _this = this;
+      //组合套餐需要在这里做检测
+      var goodsData = this.props.goodsInfo;
+      var selectGroupSuitNumber = this.data.selectGroupSuitNumber;
+      console.log(goodsData);
+      if (goodsData.suitflag === 1 && goodsData.suitflagtype == 2) {
+        //检测必选商品
+        for (var i in goodsData.info) {
+          if (goodsData.info[i].isselect === 0) {
+            if (selectGroupSuitNumber[i] && selectGroupSuitNumber[i] > 0 && selectGroupSuitNumber[i] != goodsData.info[i].selectnum) {
+              my.showToast({
+                type: 'fail',
+                content: goodsData.info[i].gziname + '必须选择' + goodsData.info[i].selectnum + '件或不选',
+                duration: 1000,
+              });
+
+              return false;
+            }
+          } else if (goodsData.info[i].isselect === 1) {
+            console.log('2222222222222222222222')
+            if (selectGroupSuitNumber[i]) {
+              console.log('5555555555555')
+              if (selectGroupSuitNumber[i] != goodsData.info[i].selectnum) {
+                console.log('66666666666666')
+                my.showToast({
+                  type: 'fail',
+                  content: goodsData.info[i].gziname + '必须选择' + goodsData.info[i].selectnum + '件',
+                  duration: 1000,
+                });
+                return false;
+              }
+            } else {
+              console.log('333333333333333')
+              my.showToast({
+                type: 'fail',
+                content: goodsData.info[i].gziname + '尚未选择',
+                duration: 1000,
+              });
+              return false;
+            }
+          }
+        }
+      }
+      //加入购物车
       clickgoods.addGoodsToShoppingCart({
         storeid: this.props.storeid,
         goodsdata: this.data.goodsTmp,
@@ -390,10 +433,6 @@ Component({
           goodsTmp.tmpprice += goodsSuitTmp.addprice;
           goodsTmp.tmp_oneprice += goodsSuitTmp.addprice;
 
-          //选择商品
-          selectGroupSuitNumber[index]++;
-          selectGroupSuitData[index][index2] = true;
-
           goodsTmp.child.push({
             goodsid: goodsSuitTmp.goodsid,
             goodsno: 1,
@@ -416,8 +455,6 @@ Component({
         selectGroupSuitData: selectGroupSuitData,
         goodsTmp: goodsTmp
       })
-      console.log(goodsData, goodsGroup, goodsTmp);
-      //
     },
     replaceSuit(event) {
       var goodsData = this.props.goodsInfo;

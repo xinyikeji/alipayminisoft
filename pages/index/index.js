@@ -13,10 +13,13 @@ Page({
       }
     }
   },
-  onLoad(){
-    app.getUserInfo(function (userinfo){
-        console.log(userinfo)
+  onLoad() {
+    app.getUserInfo(function(userinfo) {
+      console.log(userinfo)
     })
+  },
+  clearCache() {
+    my.clearStorage();
   },
   showQrcode() {
     my.navigateTo({
@@ -53,5 +56,5 @@ Page({
   },
   onAuthError() {
     console.log('getPhoneNumber_error')
-   }
+  }
 });

@@ -3,4 +3,5 @@
   </notice>
   <message title="{{title}}" subTitle="{{subTitle}}" type="success" subButton="{{messageButton.subButton}}" mainButton="{{messageButton.mainButton}}" onTapMain="showQrcode">
   </message>
+  <button type="default" onTap="clearCache">清理缓存</button>
 </view>
