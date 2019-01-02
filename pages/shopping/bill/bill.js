@@ -219,7 +219,7 @@ Page({
 
         var uploadData = {};
         orderData.order_id = order_id;
-        uploadData.goods = php.json_encode(orderData.goods);
+        uploadData.goods = orderData.goods;
         delete orderData.goods;
         uploadData.paylist = php.json_encode(orderData.paylist);
         delete orderData.paylist;
@@ -235,7 +235,30 @@ Page({
           orderData.total_price = orderData.sprice
         }
 
+        //赠品活动
+        if (_this.data.giveGoodsDataIndex >= 0) {
+          var goodsTmp = {
+            goodsid: _this.data.giveGoodsDataSelected.goodsid,
+            goodsname: _this.data.giveGoodsDataSelected.goodsname,
+            pocket: 1,
+            goodsno: 1,
+            mprice: _this.data.giveGoodsDataSelected.price,
+            discount: 0,
+            youhuiprice: _this.data.giveGoodsDataSelected.price,
+            suitflag: 0,
+            is_give: 1,
+            is_package: 0,
+            dabaohe: 0,
+            remarks: "",
+            yprice: _this.data.giveGoodsDataSelected.price,
+            sprice: 0
+          };
+          uploadData.goods.push(goodsTmp)
+          orderData.total_price += parseInt(_this.data.giveGoodsDataSelected.price);
+          orderData.discount_price += parseInt(_this.data.giveGoodsDataSelected.price);
+        }
         uploadData.order = php.json_encode(orderData);
+        uploadData.goods = php.json_encode(uploadData.goods);
 
         // 计算需要追加的数据
         // 如果有券码
@@ -266,6 +289,7 @@ Page({
           }];
           consumptionstatus = true;
         }
+
 
         // 设置使用券码或者会员积分余额等
         if (consumptionstatus) {
