@@ -9,22 +9,17 @@ Page({
     shopCart: {},
     userInfo: {},
     userAccount: {},
+    memberConfig: {},
+    jifenmax: 0,
+    jifenmax_default: 0,
     scrollHeight: 0,
     storeInfo: {},
+    account_balance: 0,
+    account_integral: 0,
+    couponData: {},
     windowWidth: 0,
     windowHeight: 0,
-    giveGoodsData: [{
-      "goodsid": "7",
-      "goodsname": "苹果",
-      "shoppic": "http://f.xinyisoft.org/b60e28d9d76b1fa674e90b1084eedb5b",
-      "price": 1000
-    },
-    {
-      "goodsid": "8",
-      "goodsname": "香蕉",
-      "shoppic": "http://f.xinyisoft.org/b60e28d9d76b1fa674e90b1084eedb5b",
-      "price": 1000
-    }],
+    giveGoodsData: [],
     giveGoodsDataIndex: -1,
     giveGoodsDataSelected: {}
   },
@@ -44,7 +39,7 @@ Page({
     });
 
     my.showLoading({
-      content:"数据加载中"
+      content: "优惠加载中"
     })
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
@@ -52,66 +47,121 @@ Page({
           userInfo: userinfo
         })
         api.getStoreInfo(_this.data.options.id, function(storeinfo) {
-          console.log('storeinfo',storeinfo)
+          // console.log('storeinfo', storeinfo)
           _this.setData({
             storeInfo: storeinfo
+          })
+          clickgoods.setStoreInfo({
+            storeid: _this.data.options.id,
+            store: storeinfo,
+            success: function(res) {
+            }
           })
 
           //获取赠送的商品
           api.getUserGiveGoods(userinfo.openid, storeinfo.storeid, function(rest) {
             if (rest) {
-              console.log(rest)
+              // console.log(rest)
               _this.setData({
                 giveGoodsData: rest.goods_data
               })
               api.getUserAccount(userinfo.openid, function(userAccount) {
-                console.log(userAccount)
-                my.hideLoading()
                 if (userAccount) {
-                  _this.setData({
-                    userAccount: userAccount
+                  api.getMemberConfigInfo(storeinfo.storeid, function(memberConfig) {
+                    my.hideLoading()
+                    //计算最多可以用多少积分,并且设置积分的步进长度
+                    var jifenmax = parseInt(userAccount.account_integral / memberConfig.jifennum) * memberConfig.jifennum;
+                    _this.setData({
+                      jifenmax_default: jifenmax,
+                      jifenmax: 0,
+                      memberConfig: memberConfig,
+                      userAccount: userAccount
+                    })
+                    _this.relaodData();
                   })
                 }
               })
-            }else{
+            } else {
               my.hideLoading()
             }
           })
 
-          clickgoods.clearPaylist({
-            storeid: _this.data.options.id,
-            success: function(res) {
-              clickgoods.addPaylist({
-                storeid: _this.data.options.id,
-                paytype: {
-                  ptid: storeinfo.ptid,
-                  price: res.sprice,
-                  paytype: 1
-                },
-                success: function(res) {
-                  console.log(res)
-                  _this.setData({
-                    shopCart: res
-                  })
-                }
-              })
-            }
-          })
+
         })
-      }else{
+      } else {
         my.hideLoading()
         my.showToast({
           type: 'fail',
-          content:"获取用户数据失败",
+          content: "获取用户数据失败",
         });
       }
     })
   },
+  relaodData() {
+    var _this = this;
+    clickgoods.clearPaylist({
+      storeid: _this.data.options.id,
+      success: function(res) {
+        clickgoods.addPaylist({
+          storeid: _this.data.options.id,
+          paytype: {
+            ptid: _this.data.storeInfo.ptid,
+            price: res.sprice,
+            paytype: 1
+          },
+          success: function(res) {
+            // console.log(res)
+            var jifenmax = _this.data.jifenmax_default;
+            if (res.sprice / 100 < 1) {
+              jifenmax = 0;
+            } else {
+              if ((res.sprice / 100 * 20) < jifenmax) {
+                jifenmax = (res.sprice / 100 * 20);
+              }
+            }
+
+            //开始计算最优券码
+            var goodCoupon, couponList = [], userAccount = _this.data.userAccount;
+            for (var c in userAccount.usercoupon) {
+              if (userAccount.usercoupon[c].type == 2 && (userAccount.usercoupon[c].minprice * 100) < res.sprice) {
+                couponList.push(userAccount.usercoupon[c]);
+              }
+            }
+            couponList = couponList.sort(function(x, y) {
+              return y.price - x.price
+            })
+            _this.setData({
+              jifenmax: jifenmax,
+              shopCart: res,
+              couponList: couponList,
+              couponData: couponList[0] || {}
+            })
+            _this.setScHeight();
+          }
+        })
+      }
+    })
+  },
   onReady() {
+    this.setScHeight();
+  },
+  callBlanaceBackFn(event) {
+    this.setData({
+      account_balance: event
+    })
+  },
+  callJifenBackFn(event) {
+    this.setData({
+      account_integral: event
+    })
+  },
+  selectCoupon(event) {
+
+  },
+  setScHeight() {
     var _this = this;
     my.createSelectorQuery().select('#goodslistview').boundingClientRect().exec(function(ret) {
-      console.log(ret)
-      var height = (ret[0].height > 300) ? 300 : ret[0].height;
+      var height = (ret[0].height > 240) ? 240 : ret[0].height;
       _this.setData({
         scrollHeight: height
       })
@@ -126,6 +176,7 @@ Page({
         _this.setData({
           shopCart: res
         })
+        _this.setScHeight();
       }
     });
 
@@ -136,10 +187,10 @@ Page({
     clickgoods.setWaidai({
       storeid: this.data.storeInfo.storeid,
       success: function(res) {
-        console.log('setWaidai', res)
         _this.setData({
           shopCart: res
         })
+        _this.setScHeight();
       }
     });
 
@@ -165,6 +216,7 @@ Page({
       storeid: this.data.options.id,
       storecode: this.data.storeInfo.storecode,
       success: function(order_id) {
+
         var uploadData = {};
         orderData.order_id = order_id;
         uploadData.goods = php.json_encode(orderData.goods);
@@ -179,16 +231,47 @@ Page({
         delete orderData.goodsnumbers;
         delete orderData.goodsnumber;
         delete orderData.typenumbers;
+        if (orderData.total_price != orderData.sprice) {
+          orderData.total_price = orderData.sprice
+        }
+
         uploadData.order = php.json_encode(orderData);
 
+        // 计算需要追加的数据
+        // 如果有券码
+        var consumption = {}, userprice = 0, consumptionstatus = false, memberConfig = _this.data.memberConfig;
+
+        if (_this.data.account_integral > 0) {
+          if (!consumption.user) consumption.user = {
+            openid: _this.data.userInfo.openid
+          };
+          consumption.user.integral = _this.data.account_integral;
+          userprice += _this.data.account_integral / memberConfig.jifennum * 100
+          consumptionstatus = true;
+        }
+        if (_this.data.account_balance > 0) {
+          if (!consumption.user) consumption.user = {
+            openid: _this.data.userInfo.openid
+          };
+          consumption.user.amount = _this.data.account_balance * 100;
+          userprice += consumption.user.amount;
+          consumptionstatus = true;
+        }
+        if (_this.data.couponData.code) {
+          consumption.coupon = [{
+            type: _this.data.couponData.type,
+            code: _this.data.couponData.code,
+            ptid: _this.data.couponData.ptid,
+            price: _this.data.couponData.price < (orderData.sprice - userprice) ? _this.data.couponData.price : orderData.sprice
+          }];
+          consumptionstatus = true;
+        }
+
         // 设置使用券码或者会员积分余额等
-        uploadData.consumption = php.json_encode({
-          user: {
-            openid: _this.data.userInfo.openid,
-            // amount: 0,
-            integral: 10
-          }
-        })
+        if (consumptionstatus) {
+          uploadData.consumption = php.json_encode(consumption)
+        }
+
         // console.log(uploadData)
         my.showLoading({
           content: "正在创建订单",
@@ -196,34 +279,56 @@ Page({
         api.uploadOrder(uploadData, function(res) {
           my.hideLoading();
           if (res) {
-            my.showLoading({
-              content: "正在提交支付",
-            });
             const extJson = my.getExtConfigSync();
             console.log(orderData);
-            api.createAlipay({
-              orderno: res.order_no,
-              third_appid: extJson.aliappid,
-              openid: _this.data.userInfo.openid,
-              storeid: _this.data.storeInfo.storeid,
-              ptid: _this.data.storeInfo.ptid,
-              type: 1,
-              price: orderData.sprice / 100,
-            }, function(respay) {
+            if (res.waiting_payment > 0) {
+              my.showLoading({
+                content: "正在提交支付",
+              });
+              clickgoods.clearShoppingCart({
+                storeid: _this.data.storeInfo.storeid,
+                success: function() {
+                  api.createAlipay({
+                    orderno: res.order_no,
+                    third_appid: extJson.aliappid,
+                    openid: _this.data.userInfo.openid,
+                    storeid: _this.data.storeInfo.storeid,
+                    ptid: _this.data.storeInfo.ptid,
+                    type: 1,
+                    price: orderData.sprice / 100,
+                  }, function(respay) {
+                    my.hideLoading();
+                    if (respay) {
+                      my.tradePay({
+                        tradeNO: respay.trade_no,
+                        success: function(res) {
+                          my.redirectTo({
+                            url: '/pages/order/detail/detail?orderno=' + res.order_no
+                          });
+                        },
+                        fail: function(res) {
+                          my.redirectTo({
+                            url: '/pages/order/detail/detail?orderno=' + res.order_no
+                          });
+                        },
+                      });
+                    }
+                  })
+                }
+              })
+
+            } else {
               my.hideLoading();
-              if (respay) {
-                my.tradePay({
-                  tradeNO: respay.trade_no,
-                  success: function(res) {
-                    my.alert({ title: "成功了", content: php.json_encode(res) });
-                  },
-                  fail: function(res) {
-                    my.alert({ title: "失败了", content: php.json_encode(res) });
-                  },
-                });
-              }
-              console.log(respay)
-            })
+              clickgoods.clearShoppingCart({
+                storeid: _this.data.storeInfo.storeid,
+                success: function() {
+                  my.redirectTo({
+                    url: '/pages/order/detail/detail?orderno=' + res.order_no
+                  });
+                }
+              })
+
+            }
           }
           console.log(res)
         })
@@ -253,7 +358,6 @@ Page({
         return;
       }
     }
-
-
+    _this.setOrder()
   }
 });

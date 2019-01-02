@@ -53,10 +53,10 @@ var settab =
                 success(res) {
                   storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
                   storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
+                  storeinfo.name = storeinfo.storename;
                   _this.setData({
                     storeData: storeinfo
                   })
-                  storeinfo.name = storeinfo.storename;
                   userinfo.name = userinfo.nickname;
                   clickgoods.setUserInfo({
                     storeid: _this.data.options.id,
@@ -111,6 +111,18 @@ var settab =
         }
       })
 
+    },
+    goShopping() {
+      if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
+        my.redirectTo({
+          url: 'bill/bill'
+        });
+      } else {
+        my.showToast({
+          type: "fail",
+          content: "还没有点餐"
+        });
+      }
     },
     goodsListOnScroll(e) {
       var _this = this;
@@ -231,6 +243,7 @@ var settab =
     },
     clearShoppingCart() {
       var _this = this;
+
       clickgoods.clearShoppingCart({
         storeid: _this.data.options.id,
         success: function(resdata) {
@@ -240,8 +253,15 @@ var settab =
             storeid: _this.data.options.id,
             user: userinfo,
             success: function(res) {
-              _this.setData({
-                shopCart: res
+              clickgoods.setStoreInfo({
+                storeid: _this.data.options.id,
+                store: _this.data.storeData,
+                success: function(res) {
+                  console.log('showCart ', res)
+                  _this.setData({
+                    shopCart: res
+                  })
+                }
               })
               if (_this.data.showShoppingCart) {
                 _this.onShoppingCartlose();

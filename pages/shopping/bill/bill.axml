@@ -1,9 +1,9 @@
 <view>
   <view class="shopping-cart">
     <view class="shopping-cart-title">
-      <button type="{{shopCart.type== 4 ? 'primary' : 'default'}}" size="mini" onTap="setTangshi">堂食                                                
+      <button type="{{shopCart.type== 4 ? 'primary' : 'default'}}" size="mini" onTap="setTangshi">堂食                                                                                    
       </button>
-      <button type="{{shopCart.type== 2 ? 'primary' : 'default'}}" size="mini" onTap="setWaidai">外带                                                
+      <button type="{{shopCart.type== 2 ? 'primary' : 'default'}}" size="mini" onTap="setWaidai">外带                                                                                    
       </button>
     </view>
     <view class="shopping-cart-goodslist" style="height:{{scrollHeight}}px;">
@@ -11,24 +11,24 @@
         <view id="goodslistview" class="shopping-cart-goodslist-view goodslistview">
           <list>
             <block a:for="{{shopCart.goods}}">
-              <list-item arrow="{{false}}" thumb="{{item.is_package === 1?'/static/package.png':''}}" index="{{item.key}}" disabled="{{true}}" key="items-{{item.key}}" wrap="{{true}}" last="{{index === (shopCart.goods - 1)}}">                {{item.goodsname}} x{{item.goodsno}}                                                                                                                                              
+              <list-item arrow="{{false}}" thumb="{{item.is_package === 1?'/static/package.png':''}}" index="{{item.key}}" disabled="{{true}}" key="items-{{item.key}}" wrap="{{true}}" last="{{index === (shopCart.goods - 1)}}">                {{item.goodsname}} x{{item.goodsno}}                                                                                                                                                                                                                                              
                 <view a:if="{{item.garnish && item.garnish.length > 0}}">
                   <text class="shopping-cart-garnish" a:for="{{item.garnish}}" a:for-index="garnishindex" a:for-item="garnishitem">
-{{garnishitem.goodsname}} x {{garnishitem.goodsno}} ￥{{(garnishitem.sprice/100).toFixed(2)}}                                                                                                                                                                                    
+{{garnishitem.goodsname}} x {{garnishitem.goodsno}} ￥{{(garnishitem.sprice/100).toFixed(2)}}                                                                                                                                                                                                                                                                                                
                   </text>
                 </view>
                 <view a:if="{{item.suitflag == 1}}">
                   <text class="shopping-cart-garnish" a:for="{{item.child}}" a:for-index="suitindex" a:for-item="suititem">
-{{suititem.goodsname}} x {{suititem.goodsno}} +￥{{(suititem.addprice/100).toFixed(2)}}                                                                                                                                                                                    
+{{suititem.goodsname}} x {{suititem.goodsno}} +￥{{(suititem.addprice/100).toFixed(2)}}                                                                                                                                                                                                                                                                                                
                   </text>
                 </view>
                 <view a:if="{{item.remarksText}}">
                   <text class="shopping-cart-remarks">
-备注：{{item.remarksText}}                                                                                                                                                                                   
+备注：{{item.remarksText}}                                                                                                                                                                                                                                                                                               
                   </text>
                 </view>
                 <view slot="extra">
-                  <text class="shopping-caert-goodsprice"> ￥{{(item.tmpprice/100).toFixed(2)}}                                                                                                                                                
+                  <text class="shopping-caert-goodsprice"> ￥{{(item.tmpprice/100).toFixed(2)}}                                                                                                                                                                                                                                                            
                   </text>
                 </view>
               </list-item>
@@ -37,8 +37,8 @@
         </view>
       </scroll-view>
     </view>
-    <view class="give-goods">
-      <view class="give-goodsview-title">        请选择赠品（不选择代表放弃赠品）                                    
+    <view class="give-goods" a:if="{{giveGoodsData.length > 0}}">
+      <view class="give-goodsview-title">        请选择赠品（不选择代表放弃赠品）                                                                        
       </view>
       <scroll-view scroll-x="{{true}}" style="width:{{windowWidth}}px;">
         <view class="give-goodsviews" style="width:{{(giveGoodsData.length * 105) + 10}}px;">
@@ -48,15 +48,39 @@
                 <image slot="inner" src="{{giveGoodsItem.shoppic}}" style="width:80px;height:60px;" mode="aspectFill" />
               </badge>
             </view>
-            <view class="give-goodsname">{{giveGoodsItem.goodsname}}                                                                        
+            <view class="give-goodsname">{{giveGoodsItem.goodsname}}                                                                                                                                                
             </view>
-            <view class="give-goodsprice">￥{{(giveGoodsItem.price/100).toFixed(2)}}                                                                        
+            <view class="give-goodsprice">￥{{(giveGoodsItem.price/100).toFixed(2)}}                                                                                                                                                
             </view>
           </view>
         </view>
       </scroll-view>
     </view>
     <view class="paylist">
+      <list>
+        <view slot="header">账户信息                                  
+        </view>
+        <list-item class="lit-item-stepper" disabled="{{true}}">余额                               
+          <text class="user-account">剩余￥{{(userAccount.account_balance/100).toFixed(2)}}                              
+          </text>
+          <view slot="extra">
+            <stepper onChange="callBlanaceBackFn" step="{{1}}" showNumber readOnly="{{userAccount.account_balance === 0}}" value="{{account_balance}}" min="{{0}}" max="{{userAccount.account_balance > shopCart.sprice ? shopCart.sprice/100 : userAccount.account_balance/100}}" />
+          </view>
+        </list-item>
+        <list-item class="lit-item-stepper" disabled="{{true}}">积分                               
+          <text class="user-account">剩余 {{userAccount.account_integral}} 本次可用 {{jifenmax}}                               
+          </text>
+          <view slot="extra">
+            <stepper onChange="callJifenBackFn" step="{{memberConfig.jifennum}}" readOnly="{{memberConfig.jifennum > userAccount.account_integral}}" showNumber value="{{account_integral}}" min="{{0}}" max="{{jifenmax}}" />
+          </view>
+        </list-item>
+        <list-item onClick="selectCoupon" arrow="{{true}}">优惠券      
+          <text class="user-account">{{couponList.length}}张可用,默认最优                              
+          </text>
+          <view slot="extra">{{couponData.couponname}}                                               
+          </view>
+        </list-item>
+      </list>
     </view>
     <view class="shopping-caert-shoppingcart">
       <view class="shopping-caert-cartinfo">
@@ -73,9 +97,9 @@
               <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
             </block>
           </view>
-          <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}                                                  
+          <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}                                                                                                              
           </view>
-          <view onTap="sendOrderToServer" class="shopping-caert-goShopping">支付订单                                                                                                          
+          <view onTap="sendOrderToServer" class="shopping-caert-goShopping">确认下单                                                                                                                                                                      
           </view>
         </view>
       </view>

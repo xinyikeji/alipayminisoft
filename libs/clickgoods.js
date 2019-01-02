@@ -64,36 +64,44 @@ export default {
     for (var i in shoppingInfo.goods) {
       if (shoppingInfo.goods[i].have_package) {
         shoppingInfo.goods.splice(i, 1);
-      }
-      if (shoppingInfo.goods[i].is_package === 1) {
-        packageNumber += shoppingInfo.goods[i].dabaohe * shoppingInfo.goods[i].goodsno;
+      } else {
+        if (shoppingInfo.goods[i].is_package === 1) {
+          packageNumber += shoppingInfo.goods[i].dabaohe * shoppingInfo.goods[i].goodsno;
+        }
       }
     }
-    if (packageNumber > 0 && shoppingInfo.store.goodsid) {
-      var goodsTmp = {
-        goodsid: shoppingInfo.store.goodsid,
-        goodsname: shoppingInfo.store.goodsname,
-        shoppic: shoppingInfo.store.shoppic,
-        pocket: 1,
-        goodsno: packageNumber,
-        mprice: shoppingInfo.store.price,
-        discount: 100,
-        youhuiprice: 0,
-        suitflag: 0,
-        is_give: 0,
-        is_package: 0,
-        have_package: 1,
-        remarks: "",
-        yprice: shoppingInfo.store.price * packageNumber,
-        sprice: shoppingInfo.store.price * packageNumber,
-        one_sprice: shoppingInfo.store.price,
-        one_yprice: shoppingInfo.store.price,
-        tmp_oneprice: shoppingInfo.store.price,
-        tmpprice: shoppingInfo.store.price * packageNumber
-      };
-      shoppingInfo.package_price = shoppingInfo.store.package.price * packageNumber;
-      shoppingInfo.sprice = shoppingInfo.total_price + shoppingInfo.package_price
-      shoppingInfo.goods.push(goodsTmp);
+    console.log('packageNumber',packageNumber)
+    if (packageNumber > 0) {
+      console.log(shoppingInfo.store)
+      if (shoppingInfo.store.goodsid) {
+        var goodsTmp = {
+          goodsid: shoppingInfo.store.goodsid,
+          goodsname: shoppingInfo.store.goodsname,
+          shoppic: shoppingInfo.store.shoppic,
+          pocket: 1,
+          goodsno: packageNumber,
+          mprice: shoppingInfo.store.price,
+          discount: 100,
+          youhuiprice: 0,
+          suitflag: 0,
+          is_give: 0,
+          is_package: 0,
+          have_package: 1,
+          remarks: "",
+          yprice: shoppingInfo.store.price * packageNumber,
+          sprice: shoppingInfo.store.price * packageNumber,
+          one_sprice: shoppingInfo.store.price,
+          one_yprice: shoppingInfo.store.price,
+          tmp_oneprice: shoppingInfo.store.price,
+          tmpprice: shoppingInfo.store.price * packageNumber
+        };
+        shoppingInfo.package_price = shoppingInfo.store.price * packageNumber;
+        shoppingInfo.sprice = shoppingInfo.total_price + shoppingInfo.package_price
+        shoppingInfo.goods.push(goodsTmp);
+      }
+    } else {
+      shoppingInfo.package_price = 0;
+      shoppingInfo.sprice = shoppingInfo.total_price
     }
 
     return shoppingInfo;
@@ -130,8 +138,8 @@ export default {
     });
   },
   getOrderId(option) {
-    if (!option.success) option.success = function(res) { console.log('setUserInfo success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('setUserInfo fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('getOrderId success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('getOrderId fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -145,8 +153,8 @@ export default {
 
   },
   setStoreInfo(option) {
-    if (!option.success) option.success = function(res) { console.log('setUserInfo success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('setUserInfo fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('setStoreInfo success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('setStoreInfo fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;

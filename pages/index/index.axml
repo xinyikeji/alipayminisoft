@@ -16,6 +16,9 @@
       <text>自助点餐                    
       </text>
     </navigator>
+    <view onTap="clearCache" class="zizhubutton">
+      清空缓存
+    </view>
   </view>
   <view class="listads">
     <navigator url="" class="listads-item" a:for="{{topAds.images}}">

@@ -112,6 +112,31 @@ export default {
       }
     })
   },
+  getMemberConfigInfo(storeid, callback) {
+    var info = my.getStorageSync({
+      key: 'member.MemberInfo.memberAccount', // 缓存数据的key
+    });
+    if (info.data) {
+      callback(info.data);
+      return;
+    }
+    const extJson = my.getExtConfigSync();
+    http.post({
+      method: "member.MemberInfo.memberAccount",
+      storeid: storeid,
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        my.setStorageSync({
+          key: "member.MemberInfo.memberAccount",
+          data: rest.data.data
+        })
+        callback(rest.data.data);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
   uploadOrder(data, callback) {
     data.method = "order.xinyiorder.uploadOrder";
     http.post(data, function(status, rest) {
@@ -139,14 +164,17 @@ export default {
       key: 'store-goods-all-' + storeid, // 缓存数据的key
     });
     var dataobjinfo = my.getStorageSync({
-      key: 'store-goods-all-obj-' + storeid, // 缓存数据的key
+      key: 'store-goods-goods-obj-' + storeid, // 缓存数据的key
     });
-    if (datainfo.data && dataobjinfo.data) {
+    var dataTypeobjinfo = my.getStorageSync({
+      key: 'store-goods-type-obj-' + storeid, // 缓存数据的key
+    });
+    if (datainfo.data && dataobjinfo.data && dataTypeobjinfo.data) {
       callback({
         goodstype: datainfo.data.goodstype,
         goodsdata: datainfo.data.goodsdata,
         goodsObj: dataobjinfo.data.goodsObj,
-        goodsTypeData: dataobjinfo.data.goodsTypeData
+        goodsTypeData: dataTypeobjinfo.data.goodsTypeData
       });
       return;
     }
@@ -180,13 +208,27 @@ export default {
               data: {
                 goodstype: rest.data.data,
                 goodsdata: restgoods.data.data,
+              },
+              fail:function (res){
+                my.alert({content: '1'+res.errorMessage});
               }
             })
             my.setStorage({
-              key: "store-goods-all-obj-" + storeid,
+              key: "store-goods-goods-obj-" + storeid,
               data: {
                 goodsObj: goodsObj,
+              },
+              fail:function (res){
+                my.alert({content: '2'+res.errorMessage});
+              }
+            })
+            my.setStorage({
+              key: "store-goods-type-obj-" + storeid,
+              data: {
                 goodsTypeData: goodsTypeData,
+              },
+              fail:function (res){
+                my.alert({content: '3'+res.errorMessage});
               }
             })
             callback({

@@ -127,9 +127,9 @@
         <view class="priceinfo">
           ￥{{(shopCart.sprice/100).toFixed(2)}} <text class="total_price">￥{{(shopCart.total_price/100).toFixed(2)}}</text> 
         </view>
-        <navigator url="bill/bill" class="goShopping">
+        <view onTap="goShopping" class="goShopping">
             去结算
-        </navigator>
+        </view>
       </view>
     </view>
   </view>

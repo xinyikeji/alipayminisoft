@@ -1,6 +1,7 @@
 {
   "defaultTitle": "结算台",
   "usingComponents": {
+    "stepper": "mini-antui/es/stepper/index",
     "badge": "mini-antui/es/badge/index",
     "list": "mini-antui/es/list/index",
     "list-item": "mini-antui/es/list/list-item/index"
