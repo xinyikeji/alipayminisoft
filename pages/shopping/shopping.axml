@@ -58,7 +58,7 @@
                   <image src="{{itemGoods.shoppic}}_800" style="width:60px;height:45px;" mode="aspectFill" />
                 </view>
                 <view>
-                  <view class="goodsinfo">{{itemGoods.goodsname}}                    
+                  <view class="goodsinfo">{{itemGoods.goodsname}}      {{itemGoods.dabaohe}}              
                   </view>
                   <view class="goodsprice">￥{{itemGoods.priceFormat}} <text class="yprice"> ￥{{itemGoods.priceFormat}} <text>                   
                   </view>

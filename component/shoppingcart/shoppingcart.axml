@@ -2,29 +2,36 @@
   <view class="shopping-cart">
     <view class="shopping-cart-title">
       <image src="/static/icon/shanchu.png" class="shopping-cart-clear-icon" mode="aspectFit" />
-      <text class="shopping-cart-clear-text" onTap="clearShoppingCart" >清空购物车</text>
+      <text class="shopping-cart-clear-text" onTap="clearShoppingCart">清空购物车            
+      </text>
     </view>
     <view class="shopping-cart-goodslist" style="height:{{scrollHeight}}px;">
       <scroll-view style="height:{{scrollHeight}}px" scroll-y="{{true}}">
         <view class="shopping-cart-goodslist-view">
           <list>
             <block a:for="{{shopCart.goods}}">
-              <list-item
-                thumb="{{item.shoppic}}_128"
-                arrow="{{false}}"
-                index="{{item.key}}"
-                disabled="{{true}}"
-                key="items-{{item.key}}"
-                wrap="{{true}}"
-                last="{{index === (shopCart.goods - 1)}}"
-              >
-              {{item.goodsname}}
-                <text class="shopping-caert-goodsprice">￥{{(item.tmpprice/100).toFixed(2)}}</text>
+              <list-item arrow="{{false}}" index="{{item.key}}" disabled="{{true}}" key="items-{{item.key}}" wrap="{{true}}" last="{{index === (shopCart.goods - 1)}}">              {{item.goodsname}}                                                
+                <text class="shopping-caert-goodsprice">￥{{(item.tmpprice/100).toFixed(2)}}                                
+                </text>
+                <view a:if="{{item.garnish && item.garnish.length > 0}}">
+                  <text class="shopping-cart-garnish" a:for="{{item.garnish}}" a:for-index="garnishindex" a:for-item="garnishitem">
+{{garnishitem.goodsname}} x {{garnishitem.goodsno}} ￥{{(garnishitem.sprice/100).toFixed(2)}}                                                      
+                  </text>
+                </view>
+                <view a:if="{{item.suitflag == 1}}">
+                  <text class="shopping-cart-garnish" a:for="{{item.child}}" a:for-index="suitindex" a:for-item="suititem">
+{{suititem.goodsname}} x {{suititem.goodsno}} +￥{{(suititem.addprice/100).toFixed(2)}}                                                      
+                  </text>
+                </view>
+                <view a:if="{{item.remarksText}}">
+                  <text class="shopping-cart-remarks">
+备注：{{item.remarksText}}                                                     
+                  </text>
+                </view>
                 <view slot="extra">
                   <view class="shopping-caert-plusbutton">
                     <image onTap="incGoods" data-key="{{item.key}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
-                    <text class="numbers">
-                      {{item.goodsno}}               
+                    <text class="numbers">                      {{item.goodsno}}                                                                           
                     </text>
                     <image onTap="decGoods" data-key="{{item.key}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
                   </view>
@@ -50,11 +57,11 @@
               <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
             </block>
           </view>
-          <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}           
-            <text class="shopping-caert-total_price">￥{{(shopCart.total_price/100).toFixed(2)}}          
+          <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}                                               
+            <text class="shopping-caert-total_price">￥{{(shopCart.total_price/100).toFixed(2)}}                                              
             </text>
           </view>
-          <navigator url="{{billPath}}" class="shopping-caert-goShopping">去结算                
+          <navigator url="{{billPath}}" class="shopping-caert-goShopping">去结算                                              
           </navigator>
         </view>
       </view>

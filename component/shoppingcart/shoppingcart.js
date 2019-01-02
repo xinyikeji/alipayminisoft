@@ -16,6 +16,7 @@ Component({
   },
   didMount() {
     var cartData = clickgoods.getShoppingCart(this.props.storeid);
+    console.log(cartData)
     this.setData({
       shopCart: cartData
     })

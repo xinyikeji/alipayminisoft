@@ -24,7 +24,6 @@ Component({
     }
   },
   didMount() {
-    console.log('111111111111111111111')
     var _this = this;
     my.createSelectorQuery().select('.datainfoview').boundingClientRect().exec(function(ret) {
       var height = (ret[0].height > (_this.props.windowHeight - 300)) ? (_this.props.windowHeight - 300) : ret[0].height;
@@ -49,12 +48,14 @@ Component({
       gtid: goodsData.gtid,
       goodsname: goodsData.goodsname,
       shoppic: goodsData.shoppic,
+      dabaohe: goodsData.dabaohe,
       pocket: 1,
       goodsno: 1,
       discount: 100,
       suitflag: goodsData.suitflag,
       is_give: 0,
       is_package: 0,
+      is_default_package: 0,
       remarks: "",
       mprice: goodsData.price,
       youhuiprice: 0,
@@ -154,6 +155,13 @@ Component({
     })
   },
   methods: {
+    setPackage() {
+      var goodsTmp = this.data.goodsTmp;
+      goodsTmp.is_package = goodsTmp.is_default_package = goodsTmp.is_default_package ? 0 : 1;
+      this.setData({
+        goodsTmp: goodsTmp
+      })
+    },
     //添加一个配菜
     incGarnish(event) {
       var goodsData = this.props.goodsInfo;
@@ -172,6 +180,7 @@ Component({
         goodsTmp.garnish.push({
           goodsid: goodsData.garnish[index].goodsid,
           goodsno: 1,
+          one_goodsno: 1,
           goodsname: goodsData.garnish[index].goodsname,
           one_price: goodsData.garnish[index].price,
           youhuiprice: 0,
@@ -192,9 +201,10 @@ Component({
           if (goodsid == goodsTmp.garnish[i].goodsid) {
             goodsTmp.tmpprice += goodsTmp.garnish[i].one_price;
             goodsTmp.garnish[i].goodsno++;
+            goodsTmp.garnish[i].one_goodsno++;
             goodsTmp.garnish[i].sprice = goodsTmp.garnish[i].one_price * goodsTmp.garnish[i].goodsno;
             goodsTmp.garnish[i].yprice = goodsTmp.garnish[i].one_price * goodsTmp.garnish[i].goodsno;
-
+            goodsTmp.tmp_oneprice += goodsTmp.garnish[i].one_price;
           }
         }
       }
@@ -202,6 +212,7 @@ Component({
         goodsTmp,
         selectGarnish
       })
+      console.log('incGarnish', goodsTmp);
     },
     //配菜减1
     decGarnish(event) {
@@ -219,6 +230,7 @@ Component({
         for (var i in goodsTmp.garnish) {
           if (goodsid == goodsTmp.garnish[i].goodsid) {
             goodsTmp.tmpprice -= goodsTmp.garnish[i].one_price;
+            goodsTmp.tmp_oneprice -= goodsTmp.garnish[i].one_price;
             if (selectGarnish[goodsid] === 0) {
               delete selectGarnish[goodsid];
               goodsTmp.garnish.splice(i, 1);
@@ -233,6 +245,7 @@ Component({
           goodsTmp,
           selectGarnish
         })
+        console.log('decGarnish', goodsTmp);
       }
     },
     //修改规格
@@ -271,18 +284,21 @@ Component({
     //修改备注
     setRemarks(event) {
       var grid = event.currentTarget.dataset.grid;
+      var title = event.currentTarget.dataset.title;
       var selectRemarksItem = this.data.selectRemarksItem;
       var goodsTmp = this.data.goodsTmp;
       if (selectRemarksItem[grid]) {
         delete selectRemarksItem[grid];
       } else {
-        selectRemarksItem[grid] = true;
+        selectRemarksItem[grid] = title;
       }
-      var remarks = [];
+      var remarks = [], remarksText = [];
       for (var i in selectRemarksItem) {
         remarks.push(i);
+        remarksText.push(selectRemarksItem[i])
       }
       goodsTmp.remarks = remarks.join(',')
+      goodsTmp.remarksText = remarksText.join(',');
       this.setData({
         selectRemarksItem: selectRemarksItem,
         goodsTmp: goodsTmp
@@ -308,11 +324,8 @@ Component({
               return false;
             }
           } else if (goodsData.info[i].isselect === 1) {
-            console.log('2222222222222222222222')
             if (selectGroupSuitNumber[i]) {
-              console.log('5555555555555')
               if (selectGroupSuitNumber[i] != goodsData.info[i].selectnum) {
-                console.log('66666666666666')
                 my.showToast({
                   type: 'fail',
                   content: goodsData.info[i].gziname + '必须选择' + goodsData.info[i].selectnum + '件',
@@ -321,7 +334,6 @@ Component({
                 return false;
               }
             } else {
-              console.log('333333333333333')
               my.showToast({
                 type: 'fail',
                 content: goodsData.info[i].gziname + '尚未选择',

@@ -1,32 +1,62 @@
 <view>
-<view class="shopping-cart">
+  <view class="shopping-cart">
     <view class="shopping-cart-title">
-      <button type="primary" size="mini" onTap="defaultTap">堂食</button>
-      <button type="default" size="mini" onTap="defaultTap">外带</button>
+      <button type="{{shopCart.type== 4 ? 'primary' : 'default'}}" size="mini" onTap="setTangshi">堂食                                                
+      </button>
+      <button type="{{shopCart.type== 2 ? 'primary' : 'default'}}" size="mini" onTap="setWaidai">外带                                                
+      </button>
     </view>
-    <view class="shopping-cart-goodslist" style="height:{{windowHeight-100}}px;">
-      <scroll-view style="height:{{windowHeight-100}}px" scroll-y="{{true}}">
-        <view class="shopping-cart-goodslist-view">
+    <view class="shopping-cart-goodslist" style="height:{{scrollHeight}}px;">
+      <scroll-view style="height:{{scrollHeight}}px" scroll-y="{{true}}">
+        <view id="goodslistview" class="shopping-cart-goodslist-view goodslistview">
           <list>
             <block a:for="{{shopCart.goods}}">
-              <list-item
-                thumb="{{item.shoppic}}_128"
-                arrow="{{false}}"
-                index="{{item.key}}"
-                disabled="{{true}}"
-                key="items-{{item.key}}"
-                wrap="{{true}}"
-                last="{{index === (shopCart.goods - 1)}}"
-              >
-              {{item.goodsname}} x{{item.goodsno}}
+              <list-item arrow="{{false}}" thumb="{{item.is_package === 1?'/static/package.png':''}}" index="{{item.key}}" disabled="{{true}}" key="items-{{item.key}}" wrap="{{true}}" last="{{index === (shopCart.goods - 1)}}">                {{item.goodsname}} x{{item.goodsno}}                                                                                                                                              
+                <view a:if="{{item.garnish && item.garnish.length > 0}}">
+                  <text class="shopping-cart-garnish" a:for="{{item.garnish}}" a:for-index="garnishindex" a:for-item="garnishitem">
+{{garnishitem.goodsname}} x {{garnishitem.goodsno}} ￥{{(garnishitem.sprice/100).toFixed(2)}}                                                                                                                                                                                    
+                  </text>
+                </view>
+                <view a:if="{{item.suitflag == 1}}">
+                  <text class="shopping-cart-garnish" a:for="{{item.child}}" a:for-index="suitindex" a:for-item="suititem">
+{{suititem.goodsname}} x {{suititem.goodsno}} +￥{{(suititem.addprice/100).toFixed(2)}}                                                                                                                                                                                    
+                  </text>
+                </view>
+                <view a:if="{{item.remarksText}}">
+                  <text class="shopping-cart-remarks">
+备注：{{item.remarksText}}                                                                                                                                                                                   
+                  </text>
+                </view>
                 <view slot="extra">
-                   <text class="shopping-caert-goodsprice"> ￥{{(item.tmpprice/100).toFixed(2)}}</text>
+                  <text class="shopping-caert-goodsprice"> ￥{{(item.tmpprice/100).toFixed(2)}}                                                                                                                                                
+                  </text>
                 </view>
               </list-item>
             </block>
           </list>
         </view>
       </scroll-view>
+    </view>
+    <view class="give-goods">
+      <view class="give-goodsview-title">        请选择赠品（不选择代表放弃赠品）                                    
+      </view>
+      <scroll-view scroll-x="{{true}}" style="width:{{windowWidth}}px;">
+        <view class="give-goodsviews" style="width:{{(giveGoodsData.length * 105) + 10}}px;">
+          <view class="give-view {{giveGoodsIndex === giveGoodsDataIndex ?'active':''}}" onTap="setGiveGoods" a:for="{{giveGoodsData}}" a:for-item="giveGoodsItem" a:for-index="giveGoodsIndex" data-index="{{giveGoodsIndex}}">
+            <view class="give-goodspic">
+              <badge text="赠" dot="{{false}}">
+                <image slot="inner" src="{{giveGoodsItem.shoppic}}" style="width:80px;height:60px;" mode="aspectFill" />
+              </badge>
+            </view>
+            <view class="give-goodsname">{{giveGoodsItem.goodsname}}                                                                        
+            </view>
+            <view class="give-goodsprice">￥{{(giveGoodsItem.price/100).toFixed(2)}}                                                                        
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="paylist">
     </view>
     <view class="shopping-caert-shoppingcart">
       <view class="shopping-caert-cartinfo">
@@ -43,11 +73,9 @@
               <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
             </block>
           </view>
-          <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}           
-            <text class="shopping-caert-total_price">￥{{(shopCart.total_price/100).toFixed(2)}}          
-            </text>
+          <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}                                                  
           </view>
-          <view onTap="sendOrderToServer" class="shopping-caert-goShopping">支付订单                
+          <view onTap="sendOrderToServer" class="shopping-caert-goShopping">支付订单                                                                                                          
           </view>
         </view>
       </view>

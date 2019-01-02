@@ -69,6 +69,23 @@ export default {
       }
     })
   },
+  getUserGiveGoods(openid, storeid, callback) {
+    const extJson = my.getExtConfigSync();
+    http.post({
+      method: "miniapp.Activity.getUserGiveGoods",
+      openid: openid,
+      storeid: storeid,
+      third_appid: extJson.aliappid,
+      ptype: 2
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        callback(rest.data.data);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
   getIntegralShoppingList(openid, callback) {
     var storeinfo = my.getStorageSync({
       key: 'getIntegralList-all', // 缓存数据的key
@@ -95,7 +112,7 @@ export default {
       }
     })
   },
-  uploadOrder(data,callback) {
+  uploadOrder(data, callback) {
     data.method = "order.xinyiorder.uploadOrder";
     http.post(data, function(status, rest) {
       if (status && rest.data.code === 1) {
@@ -106,7 +123,7 @@ export default {
       }
     })
   },
-  createAlipay(data,callback) {
+  createAlipay(data, callback) {
     data.method = "miniapp.OnlinePay.getAliPayPaymentOrderno";
     http.post(data, function(status, rest) {
       if (status && rest.data.code === 1) {
@@ -182,6 +199,19 @@ export default {
             callback(false);
           }
         })
+      } else {
+        callback(false);
+      }
+    })
+  },
+  getUserAccount(openid, callback) {
+    http.post({
+      openid: openid,
+      usercoupon: '1',
+      method: "member.MemberInfo.getMemberInfoDetail",
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        callback(rest.data.data);
       } else {
         callback(false);
       }

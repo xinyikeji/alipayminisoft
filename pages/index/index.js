@@ -1,21 +1,41 @@
 import http from '/libs/http'
+import api from '/libs/api'
 const app = getApp();
 Page({
   data: {
-    title: "尊敬的用户",
-    subTitle: "欢迎使用自助点餐服务，请扫码进行点餐！",
-    messageButton: {
-      mainButton: {
-        buttonText: "扫码点餐"
-      },
-      subButton: {
-        buttonText: "预约点餐"
-      }
+    userInfo: {},
+    storeList: {},
+    topAds: {
+      images: ['https://dpic.tiankong.com/g2/uj/QJ6233692031.jpg', 'https://dpic.tiankong.com/1i/jl/QJ6138983758.jpg', 'https://dpic.tiankong.com/9u/c8/QJ6154132660.jpg']
     }
   },
   onLoad() {
+    var _this = this;
     app.getUserInfo(function(userinfo) {
       console.log(userinfo)
+      api.getStoreList(function(storeList) {
+        if (storeList) {
+          my.getLocation({
+            success(res) {
+              my.hideLoading();
+              for (var i in storeList) {
+                storeList[i].longvalue = app.getLong(res.latitude, res.longitude, storeList[i].lat, storeList[i].lng);
+                storeList[i].longvalueFormat = app.getLongFormat(storeList[i].longvalue);
+              }
+
+              //排出最近的门店
+
+              
+
+              _this.setData({
+                storeList: storeList,
+                userInfo: userinfo
+              })
+              console.log(storeList);
+            }
+          })
+        }
+      })
     })
   },
   clearCache() {

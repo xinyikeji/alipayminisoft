@@ -40,19 +40,7 @@ App({
       },
     });
   },
-  getUserAccount(openid, callback) {
-    http.post({
-      openid: openid,
-      usercoupon: '1',
-      method: "member.MemberInfo.getMemberInfoDetail",
-    }, function(status, rest) {
-      if (status && rest.data.code === 1) {
-        callback(rest.data.data);
-      } else {
-        callback(false);
-      }
-    })
-  },
+  
   getUUID: function() {
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

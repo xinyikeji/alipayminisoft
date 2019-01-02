@@ -63,7 +63,7 @@ Page({
           userInfo: userinfo
         })
         //开始拉取用户基本数据
-        app.getUserAccount(userinfo.openid, function(userAccount) {
+        api.getUserAccount(userinfo.openid, function(userAccount) {
           console.log(userAccount)
           if (userAccount) {
             _this.setData({

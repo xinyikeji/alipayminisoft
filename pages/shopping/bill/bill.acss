@@ -1,5 +1,4 @@
 .shopping-cart {
-  background-color: #FFFFFF;
   overflow: hidden;
 }
 
@@ -9,22 +8,15 @@
   padding: 0px 10px;
 }
 
-.shopping-cart-clear-icon{
-  width: 18px;
-  height: 18px;
-  display: inline-block;
-  float: right;
-  margin: 0px 5px;
-  margin-top: 9px;
-}
-.shopping-cart-clear-text{
-  display: inline-block;
-  line-height: 40px;
-  float: right;
-}
 .shopping-cart-goodslist {
-  background-color: #FFFFFF;
-  margin-bottom: 60px;
+  margin-bottom: 10px;
+}
+.packagetext{
+  height: 18px;
+  width: 18px;
+}
+.shopping-cart-goodslist-view {
+  overflow: hidden;
 }
 
 .shopping-caert-shoppingcart {
@@ -85,7 +77,7 @@
 
 .shopping-caert-goodsprice {
   padding-left: 8px;
-  font-size: 14px;
+  font-size: 16px;
   color: #ffbe00;
 }
 
@@ -96,5 +88,78 @@
 .shopping-caert-plusbutton text {
   display: inline-block;
   width: 30px;
+  text-align: center;
+}
+
+.shopping-cart-garnish {
+  font-size: 10px;
+  border: 1px solid #EEEEEE;
+  display: inline-block;
+  border-radius: 5px;
+  line-height: 24px;
+  padding: 0px 6px;
+  margin: 6px 6px 0px 0px;
+}
+
+.shopping-cart-remarks {
+  line-height: 24px;
+  font-size: 10px;
+  color: #909399;
+}
+
+.give-goods {
+  border-top: 1px solid #EEEEEE;
+  border-bottom: 1px solid #EEEEEE;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.give-goodsviews {
+  padding: 5px;
+  overflow: hidden;
+}
+
+.give-goodsview-title {
+  line-height: 32px;
+  font-size: 14px;
+  padding: 0px 10px;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+.give-view {
+  width: 100px;
+  height: 150px;
+  float: left;
+  border: 1px solid #eeeeee;
+  margin: 5px 5px 0px 0px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+.give-view image{
+  border-radius: 5px;
+}
+
+.give-view.active {
+  border: 1px solid #ffbe00;
+}
+
+.give-goodspic {
+  padding: 10px;
+}
+
+.give-goodsname {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.give-goodsprice {
+  font-size: 14px;
+  line-height: 24px;
+  color: #ffbe00;
+  text-decoration: line-through;
   text-align: center;
 }

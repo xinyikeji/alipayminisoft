@@ -15,22 +15,27 @@ export default {
         type: 4,//订单类型（1外送2外带3堂食4自助）
         people: 0, //就餐人数
         reservation: 0,//是否预约单
+        prefix: 'AX',//是否预约单
         yytime: php.time(),//预约时间
         is_suitflag: 1,//启用套餐
         ispay: 0, //是否已经支付
         total_price: 0, //订单总价
-        goodsnumbers: {},
-        typenumbers: {},
-        store: {
-          storeid: storeid,
-          name: ''
-        },
-        // copenid: "", //创建人
         discount_price: 0,// 订单优惠金额
+        package_price: 0,// 打包盒金额
         sprice: 0, //实收金额（需要支付的金额）
         remark: "", //整单备注
         need_invoice: 1,//是否需要发票，1是2不需要
         ctime: php.time(),
+        goodsnumbers: {},
+        typenumbers: {},
+        store: {
+          storeid: storeid,
+          name: '',
+          goodsid: null,
+          price: 0,
+          goodsname: null,
+          shoppic: null
+        },
         paylist: [
 
         ],
@@ -52,6 +57,46 @@ export default {
       });
       return defaultData;
     }
+  },
+  reloadPackage(shoppingInfo) {
+    var packageNumber = 0;
+    console.log('222222222222222222222')
+    for (var i in shoppingInfo.goods) {
+      if (shoppingInfo.goods[i].have_package) {
+        shoppingInfo.goods.splice(i, 1);
+      }
+      if (shoppingInfo.goods[i].is_package === 1) {
+        packageNumber += shoppingInfo.goods[i].dabaohe * shoppingInfo.goods[i].goodsno;
+      }
+    }
+    if (packageNumber > 0 && shoppingInfo.store.goodsid) {
+      var goodsTmp = {
+        goodsid: shoppingInfo.store.goodsid,
+        goodsname: shoppingInfo.store.goodsname,
+        shoppic: shoppingInfo.store.shoppic,
+        pocket: 1,
+        goodsno: packageNumber,
+        mprice: shoppingInfo.store.price,
+        discount: 100,
+        youhuiprice: 0,
+        suitflag: 0,
+        is_give: 0,
+        is_package: 0,
+        have_package: 1,
+        remarks: "",
+        yprice: shoppingInfo.store.price * packageNumber,
+        sprice: shoppingInfo.store.price * packageNumber,
+        one_sprice: shoppingInfo.store.price,
+        one_yprice: shoppingInfo.store.price,
+        tmp_oneprice: shoppingInfo.store.price,
+        tmpprice: shoppingInfo.store.price * packageNumber
+      };
+      shoppingInfo.package_price = shoppingInfo.store.package.price * packageNumber;
+      shoppingInfo.sprice = shoppingInfo.total_price + shoppingInfo.package_price
+      shoppingInfo.goods.push(goodsTmp);
+    }
+
+    return shoppingInfo;
   },
   setUserInfo(option) {
     if (!option.success) option.success = function(res) { console.log('setUserInfo success ', res) }
@@ -253,7 +298,7 @@ export default {
       shoppingInfo.typenumbers[option.goodsdata.gtid] = 1;
     }
     my.setStorage({
-      data: shoppingInfo, // 要缓存的数据
+      data: this.reloadPackage(shoppingInfo), // 要缓存的数据
       key: 'shoppingcart' + option.storeid, // 缓存数据的key
       success: function() {
         option.success(shoppingInfo);
@@ -289,10 +334,6 @@ export default {
         shoppingInfo.goods[i].sprice = shoppingInfo.goods[i].goodsno * shoppingInfo.goods[i].one_sprice;
         shoppingInfo.goods[i].tmpprice = shoppingInfo.goods[i].goodsno * shoppingInfo.goods[i].tmp_oneprice;
 
-        shoppingInfo.sprice += shoppingInfo.goods[i].tmpprice;
-        shoppingInfo.total_price += shoppingInfo.goods[i].tmpprice;
-        shoppingInfo.discount_price += shoppingInfo.goods[i].youhuiprice;
-
         if (shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]) {
           shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]++;
         } else {
@@ -308,16 +349,26 @@ export default {
           for (var j in shoppingInfo.goods[i].child) {
             shoppingInfo.goods[i].child[j].goodsno = shoppingInfo.goods[i].child[j].one_goodsno * shoppingInfo.goods[i].goodsno;
             shoppingInfo.goods[i].child[j].sprice = shoppingInfo.goods[i].child[j].yprice = shoppingInfo.goods[i].child[j].addprice = shoppingInfo.goods[i].child[j].one_price * shoppingInfo.goods[i].goodsno;
+
+          }
+        }
+        //配菜处理
+        if (shoppingInfo.goods[i].garnish && shoppingInfo.goods[i].garnish.length > 0) {
+          for (var jj in shoppingInfo.goods[i].garnish) {
+            shoppingInfo.goods[i].garnish[jj].goodsno = shoppingInfo.goods[i].goodsno * shoppingInfo.goods[i].garnish[jj].one_goodsno;
+            shoppingInfo.goods[i].garnish[jj].yprice = shoppingInfo.goods[i].garnish[jj].sprice = shoppingInfo.goods[i].goodsno * shoppingInfo.goods[i].garnish[jj].one_goodsno * shoppingInfo.goods[i].garnish[jj].one_price;
+
           }
         }
 
-
-
+        shoppingInfo.sprice += shoppingInfo.goods[i].tmpprice;
+        shoppingInfo.total_price += shoppingInfo.goods[i].tmpprice;
+        shoppingInfo.discount_price += shoppingInfo.goods[i].youhuiprice;
       }
     }
     shoppingInfo.goodsnumber++;
     my.setStorage({
-      data: shoppingInfo, // 要缓存的数据
+      data: this.reloadPackage(shoppingInfo), // 要缓存的数据
       key: 'shoppingcart' + option.storeid, // 缓存数据的key
       success: function() {
         option.success(shoppingInfo);
@@ -409,15 +460,21 @@ export default {
               shoppingInfo.goods[i].child[j].sprice = shoppingInfo.goods[i].child[j].yprice = shoppingInfo.goods[i].child[j].addprice = shoppingInfo.goods[i].child[j].one_price * shoppingInfo.goods[i].goodsno;
             }
           }
+          //配菜处理
+          if (shoppingInfo.goods[i].garnish && shoppingInfo.goods[i].garnish.length > 0) {
+            for (var jj in shoppingInfo.goods[i].garnish) {
+              shoppingInfo.goods[i].garnish[jj].goodsno = shoppingInfo.goods[i].goodsno * shoppingInfo.goods[i].garnish[jj].one_goodsno;
+              shoppingInfo.goods[i].garnish[jj].yprice = shoppingInfo.goods[i].garnish[jj].sprice = shoppingInfo.goods[i].goodsno * shoppingInfo.goods[i].garnish[jj].one_price;
+            }
+          }
         }
 
 
 
       }
     }
-
     my.setStorage({
-      data: shoppingInfo, // 要缓存的数据
+      data: this.reloadPackage(shoppingInfo), // 要缓存的数据
       key: 'shoppingcart' + option.storeid, // 缓存数据的key
       success: function() {
         option.success(shoppingInfo);
@@ -427,42 +484,43 @@ export default {
       }
     });
   },
-  removeGoodsToShoppingCart(option) {
+  setTangshi(option) {
     if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
     }
-    if (!option.key) {
-      option.fail({ error: true, message: "没有要删除的商品key" })
+    var shoppingInfo = this.getShoppingCart(option.storeid);
+    shoppingInfo.type = 4
+    for (var i in shoppingInfo.goods) {
+      shoppingInfo.goods[i].is_package = shoppingInfo.goods[i].is_default_package;
+    }
+    my.setStorage({
+      data: this.reloadPackage(shoppingInfo), // 要缓存的数据
+      key: 'shoppingcart' + option.storeid, // 缓存数据的key
+      success: function() {
+        option.success(shoppingInfo);
+      },
+      fail: function() {
+        option.fail({ error: true, message: "数据保存失败" })
+      }
+    });
+  },
+  setWaidai(option) {
+    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.storeid) {
+      option.fail({ error: true, message: "没有设置storeid" })
       return;
     }
     var shoppingInfo = this.getShoppingCart(option.storeid);
+    shoppingInfo.type = 2
     for (var i in shoppingInfo.goods) {
-      if (shoppingInfo.goods[i].key === option.key) {
-        shoppingInfo.goods[i].goodsno--;
-        //还原总价
-        shoppingInfo.sprice -= shoppingInfo.goods[i].sprice;
-        shoppingInfo.total_price -= shoppingInfo.goods[i].yprice;
-        shoppingInfo.tmpprice -= shoppingInfo.goods[i].yprice;
-        shoppingInfo.discount_price -= shoppingInfo.goods[i].youhuiprice;
-
-        //@todo 未来第二份半价等优惠活动在这里完善计算即可
-        shoppingInfo.goodsnumber = shoppingInfo.goodsnumber - shoppingInfo.goods[i].goodsno;
-
-        if (shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid]) {
-          shoppingInfo.goodsnumbers[shoppingInfo.goods[i].goodsid] -= shoppingInfo.goods[i].goodsno;
-        }
-        if (shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid]) {
-          shoppingInfo.typenumbers[shoppingInfo.goods[i].gtid] -= shoppingInfo.goods[i].goodsno;
-        }
-
-        shoppingInfo.goods.splice(i, 1);
-      }
+      shoppingInfo.goods[i].is_package = 1;
     }
     my.setStorage({
-      data: shoppingInfo, // 要缓存的数据
+      data: this.reloadPackage(shoppingInfo), // 要缓存的数据
       key: 'shoppingcart' + option.storeid, // 缓存数据的key
       success: function() {
         option.success(shoppingInfo);

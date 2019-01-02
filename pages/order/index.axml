@@ -1,34 +1,32 @@
 <view>
-  <view class="xinyi-loadmore" a:if="{{loading}}">
-    <text class="xinyi-loading"></text>
-    <text class="xinyi-loadmore__tips">正在加载</text>
-  </view>
-  <view a:elif="{{orderlist.length === 0}}" class="nodata">
-    暂无数据
-  </view>
-  <scroll-view a:if="{{orderlist.length > 0}}" scroll-y onScrollToLower="onScrollToLower">
-    <list >
-      <block a:for="{{orderlist}}">
-        <list-item a:if="{{item.sticky}}" className="am-list-sticky" thumb="{{item.thumb}}" arrow="{{item.arrow}}" align="{{item.align}}" index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{item.sticky}}" wrap="{{true}}">					{{item.title}}{{index}}				
-        </list-item>
-        <list-item a:else className="am-list-order" arrow index="{{index}}" key="order-{{index}}" onClick="onItemClick"	disabled="{{false}}"	wrap >
-          <view slot="extra">
-						{{item.extra}}
-					</view>
-          <view class="order-code">
-            {{item.title}}
-          </view>
-          <view class="order-type">
-            [外卖]
-          </view>
-          <view class="order-date">
-            2018-09-09 11:11:22
-          </view>
-        </list-item>
+  <view>
+    <tabs tabs="{{years}}" onTabClick="handleYearClick" onChange="handleYearChange" activeTab="{{activeYear}}">
+      <block a:for="{{tabs}}">
+        <tab-content key="{{index}}">
+        </tab-content>
       </block>
-      <view slot="footer" a:if="{{!hasnext}}">
-        没有更多订单了			
+    </tabs>
+    <scroll-view scroll-y="{{true}}" style="height:{{windowHeight-43}}px;" onScrollToLower="onScollPullDownRefresh" lower-threshold="100">
+      <view a:if="{{orderlist.length === 0}}" class="nodata">    暂无数据                            
       </view>
-    </list>
-  </scroll-view>
+      <list a:if="{{orderlist.length > 0}}">
+        <block a:for="{{orderlist}}">
+          <list-item a:if="{{item.sticky}}" className="am-list-sticky" thumb="{{item.thumb}}" arrow="{{item.arrow}}" align="{{item.align}}" index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{item.sticky}}" wrap="{{true}}">					{{item.title}}{{index}}				                                                        
+          </list-item>
+          <list-item a:else className="am-list-order" arrow index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{false}}"	wrap >
+            <view slot="extra">						{{item.extra}}					                                                          
+            </view>
+            <view class="order-code">            {{item.orderno}}                                                                    
+            </view>
+            <view class="order-type">            {{item.storename}}[外卖]                                                                    
+            </view>
+            <view class="order-date">            {{item.detail.addtime}}                                                                    
+            </view>
+          </list-item>
+        </block>
+        <view slot="footer" a:if="{{!hasnext}}">        没有更多订单了			                                            
+        </view>
+      </list>
+    </scroll-view>
+  </view>
 </view>

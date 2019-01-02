@@ -47,6 +47,7 @@ var settab =
             content: "数据加载中"
           });
           api.getStoreInfo(_this.data.options.id, function(storeinfo) {
+            console.log(storeinfo)
             if (storeinfo) {
               my.getLocation({
                 success(res) {
@@ -171,6 +172,8 @@ var settab =
           suitflag: 0,
           is_give: 0,
           is_package: 0,
+          is_default_package: 0,
+          dabaohe: goodsData.dabaohe,
           remarks: "",
           yprice: goodsData.price,
           sprice: goodsData.price,

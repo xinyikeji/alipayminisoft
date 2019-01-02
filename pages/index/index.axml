@@ -1,7 +1,25 @@
 <view>
-  <notice enableMarquee="{{true}}">自助点餐送可乐一杯(限每月一杯)！        
-  </notice>
-  <message title="{{title}}" subTitle="{{subTitle}}" type="success" subButton="{{messageButton.subButton}}" mainButton="{{messageButton.mainButton}}" onTapMain="showQrcode">
-  </message>
-  <button type="default" onTap="clearCache">清理缓存</button>
+  <view class="ads-one">
+    <swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="3000">
+      <block a:for="{{topAds.images}}">
+        <swiper-item>
+          <view class="swiper-item">
+            <image src="{{item}}" style="width:100%;height:200px;" mode="aspectFill" />
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class="appbutton">
+    <navigator url="/pages/shopping/shopping?id=3" hover-class="active" class="zizhubutton">
+      <image src="/static/saoyisao.png" style="width:18px;height:18px;" mode="aspectFit" />
+      <text>自助点餐                    
+      </text>
+    </navigator>
+  </view>
+  <view class="listads">
+    <navigator url="" class="listads-item" a:for="{{topAds.images}}">
+      <image src="{{item}}" style="width:100%;height:150px;" mode="aspectFill" />
+    </navigator>
+  </view>
 </view>

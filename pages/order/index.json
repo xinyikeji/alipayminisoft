@@ -4,6 +4,8 @@
     "search-bar": "mini-antui/es/search-bar/index",
     "list": "mini-antui/es/list/index",
     "list-item": "mini-antui/es/list/list-item/index",
-    "card": "mini-antui/es/card/index"
+    "card": "mini-antui/es/card/index",
+    "tabs": "mini-antui/es/tabs/index",
+    "tab-content": "mini-antui/es/tabs/tab-content/index"
   }
 }
