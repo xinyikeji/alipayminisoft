@@ -1,0 +1,26 @@
+<view>
+  <view>
+    <scroll-view a:if="{{dataList.length > 0}}" style="height:{{windowHeight}}px" scroll-y onScrollToLower="onScrollToLower">
+      <list>
+        <view slot="header">财务记录                    
+        </view>
+        <block a:for="{{dataList}}">
+          <list-item arrow="{{false}}" index="{{index}}" key="items-{{index}}" last="{{index === (items.length - 1)}}">
+            <view class="am-list-brief">
+              <view>{{item.remarks}}              
+              </view>{{item.orderno}}                               
+              <view>{{item.ctime}}                
+              </view>
+            </view>
+            <view slot="extra">
+              <text a:if="{{item.price > 0}}" style="color:#61b865;">+ {{item.price}}                                
+              </text>
+              <text a:else style="color:#f76260;">{{item.price}}                                
+              </text>
+            </view>
+          </list-item>
+        </block>
+      </list>
+    </scroll-view>
+  </view>
+</view>

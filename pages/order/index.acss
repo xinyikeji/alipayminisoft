@@ -30,13 +30,14 @@
   line-height: 1.4;
 }
 .am-list-order .order-type{
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.4;
+  color: #8a8a8a;
 }
 .am-list-order .order-date{
   font-size: 12px;
   line-height: 1.4;
-  color: #8a8a8a
+  color: #8a8a8a;
 }
 .nodata{
   line-height: 100px;

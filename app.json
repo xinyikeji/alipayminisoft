@@ -15,7 +15,9 @@
     "pages/demo/demo",
     "pages/shopping/shopping",
     "pages/shopping/bill/bill",
-    "pages/order/detail/detail"
+    "pages/order/detail/detail",
+    "pages/member/balance/balance",
+    "pages/web/web"
   ],
   "window": {
     "defaultTitle": "My App"

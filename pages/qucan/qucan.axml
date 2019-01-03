@@ -1,3 +1,32 @@
 <view>
-  New Page
+  <swiper indicator-dots="{{true}}" onChange="swiperChange">
+    <block a:for="{{orderList}}">
+      <swiper-item>
+        <view class="qucan-order" style="height:{{windowHeight-20}}px;width:{{windowWidth-40}}px">
+          <view a:if="{{current[index]}}">
+            <view class="qucan-code">{{item.serial}}          
+            </view>
+            <view class="qucau-qrcode">
+              <image src="http://api.canruanshequ.cn/open/qrcode?text={{item.serial}}" style="width:150px;height:150px;" mode="aspectFit" />
+            </view>
+            <view class="qucan-barcode">
+              <image src="http://api.canruanshequ.cn/open/barcode?text={{item.serial}}" style="width:{{windowWidth-100}}px;" mode="aspectFit" />
+            </view>
+            <view class="goodslist">
+            </view>
+            <view class="ordertime">
+              <view class="timetext">就餐门店:{{item.storename}}            
+              </view>
+              <view class="timetext">订单编号:            
+              </view>
+              <view class="timetext">{{item.orderno}}            
+              </view>
+              <view class="timetext">下单时间:{{item.addtime}}            
+              </view>
+            </view>
+          </view>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
 </view>

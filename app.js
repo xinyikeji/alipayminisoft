@@ -1,12 +1,12 @@
 import http from '/libs/http'
 App({
   onLaunch(options) {
-      this.dataInfo.runkey = this.getUUID();
-      console.log(options)
+    this.dataInfo.runkey = this.getUUID();
+    console.log(options)
     // my.clearStorage();
   },
-  setLog(logdata){
-    
+  setLog(logdata) {
+
   },
   getUserInfo(callback) {
     const UserCache = my.getStorageSync({
@@ -37,10 +37,16 @@ App({
             callback(false);
           }
         })
-      },
+      }, 
+      fail: function(res) {
+        my.alert({
+          title: '错误提示',
+          content: '由于您拒绝了我们获取授权信息,我们将无法为你提供任何服务!'
+        })
+      }
     });
   },
-  
+
   getUUID: function() {
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -87,7 +93,7 @@ App({
     }
   },
   dataInfo: {
-    runkey:null
+    runkey: null
   },
   onShow(options) {
     // 从后台被 scheme 重新打开

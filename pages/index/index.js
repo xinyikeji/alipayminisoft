@@ -5,14 +5,22 @@ Page({
   data: {
     userInfo: {},
     storeList: {},
-    topAds: {
-      images: ['https://dpic.tiankong.com/g2/uj/QJ6233692031.jpg', 'https://dpic.tiankong.com/1i/jl/QJ6138983758.jpg', 'https://dpic.tiankong.com/9u/c8/QJ6154132660.jpg']
-    }
+    indexAds:{}
   },
   onLoad() {
     var _this = this;
+     //获取首页广告
+
+
     app.getUserInfo(function(userinfo) {
       console.log(userinfo)
+      api.getIndexAds(userinfo.openid,function (indexads){
+        console.log(indexads)
+        _this.setData({
+          indexAds:indexads
+        })
+
+      })
       api.getStoreList(function(storeList) {
         if (storeList) {
           my.getLocation({
@@ -25,6 +33,7 @@ Page({
 
               //排出最近的门店
 
+             
               
 
               _this.setData({

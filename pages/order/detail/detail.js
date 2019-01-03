@@ -1,4 +1,10 @@
 Page({
-  data: {},
-  onLoad() {},
+  data: {
+    options: {}
+  },
+  onLoad(options) {
+    this.setData({
+      options: options
+    })
+  },
 });

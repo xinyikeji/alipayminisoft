@@ -240,6 +240,7 @@ Page({
           var goodsTmp = {
             goodsid: _this.data.giveGoodsDataSelected.goodsid,
             goodsname: _this.data.giveGoodsDataSelected.goodsname,
+            zopenid:_this.data.userInfo.openid,
             pocket: 1,
             goodsno: 1,
             mprice: _this.data.giveGoodsDataSelected.price,
@@ -319,18 +320,18 @@ Page({
                     storeid: _this.data.storeInfo.storeid,
                     ptid: _this.data.storeInfo.ptid,
                     type: 1,
-                    price: orderData.sprice / 100,
+                    price: res.waiting_payment / 100,
                   }, function(respay) {
                     my.hideLoading();
                     if (respay) {
                       my.tradePay({
                         tradeNO: respay.trade_no,
-                        success: function(res) {
+                        success: function(resdata) {
                           my.redirectTo({
                             url: '/pages/order/detail/detail?orderno=' + res.order_no
                           });
                         },
-                        fail: function(res) {
+                        fail: function(resdata) {
                           my.redirectTo({
                             url: '/pages/order/detail/detail?orderno=' + res.order_no
                           });
@@ -360,8 +361,8 @@ Page({
     })
     console.log(orderData.user)
   },
-  sendOrderToServer() {
-
+  sendOrderToServer(event) {
+    console.log(event)
     var _this = this;
 
     // 获取赠品设置

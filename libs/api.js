@@ -1,5 +1,54 @@
 import http from './http'
 export default {
+  getOrderList(option) {
+    if (!option.success) option.success = function(res) { console.log('getOrderList success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('getOrderList fail ', res) }
+    if (!option.openid) {
+      option.fail({ error: true, message: "没有设置openid" })
+      return;
+    }
+    if (!option.year) {
+      option.fail({ error: true, message: "没有设置year" })
+      return;
+    }
+    var info = my.getStorageSync({
+      key: 'orderlist' + option.year, // 缓存数据的key
+    });
+    console.log(info)
+    if (info.data) {
+      option.success(info.data.rowdata);
+      return;
+    }
+    const extJson = my.getExtConfigSync();
+    http.post({
+      method: "member.OpenUser.getOrderlist",
+      openid: option.openid,
+      year: option.year,
+      page: 1,
+      page_size: 1000
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        for (var i in rest.data.data.rowdata) {
+          delete rest.data.data.rowdata[i].detail;
+        }
+        my.setStorage({
+          key: 'orderlist' + option.year,
+          data: rest.data.data,
+          success: (res) => {
+            console.log('orderlist' + option.year, res)
+          },
+          fail: (res) => {
+            console.log(res)
+          }
+        })
+        option.success(rest.data.data.rowdata)
+      } else {
+        option.fail({ error: true, message: "数据读取失败" })
+        return;
+      }
+    })
+
+  },
   getStoreInfo(storeid, callback) {
     var storeinfo = my.getStorageSync({
       key: 'storeinfo-' + storeid, // 缓存数据的key
@@ -69,6 +118,21 @@ export default {
       }
     })
   },
+  getFinancialflow(openid, page, callback) {
+    http.post({
+      method: "member.MemberInfo.getFinancialflow",
+      openid: openid,
+      page: page,
+      page_size: 30
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        callback(rest.data.data.rowdata);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
   getUserGiveGoods(openid, storeid, callback) {
     const extJson = my.getExtConfigSync();
     http.post({
@@ -79,6 +143,32 @@ export default {
       ptype: 2
     }, function(status, rest) {
       if (status && rest.data.code === 1) {
+        callback(rest.data.data);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
+  getIndexAds(openid, callback) {
+    var datainfo = my.getStorageSync({
+      key: 'indexads-all', // 缓存数据的key
+    });
+    if (datainfo.data) {
+      callback(datainfo.data);
+    }
+    const extJson = my.getExtConfigSync();
+    http.post({
+      method: "miniapp.Activity.getIndexActivityLink",
+      openid: openid,
+      third_appid: extJson.aliappid,
+      ptype: 2
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        my.setStorageSync({
+          key: "indexads-all",
+          data: rest.data.data
+        })
         callback(rest.data.data);
       } else {
         console.log(status, rest)
@@ -209,8 +299,8 @@ export default {
                 goodstype: rest.data.data,
                 goodsdata: restgoods.data.data,
               },
-              fail:function (res){
-                my.alert({content: '1'+res.errorMessage});
+              fail: function(res) {
+                my.alert({ content: '1' + res.errorMessage });
               }
             })
             my.setStorage({
@@ -218,8 +308,8 @@ export default {
               data: {
                 goodsObj: goodsObj,
               },
-              fail:function (res){
-                my.alert({content: '2'+res.errorMessage});
+              fail: function(res) {
+                my.alert({ content: '2' + res.errorMessage });
               }
             })
             my.setStorage({
@@ -227,8 +317,8 @@ export default {
               data: {
                 goodsTypeData: goodsTypeData,
               },
-              fail:function (res){
-                my.alert({content: '3'+res.errorMessage});
+              fail: function(res) {
+                my.alert({ content: '3' + res.errorMessage });
               }
             })
             callback({

@@ -7,24 +7,37 @@
       </block>
     </tabs>
     <scroll-view scroll-y="{{true}}" style="height:{{windowHeight-43}}px;" onScrollToLower="onScollPullDownRefresh" lower-threshold="100">
-      <view a:if="{{orderlist.length === 0}}" class="nodata">    暂无数据                            
+      <view a:if="{{orderlist.length === 0}}" class="nodata">    暂无数据                                        
       </view>
       <list a:if="{{orderlist.length > 0}}">
         <block a:for="{{orderlist}}">
-          <list-item a:if="{{item.sticky}}" className="am-list-sticky" thumb="{{item.thumb}}" arrow="{{item.arrow}}" align="{{item.align}}" index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{item.sticky}}" wrap="{{true}}">					{{item.title}}{{index}}				                                                        
+          <list-item a:if="{{item.sticky}}" className="am-list-sticky" thumb="{{item.thumb}}" arrow="{{item.arrow}}" align="{{item.align}}" index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{item.sticky}}" wrap="{{true}}">	{{item.storename}}			                                                                            
           </list-item>
           <list-item a:else className="am-list-order" arrow index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{false}}"	wrap >
-            <view slot="extra">						{{item.extra}}					                                                          
+            <view slot="extra">	￥{{(item.price/100).toFixed(2)}}					                                                                                  
             </view>
-            <view class="order-code">            {{item.orderno}}                                                                    
+            <view class="order-code">{{item.storename}}                                                                                            
             </view>
-            <view class="order-type">            {{item.storename}}[外卖]                                                                    
+            <view class="order-goods">
+
             </view>
-            <view class="order-date">            {{item.detail.addtime}}                                                                    
+            <view class="order-type">
+              <block a:if="{{item.type == 1}}">[外卖]
+              </block>
+              <block a:if="{{item.type == 2}}">[堂食]
+              </block>
+              <block a:if="{{item.type == 3}}">[外带]
+              </block>
+              <block a:if="{{item.type == 4}}">[自助]
+              </block>
+            </view>
+            <view class="order-date">订单编号:{{item.ordernoFormat}}                                                                                            
+            </view>
+            <view class="order-date">下单时间:{{item.addtimeFormat}}                                                                                            
             </view>
           </list-item>
         </block>
-        <view slot="footer" a:if="{{!hasnext}}">        没有更多订单了			                                            
+        <view slot="footer" a:if="{{!hasnext}}">        没有更多订单了			                                                            
         </view>
       </list>
     </scroll-view>

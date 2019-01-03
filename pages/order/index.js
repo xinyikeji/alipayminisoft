@@ -67,11 +67,16 @@ Page({
       year: this.data.year,
       method: "member.OpenUser.getOrderlist",
     }, function(status, rest) {
-      console.log(rest)
       my.stopPullDownRefresh();
       if (status && rest.data.code === 1) {
         if (rest.data.data.rowdata) {
           var orderlist = _this.data.orderlist;
+          for (var i in rest.data.data.rowdata) {
+            rest.data.data.rowdata[i].addtimeFormat = php.date('Y-m-d H:i:s', rest.data.data.rowdata[i].addtime);
+            // ordernoArr = rest.data.data.rowdata[i].orderno.split('');
+            rest.data.data.rowdata[i].ordernoFormat = rest.data.data.rowdata[i].orderno.substr(0, 10) + '...' + rest.data.data.rowdata[i].orderno.substr(rest.data.data.rowdata[i].orderno.length -6, 6)
+          }
+
           orderlist = orderlist.concat(rest.data.data.rowdata)
 
           _this.setData({
@@ -88,13 +93,10 @@ Page({
       }
     })
   },
-  onScollPullDownRefresh() {
-    if(!this.data.hasnext){
-      return ;
-    }
-    this.setData({
-      page: (this.data.page + 1),
-    })
-    this.getOrderList()
+  onItemClick(event) {
+    var orderinfo = this.data.orderlist[event.index];
+    my.navigateTo({
+      url: '/pages/order/detail/detail?orderno=' + orderinfo.orderno
+    });
   }
 });

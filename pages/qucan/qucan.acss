@@ -1,0 +1,29 @@
+.orderinfo {
+  overflow: hidden;
+}
+
+.qucan-order {
+  background: #FFF;
+  margin: 20px 0px 0px 20px;
+  float: left;
+  text-align: center;
+}
+.qucan-code{
+  font-size: 42px;
+  line-height: 72px;
+  text-align: center;
+  color: #10aeff;
+  font-weight: bold;
+}
+.qucan-barcode{
+  overflow: hidden;
+  margin-top: 20px; 
+}
+.qucan-barcode image{
+  margin-top: -80px;
+}
+.ordertime{
+  text-align: left;
+  padding: 20px;
+  line-height: 24px;
+}

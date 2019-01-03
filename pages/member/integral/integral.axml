@@ -15,7 +15,7 @@
               + {{item.integral}}      
             </text>
             <text a:else  style="color:#f76260;">
-              - {{item.integral}}      
+              {{item.integral}}      
             </text>        
           </view>
         </list-item>
