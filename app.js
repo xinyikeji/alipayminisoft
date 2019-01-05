@@ -2,7 +2,7 @@ import http from '/libs/http'
 App({
   onLaunch(options) {
     this.dataInfo.runkey = this.getUUID();
-    console.log(options)
+    // console.log(options)
     // my.clearStorage();
   },
   setLog(logdata) {
@@ -26,7 +26,7 @@ App({
           alipayappid: extJson.aliappid,
           method: "alisoft.Login.codeToinfo"
         }, function(status, rest) {
-          console.log(status, rest);
+          // console.log(status, rest);
           if (status && rest.data.code === 1) {
             my.setStorageSync({
               key: 'userinfo', // 缓存数据的key

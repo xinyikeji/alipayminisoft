@@ -6,40 +6,141 @@
         </tab-content>
       </block>
     </tabs>
-    <scroll-view scroll-y="{{true}}" style="height:{{windowHeight-43}}px;" onScrollToLower="onScollPullDownRefresh" lower-threshold="100">
-      <view a:if="{{orderlist.length === 0}}" class="nodata">    暂无数据                                        
-      </view>
-      <list a:if="{{orderlist.length > 0}}">
-        <block a:for="{{orderlist}}">
-          <list-item a:if="{{item.sticky}}" className="am-list-sticky" thumb="{{item.thumb}}" arrow="{{item.arrow}}" align="{{item.align}}" index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{item.sticky}}" wrap="{{true}}">	{{item.storename}}			                                                                            
-          </list-item>
-          <list-item a:else className="am-list-order" arrow index="{{index}}" key="order-{{index}}" onClick="onItemClick" disabled="{{false}}"	wrap >
-            <view slot="extra">	￥{{(item.price/100).toFixed(2)}}					                                                                                  
-            </view>
-            <view class="order-code">{{item.storename}}                                                                                            
-            </view>
-            <view class="order-goods">
-
-            </view>
-            <view class="order-type">
-              <block a:if="{{item.type == 1}}">[外卖]
-              </block>
-              <block a:if="{{item.type == 2}}">[堂食]
-              </block>
-              <block a:if="{{item.type == 3}}">[外带]
-              </block>
-              <block a:if="{{item.type == 4}}">[自助]
-              </block>
-            </view>
-            <view class="order-date">订单编号:{{item.ordernoFormat}}                                                                                            
-            </view>
-            <view class="order-date">下单时间:{{item.addtimeFormat}}                                                                                            
-            </view>
-          </list-item>
-        </block>
-        <view slot="footer" a:if="{{!hasnext}}">        没有更多订单了			                                                            
+    <view class="order-data" a:if="{{loading}}" style="height:{{windowHeight-100}}px">
+      <view class="order-list this-loading" style="width:{{windowWidth-40}}px;height:{{windowHeight-100}}px">
+        <view class="xinyi-loading" style="margin-top:{{(windowHeight-200)/2}}px">
         </view>
-      </list>
-    </scroll-view>
+        <view class="status-text">读取中                                                                                                                               
+        </view>
+      </view>
+    </view>
+    <view a:else>
+      <view class="order-data" a:if="{{orderList.length == 0}}" style="height:{{windowHeight-100}}px">
+        <view class="order-list center" style="width:{{windowWidth-40}}px;height:{{windowHeight-100}}px">
+          <view class="noorder" style="margin-top:{{(windowHeight-300)/2}}px">
+            <image src="/static/package.png" style="width:100px;height:100px;" mode="aspectFit" />
+          </view>
+          <view class="noorder-text">      您还没有下单哦          
+          </view>
+          <view class="noorder-text">      美味已就绪，快来点点好吃的吧！    
+          </view>
+          <view class="gotoshopping">
+            <button type="primary" size="mini" style="padding-left:30px;padding-right:30px;height:32px;line-height:30px;" onTap="gotoShopping">去点餐      
+            </button>
+          </view>
+        </view>
+      </view>
+      <view class="order-data" style="height:{{windowHeight-100}}px" a:else>
+        <swiper indicator-dots="{{false}}" current="{{current}}" onChange="swiperChange">
+          <block a:for="{{orderList}}">
+            <swiper-item>
+              <view class="order-list" style="width:{{windowWidth-40}}px;height:{{windowHeight-100}}px">
+                <block a:if="{{item.isconfirm == 1}}">
+                  <block a:if="{{item.status == 1}}">
+                    <view class="order-status">
+                      <view class="status-image">
+                        <image src="/static/order/tuanduicankaoxian-.png" style="height:60px;" mode="aspectFit" />
+                      </view>
+                      <view class="status-text new">新订单                                                                                                                                                
+                      </view>
+                      <view class="status-text remarks">感谢您对我们的支持，欢迎再次光临                                                                                                                                                 
+                      </view>
+                    </view>
+                  </block>
+                  <block a:elif="{{item.status == 2}}">
+                    <view class="order-status">
+                      <view class="status-image">
+                        <image src="/static/order/dingdanchulizhong.png" style="height:60px;" mode="aspectFit" />
+                      </view>
+                      <view class="status-text new">处理中                                                                                                                                                                                                                                                                                                                  
+                      </view>
+                    </view>
+                  </block>
+                  <block a:elif="{{item.status == 3}}">
+                    <view class="order-code">{{item.serial}}                                                                                                                
+                    </view>
+                    <view class="status-text waring">取餐码                                                                                                                
+                    </view>
+                  </block>
+                  <block a:elif="{{item.status == 4}}">
+                    <view class="order-status">
+                      <view class="status-image">
+                        <image src="/static/order/peisong1.png" style="height:60px;" mode="aspectFit" />
+                      </view>
+                      <view class="status-text success">配送中                                                                                                                                                                                                                                                                                                     
+                      </view>
+                    </view>
+                  </block>
+                  <block a:elif="{{item.status == 5}}">
+                    <view class="order-status">
+                      <view class="status-image">
+                        <image src="/static/order/iconset0316.png" style="height:60px;" mode="aspectFit" />
+                      </view>
+                      <view class="status-text success">订单已完成                                                                                                                                                                                                                                                                                                              
+                      </view>
+                      <view class="status-text remarks">感谢您对我们的支持，欢迎再次光临                                                                                                                                                                                                                                                                                                            
+                      </view>
+                      <view class="status-button">
+                        <button type="default" size="mini" onTap="defaultTap">查看留言                                                                                                                                                                                                                                
+                        </button>
+                      </view>
+                    </view>
+                  </block>
+                </block>
+                <block a:else>                订单待确认                                                                                                                                                              
+                </block>
+                <view class="store-info">
+                  <view class="store-name">
+                    <view class="storename">{{item.storename}}                                                                                                                                                                      
+                    </view>
+                    <view class="storeaddress">{{item.storename}}                                                                                                                                                                      
+                    </view>
+                  </view>
+                  <view class="store-button">
+                    <image src="/static/order/dianhua.png" style="width:20px;height:20px;" mode="aspectFit" />
+                  </view>
+                  <view class="store-button">
+                    <image src="/static/order/weizhi.png" style="width:20px;height:20px;" mode="aspectFit" />
+                  </view>
+                </view>
+                <view class="goods-list" style="height:{{windowHeight-440}}px;">
+                  <scroll-view style="height:{{windowHeight-440}}px" scroll-y="{{true}}">
+                    <view id="goodslistview" class="shopping-cart-goodslist-view goodslistview">
+                      <list>
+                        <block a:for="{{orderDetail[item.orderno].goodsdata}}" a:for-item="goodsitem">
+                          <list-item arrow="{{false}}" thumb="{{goodsitem.is_package === 1?'/static/package.png':''}}" index="{{goodsitem.key}}" disabled="{{true}}" key="items-{{goodsitem.key}}" wrap="{{true}}">{{goodsitem.goodsname}} x{{goodsitem.goodsno}}                                                                                  
+                            <view a:if="{{goodsitem.suitflag == 1}}">
+                              <text class="shopping-cart-garnish" a:for="{{goodsitem.child}}" a:for-index="suitindex" a:for-item="suititem">{{suititem.goodsname}} x {{suititem.goodsno}} +￥{{(suititem.addprice/100).toFixed(2)}}                                                                                                                    
+                              </text>
+                            </view>
+                            <view a:if="{{goodsitem.remarksText}}">
+                              <text class="shopping-cart-remarks">备注：{{goodsitem.remarksText}}                                                                                                                    
+                              </text>
+                            </view>
+                            <view slot="extra">
+                              <text class="shopping-caert-goodsprice"> ￥{{goodsitem.spriceFormat}}                                                                                                                     
+                              </text>
+                            </view>
+                          </list-item>
+                        </block>
+                      </list>
+                    </view>
+                  </scroll-view>
+                </view>
+                <view class="ordertime">
+                  <view class="timetext">订单编号:{{item.orderno}}                                                                     
+                  </view>
+                  <view class="timetext">下单时间:{{item.addtime}}                                                                     
+                  </view>
+                </view>
+              </view>
+              </view>
+            </swiper-item>
+          </block>
+        </swiper>
+      </view>
+      <view class="pages" a:if="{{orderList.length > 0}}">      {{activeOrder+1}}/{{orderList.length}}(左右滑动切换订单)                                                                            
+      </view>
+    </view>
   </view>
-</view>
+</view>  

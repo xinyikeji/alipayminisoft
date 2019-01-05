@@ -1,5 +1,61 @@
 import http from './http'
 export default {
+  getSerial(option) {
+    if (!option.success) option.success = function(res) { console.log('getSerial success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('getSerial fail ', res) }
+    if (!option.storeid) {
+      option.fail({ error: true, message: "没有设置storeid" })
+      return;
+    }
+    http.post({
+      method: "miniapp.MiniOther.getSerial",
+      storeid: option.storeid,
+      isDaily: 1,
+      isEachStoreCode: 0,
+      codeLength: 4
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        option.success(rest.data.data.code)
+      } else {
+        option.fail({ error: true, message: "数据读取失败" })
+      }
+    })
+  },
+  getOrderDetail(option) {
+    if (!option.success) option.success = function(res) { console.log('getOrderDetail success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('getOrderDetail fail ', res) }
+    if (!option.orderno) {
+      option.fail({ error: true, message: "没有设置orderno" })
+      return;
+    }
+    if (!option.storeid) {
+      option.fail({ error: true, message: "没有设置storeid" })
+      return;
+    }
+    var info = my.getStorageSync({
+      key: 'getOrderDetail' + option.orderno, // 缓存数据的key
+    });
+    if (info.data) {
+      option.success(info.data);
+      return;
+    }
+    const extJson = my.getExtConfigSync();
+    http.post({
+      method: "order.orderinfo.getOrderInfoByOrderno",
+      storeid: option.storeid,
+      orderno: option.orderno
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        my.setStorage({
+          key: 'getOrderDetail' + option.orderno,
+          data: rest.data.data
+        })
+        option.success(rest.data.data)
+      } else {
+        option.fail({ error: true, message: "数据读取失败" })
+      }
+    })
+  },
   getOrderList(option) {
     if (!option.success) option.success = function(res) { console.log('getOrderList success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('getOrderList fail ', res) }
@@ -11,43 +67,21 @@ export default {
       option.fail({ error: true, message: "没有设置year" })
       return;
     }
-    var info = my.getStorageSync({
-      key: 'orderlist' + option.year, // 缓存数据的key
-    });
-    console.log(info)
-    if (info.data) {
-      option.success(info.data.rowdata);
-      return;
-    }
     const extJson = my.getExtConfigSync();
-    http.post({
-      method: "member.OpenUser.getOrderlist",
+    var postdata = {
+      method: "order.orderinfo.getUserOrderList",
       openid: option.openid,
-      year: option.year,
-      page: 1,
-      page_size: 1000
-    }, function(status, rest) {
+      year: option.year
+    };
+    if (option.status) postdata.status = option.status;
+    http.post(postdata, function(status, rest) {
       if (status && rest.data.code === 1) {
-        for (var i in rest.data.data.rowdata) {
-          delete rest.data.data.rowdata[i].detail;
-        }
-        my.setStorage({
-          key: 'orderlist' + option.year,
-          data: rest.data.data,
-          success: (res) => {
-            console.log('orderlist' + option.year, res)
-          },
-          fail: (res) => {
-            console.log(res)
-          }
-        })
-        option.success(rest.data.data.rowdata)
+        option.success(rest.data.data)
       } else {
         option.fail({ error: true, message: "数据读取失败" })
         return;
       }
     })
-
   },
   getStoreInfo(storeid, callback) {
     var storeinfo = my.getStorageSync({

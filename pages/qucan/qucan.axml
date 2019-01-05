@@ -1,32 +1,69 @@
 <view>
-  <swiper indicator-dots="{{true}}" onChange="swiperChange">
+  <view class="qucan-order" a:if="{{orderList.length == 0}}" style="height:{{windowHeight-80}}px;width:{{windowWidth-40}}px">
+    <view class="noorder" style="margin-top:{{(windowHeight-300)/2}}px">
+      <image src="/static/package.png" style="width:100px;height:100px;" mode="aspectFit" />
+    </view>
+    <view class="noorder-text">      您还没有下单哦                      
+    </view>
+    <view class="noorder-text">      美味已就绪，快来点点好吃的吧！                
+    </view>
+    <view class="gotoshopping">
+      <button type="primary" size="mini" style="padding-left:30px;padding-right:30px;height:32px;line-height:30px;" onTap="gotoShopping">去点餐                        
+      </button>
+    </view>
+  </view>
+  <swiper a:else onChange="swiperChange">
     <block a:for="{{orderList}}">
       <swiper-item>
-        <view class="qucan-order" style="height:{{windowHeight-20}}px;width:{{windowWidth-40}}px">
+        <view class="qucan-order" style="height:{{windowHeight-60}}px;width:{{windowWidth-40}}px">
           <view a:if="{{current[index]}}">
-            <view class="qucan-code">{{item.serial}}          
+            <view class="qucan-code-text">取餐码                                                                                       
+            </view>
+            <view class="qucan-code">{{item.serial}}                                                                                  
             </view>
             <view class="qucau-qrcode">
-              <image src="http://api.canruanshequ.cn/open/qrcode?text={{item.serial}}" style="width:150px;height:150px;" mode="aspectFit" />
-            </view>
-            <view class="qucan-barcode">
-              <image src="http://api.canruanshequ.cn/open/barcode?text={{item.serial}}" style="width:{{windowWidth-100}}px;" mode="aspectFit" />
-            </view>
-            <view class="goodslist">
+              <image src="http://api.canruanshequ.cn/open/qrcode?text={{item.serial}}" data-src="http://api.canruanshequ.cn/open/qrcode?text={{item.serial}}" onTap="showQrcode" style="width:120px;height:120px;" mode="aspectFit" />
             </view>
             <view class="ordertime">
-              <view class="timetext">就餐门店:{{item.storename}}            
+              <view class="timetext">就餐门店:{{item.storename}}                                                                                                
               </view>
-              <view class="timetext">订单编号:            
+              <view class="timetext">订单编号:{{item.orderno}}                                                                                             
               </view>
-              <view class="timetext">{{item.orderno}}            
-              </view>
-              <view class="timetext">下单时间:{{item.addtime}}            
+              <view class="timetext">下单时间:{{item.addtime}}                                                                                                
               </view>
             </view>
+          </view>
+          <view class="goods-list" style="height:{{windowHeight-440}}px;">
+            <scroll-view style="height:{{windowHeight-440}}px" scroll-y="{{true}}">
+              <view id="goodslistview" class="shopping-cart-goodslist-view goodslistview">
+                <list>
+                  <block a:for="{{orderDetail[item.orderno].goodsdata}}" a:for-item="goodsitem">
+                    <list-item arrow="{{false}}" thumb="{{goodsitem.is_package === 1?'/static/package.png':''}}" index="{{goodsitem.key}}" disabled="{{true}}" key="items-{{goodsitem.key}}" wrap="{{true}}">{{goodsitem.goodsname}} x{{goodsitem.goodsno}}                                                                                                                                      
+                      <view a:if="{{goodsitem.suitflag == 1}}">
+                        <text class="shopping-cart-garnish" a:for="{{goodsitem.child}}" a:for-index="suitindex" a:for-item="suititem">{{suititem.goodsname}} x {{suititem.goodsno}} +￥{{(suititem.addprice/100).toFixed(2)}}                                                                                                                                                                            
+                        </text>
+                      </view>
+                      <view a:if="{{goodsitem.remarksText}}">
+                        <text class="shopping-cart-remarks">备注：{{goodsitem.remarksText}}                                                                                                                                                                            
+                        </text>
+                      </view>
+                      <view slot="extra">
+                        <text class="shopping-caert-goodsprice"> ￥{{goodsitem.spriceFormat}}                                                                                                                                                                             
+                        </text>
+                      </view>
+                    </list-item>
+                  </block>
+                </list>
+              </view>
+            </scroll-view>
           </view>
         </view>
       </swiper-item>
     </block>
   </swiper>
+  <view class="pages" a:if="{{orderList.length > 0}}">    {{activeOrder+1}}/{{orderList.length}}(左右滑动切换订单)                                                                                      
+  </view>
+  <view class="image-view" onTap="closeImage" a:if="{{showimage}}">
+    <image src="{{imagesrc}}" onTap="showQrcode" style="width:{{windowWidth-100}}px;margin-top:{{windowHeight/2-200}}px" mode="aspectFit" />
+  </view>
 </view>

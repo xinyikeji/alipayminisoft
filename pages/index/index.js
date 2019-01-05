@@ -13,9 +13,9 @@ Page({
 
 
     app.getUserInfo(function(userinfo) {
-      console.log(userinfo)
+      // console.log(userinfo)
       api.getIndexAds(userinfo.openid,function (indexads){
-        console.log(indexads)
+        // console.log(indexads)
         _this.setData({
           indexAds:indexads
         })
@@ -40,7 +40,7 @@ Page({
                 storeList: storeList,
                 userInfo: userinfo
               })
-              console.log(storeList);
+              // console.log(storeList);
             }
           })
         }
@@ -75,15 +75,15 @@ Page({
 
         })
 
-        console.log(encryptedData)
+        // console.log(encryptedData)
       },
       fail: (res) => {
-        console.log(res)
-        console.log('getPhoneNumber_fail')
+        // console.log(res)
+        // console.log('getPhoneNumber_fail')
       },
     });
   },
   onAuthError() {
-    console.log('getPhoneNumber_error')
+    // console.log('getPhoneNumber_error')
   }
 });

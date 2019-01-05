@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/z/ol",
     "pages/member/page",
     "pages/order/index",
     "pages/w/w",

@@ -67,6 +67,7 @@
 
 .shopping-caert-goShopping {
   width: 100px;
+  height: 40px;
   line-height: 40px;
   background: #10aeff;
   border-top-right-radius: 20px 50%;

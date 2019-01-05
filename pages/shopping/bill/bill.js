@@ -98,19 +98,21 @@ Page({
     })
   },
   relaodData() {
+    // console.log('function')
     var _this = this;
     clickgoods.clearPaylist({
       storeid: _this.data.options.id,
       success: function(res) {
         clickgoods.addPaylist({
           storeid: _this.data.options.id,
-          paytype: {
+          paytype: [{
             ptid: _this.data.storeInfo.ptid,
             price: res.sprice,
-            paytype: 1
-          },
+            paytype: 1,
+            isonline: 1
+          }],
           success: function(res) {
-            // console.log(res)
+            // console.log('function', res)
             var jifenmax = _this.data.jifenmax_default;
             if (res.sprice / 100 < 1) {
               jifenmax = 0;
@@ -137,8 +139,12 @@ Page({
               couponData: couponList[0] || {}
             })
             _this.setScHeight();
-          }
+          },
+          fail: function(res) { }
         })
+      }, fail: function(res) {
+        console.log('function22222', res)
+
       }
     })
   },
@@ -197,15 +203,44 @@ Page({
   },
   setGiveGoods(event) {
     // 选择赠送商品
+    var _this = this;
     if (this.data.giveGoodsDataIndex == event.currentTarget.dataset.index) {
       this.setData({
         giveGoodsDataIndex: -1,
         giveGoodsDataSelected: {}
       })
+      clickgoods.removePaylist({
+        storeid: _this.data.options.id,
+        ptid: _this.data.memberConfig.youhui_paytype
+      })
     } else {
       this.setData({
         giveGoodsDataIndex: event.currentTarget.dataset.index,
         giveGoodsDataSelected: this.data.giveGoodsData[event.currentTarget.dataset.index]
+      })
+      clickgoods.removePaylist({
+        storeid: _this.data.options.id,
+        ptid: _this.data.memberConfig.youhui_paytype,
+        success: function() {
+          clickgoods.addPaylist({
+            storeid: _this.data.options.id,
+            paytype: [{
+              ptid: _this.data.memberConfig.youhui_paytype,
+              price: _this.data.giveGoodsDataSelected.price * 1,
+              paytype: 1,
+              isonline: 1
+            }]
+          })
+        }, fail: function() {
+          clickgoods.addPaylist({
+            storeid: _this.data.options.id,
+            paytype: [{
+              ptid: _this.data.memberConfig.youhui_paytype,
+              price: _this.data.giveGoodsDataSelected.price,
+              paytype: 1
+            }]
+          })
+        }
       })
     }
   },
@@ -240,7 +275,7 @@ Page({
           var goodsTmp = {
             goodsid: _this.data.giveGoodsDataSelected.goodsid,
             goodsname: _this.data.giveGoodsDataSelected.goodsname,
-            zopenid:_this.data.userInfo.openid,
+            zopenid: _this.data.userInfo.openid,
             pocket: 1,
             goodsno: 1,
             mprice: _this.data.giveGoodsDataSelected.price,
@@ -305,7 +340,10 @@ Page({
           my.hideLoading();
           if (res) {
             const extJson = my.getExtConfigSync();
-            console.log(orderData);
+            // console.log(orderData);
+            if (typeof res.waiting_payment == 'undefined') {
+              res.waiting_payment = orderData.sprice;
+            }
             if (res.waiting_payment > 0) {
               my.showLoading({
                 content: "正在提交支付",
@@ -355,14 +393,14 @@ Page({
 
             }
           }
-          console.log(res)
+          // console.log(res)
         })
       }
     })
-    console.log(orderData.user)
+    // console.log(orderData.user)
   },
   sendOrderToServer(event) {
-    console.log(event)
+    // console.log(event)
     var _this = this;
 
     // 获取赠品设置
@@ -374,7 +412,7 @@ Page({
           confirmButtonText: "立即下单",
           cancelButtonText: "选择赠品",
           success: (res) => {
-            console.log(res);
+            // console.log(res);
             if (res.confirm) {
               _this.setOrder()
             }

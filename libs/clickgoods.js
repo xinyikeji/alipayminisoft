@@ -1,4 +1,5 @@
 import http from './http'
+import api from './api'
 import php from './php'
 
 export default {
@@ -70,7 +71,7 @@ export default {
         }
       }
     }
-    console.log('packageNumber',packageNumber)
+    console.log('packageNumber', packageNumber)
     if (packageNumber > 0) {
       console.log(shoppingInfo.store)
       if (shoppingInfo.store.goodsid) {
@@ -148,9 +149,14 @@ export default {
       option.fail({ error: true, message: "没有设置storecode" })
       return;
     }
-
-    option.success('AX' + php.date('YmdHis') + option.storecode + php.time());
-
+    api.getSerial({
+      storeid: option.storeid,
+      success: (res) => {
+        option.success('AX' + php.date('YmdHis') + option.storecode + res);
+      }, fail: (res) => {
+        option.fail(res)
+      }
+    })
   },
   setStoreInfo(option) {
     if (!option.success) option.success = function(res) { console.log('setStoreInfo success ', res) }
@@ -209,21 +215,10 @@ export default {
       option.fail({ error: true, message: "没有设置paytype" })
       return;
     }
-    if (!option.paytype.ptid) {
-      option.fail({ error: true, message: "没有设置paytype.ptid" })
-      return;
-    }
-    if (!option.paytype.price) {
-      option.fail({ error: true, message: "没有设置paytype.price" })
-      return;
-    }
-    if (!option.paytype.paytype) {
-      option.fail({ error: true, message: "没有设置paytype.paytype" })
-      return;
-    }
     var shoppingInfo = this.getShoppingCart(option.storeid);
-    option.paytype.isonline = 1;
-    shoppingInfo.paylist.push(option.paytype);
+    for (var i in option.paytype) {
+      shoppingInfo.paylist.push(option.paytype[i])
+    }
     my.setStorage({
       data: shoppingInfo, // 要缓存的数据
       key: 'shoppingcart' + option.storeid, // 缓存数据的key
@@ -236,8 +231,8 @@ export default {
     });
   },
   removePaylist(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('removePaylist success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('removePaylist fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;

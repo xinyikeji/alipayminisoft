@@ -8,22 +8,86 @@
   float: left;
   text-align: center;
 }
-.qucan-code{
-  font-size: 42px;
-  line-height: 72px;
+
+.qucan-code {
+  font-size: 60px;
+  line-height: 60px;
   text-align: center;
-  color: #10aeff;
+  color: #f76260;
+  padding-bottom: 10px;
+}
+
+.qucan-code-text {
+  font-size: 16px;
   font-weight: bold;
-}
-.qucan-barcode{
-  overflow: hidden;
-  margin-top: 20px; 
-}
-.qucan-barcode image{
-  margin-top: -80px;
-}
-.ordertime{
-  text-align: left;
-  padding: 20px;
+  margin-top: 15px;
   line-height: 24px;
+  color: #ffbe00;
+  padding-bottom: 5px;
+}
+
+.qucan-barcode {
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.ordertime {
+  text-align: left;
+  padding: 10px;
+  line-height: 24px;
+  font-size: 12px;
+  color: #909399;
+}
+
+.pages {
+  line-height: 40px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.noorder {
+  margin-top: 50px;
+}
+
+.gotoshopping {
+  padding: 20px;
+}
+
+.noorder-text {
+  line-height: 24px;
+  font-size: 14px;
+  color: #909399;
+}
+.image-view{
+  position: fixed;
+  top:0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #FFF;
+  z-index: 9999;
+  text-align: center;
+}
+.image-view image{
+  
+}
+.goods-list {
+  border-radius: 5px;
+  margin: 8px 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.shopping-cart-remarks {
+  line-height: 24px;
+  font-size: 10px;
+  color: #909399;
+}
+.shopping-cart-garnish {
+  font-size: 10px;
+  border: 1px solid #EEEEEE;
+  display: inline-block;
+  border-radius: 5px;
+  line-height: 24px;
+  padding: 0px 6px;
+  margin: 6px 6px 0px 0px;
 }
