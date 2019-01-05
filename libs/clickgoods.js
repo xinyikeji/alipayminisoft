@@ -185,8 +185,8 @@ export default {
     });
   },
   clearPaylist(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('clearPaylist success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('clearPaylist fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -260,8 +260,8 @@ export default {
 
   },
   addGoodsToShoppingCart(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -312,8 +312,8 @@ export default {
     });
   },
   incGoodsToShoppingCart(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -383,8 +383,8 @@ export default {
 
   },
   decGoodsByGoodsid(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -409,8 +409,8 @@ export default {
     }
   },
   decGoodsToShoppingCart(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('decGoodsToShoppingCart success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('decGoodsToShoppingCart fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -488,8 +488,8 @@ export default {
     });
   },
   setTangshi(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('setTangshi success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('setTangshi fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -511,8 +511,8 @@ export default {
     });
   },
   setWaidai(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -534,8 +534,8 @@ export default {
     });
   },
   clearShoppingCart(option) {
-    if (!option.success) option.success = function(res) { console.log('addPaylist success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('addPaylist fail ', res) }
+    if (!option.success) option.success = function(res) { console.log('clearShoppingCart success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('clearShoppingCart fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;

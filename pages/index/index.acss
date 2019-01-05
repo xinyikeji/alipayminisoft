@@ -7,9 +7,9 @@
 }
 .zizhubutton{
   width: 100%;
-  height: 52px;
+  height: 48px;
   border-radius: 26px;
-  line-height: 52px;
+  line-height: 48px;
   background-color: #10aeff;
   font-size: 18px;
   font-weight: bold;

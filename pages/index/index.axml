@@ -21,7 +21,7 @@
   </view>
   <view class="listads">
     <navigator url="{{item.page == '' ? '/pages/web/web?url=' + item.link : item.page}}" class="listads-item" a:for="{{indexAds.indexlistads}}">
-      <image src="{{item.image}}" style="width:100%;height:100px;" mode="aspectFill" />
+      <image src="{{item.image}}" style="width:100%;height:120px;" mode="aspectFill" />
     </navigator>
   </view>
 </view>

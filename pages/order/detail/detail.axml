@@ -1,3 +1,115 @@
 <view>
-  {{options.orderno}}
+  <view class="order-list" style="width:{{windowWidth-40}}px;min-height:{{windowHeight-40}}px">
+    <block a:if="{{orderDetail.order.pstatus != 1}}">
+      <view class="order-notpay">
+        <view class="nopay">          订单未支付                                  
+        </view>
+        <view class="nopaytimer">          {{countTime}}                                            
+        </view>
+        <view a:if="{{maxtime >= 0}}">
+          <button type="primary" class="gopaybutton" size="mini" onTap="gotoPay">立即支付                                          
+          </button>
+        </view>
+      </view>
+    </block>
+    <block a:else>
+      <block a:if="{{orderDetail.order.isconfirm == 1}}">
+        <block a:if="{{orderDetail.order.status == 1}}">
+          <view class="order-status">
+            <view class="status-image">
+              <image src="/static/order/tuanduicankaoxian-.png" style="height:60px;" mode="aspectFit" />
+            </view>
+            <view class="status-text new">新订单                                                                
+            </view>
+            <view class="status-text remarks">感谢您对我们的支持，欢迎再次光临                                                                
+            </view>
+          </view>
+        </block>
+        <block a:elif="{{orderDetail.order.status == 2}}">
+          <view class="order-status">
+            <view class="status-image">
+              <image src="/static/order/dingdanchulizhong.png" style="height:60px;" mode="aspectFit" />
+            </view>
+            <view class="status-text new">处理中                                                                            
+            </view>
+          </view>
+        </block>
+        <block a:elif="{{orderDetail.order.status == 3}}">
+          <view class="order-code">{{orderDetail.order.serial}}                              
+          </view>
+          <view class="status-text waring">取餐码                                                      
+          </view>
+        </block>
+        <block a:elif="{{orderDetail.order.status == 4}}">
+          <view class="order-status">
+            <view class="status-image">
+              <image src="/static/order/peisong1.png" style="height:60px;" mode="aspectFit" />
+            </view>
+            <view class="status-text success">配送中                                                                
+            </view>
+          </view>
+        </block>
+        <block a:elif="{{orderDetail.order.status == 5}}">
+          <view class="order-status">
+            <view class="status-image">
+              <image src="/static/order/iconset0316.png" style="height:60px;" mode="aspectFit" />
+            </view>
+            <view class="status-text success">订单已完成                                                                
+            </view>
+            <view class="status-text remarks">感谢您对我们的支持，欢迎再次光临                                                                
+            </view>
+            <view class="status-button">
+              <button type="default" size="mini" onTap="defaultTap">查看留言                                                                           
+              </button>
+            </view>
+          </view>
+        </block>
+      </block>
+      <block a:else>订单待确认                                  
+      </block>
+    </block>
+    <view class="store-info">
+      <view class="store-name">
+        <view class="storename">{{storeInfo.storename}}         
+        </view>
+        <view class="storeaddress">{{storeInfo.address}}         
+        </view>
+      </view>
+      <view class="store-button">
+        <image src="/static/order/dianhua.png" onTap="makePhoneCall" style="width:20px;height:20px;" mode="aspectFit" />
+      </view>
+      <view class="store-button">
+        <image src="/static/order/weizhi.png" onTap="openLocation" style="width:20px;height:20px;" mode="aspectFit" />
+      </view>
+    </view>
+    <view class="goods-list">
+      <view id="goodslistview" class="shopping-cart-goodslist-view goodslistview">
+        <list>
+          <block a:for="{{orderDetail.goodsdata}}" a:for-item="goodsorderDetailitem">
+            <list-item arrow="{{false}}" thumb="{{goodsorderDetailitem.is_package === 1?'/static/package.png':''}}" index="{{goodsorderDetailitem.key}}" disabled="{{true}}" key="orderDetail.orders-{{goodsorderDetailitem.key}}" wrap="{{true}}">{{goodsorderDetailitem.goodsname}} x{{goodsorderDetailitem.goodsno}}                                                                                                                                                                                        
+              <view a:if="{{goodsorderDetailitem.suitflag == 1}}">
+                <text class="shopping-cart-garnish" a:for="{{goodsorderDetailitem.child}}" a:for-index="suitindex" a:for-item="suitItem">{{suitItem.goodsname}} x {{suitItem.goodsno}} +￥{{(suitItem.addprice/100).toFixed(2)}}                                                                                                                                                                                                                                    
+                </text>
+              </view>
+              <view a:if="{{goodsorderDetailitem.remarksText}}">
+                <text class="shopping-cart-remarks">备注：{{goodsorderDetailitem.remarksText}} 
+                </text>
+              </view>
+              <view slot="extra">
+                <text class="shopping-caert-goodsprice"> ￥{{goodsorderDetailitem.spriceFormat}}
+                </text>
+              </view>
+            </list-item>
+          </block>
+        </list>
+      </view>
+    </view>
+    <view class="ordertime">
+      <view class="timetext">订单编号:{{orderDetail.order.orderno}}
+      </view>
+      <view class="timetext">下单时间:{{orderDetail.order.addtime}}
+      </view>
+    </view>
+  </view>
+</view>
 </view>

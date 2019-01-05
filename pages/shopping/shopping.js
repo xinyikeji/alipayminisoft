@@ -66,7 +66,7 @@ var settab =
                         storeid: _this.data.options.id,
                         store: storeinfo,
                         success: function(res) {
-                          console.log('showCart ', res)
+                          my.hideLoading();
                           _this.setData({
                             shopCart: res
                           })

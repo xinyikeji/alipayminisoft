@@ -28,23 +28,25 @@ export default {
       option.fail({ error: true, message: "没有设置orderno" })
       return;
     }
-    if (!option.storeid) {
-      option.fail({ error: true, message: "没有设置storeid" })
-      return;
+    if (!option.cache) {
+      var info = my.getStorageSync({
+        key: 'getOrderDetail' + option.orderno, // 缓存数据的key
+      });
+      if (info.data) {
+        option.success(info.data);
+        return;
+      }
     }
-    var info = my.getStorageSync({
-      key: 'getOrderDetail' + option.orderno, // 缓存数据的key
-    });
-    if (info.data) {
-      option.success(info.data);
-      return;
-    }
+
     const extJson = my.getExtConfigSync();
-    http.post({
+    var postdata = {
       method: "order.orderinfo.getOrderInfoByOrderno",
-      storeid: option.storeid,
       orderno: option.orderno
-    }, function(status, rest) {
+    };
+    if (option.storeid) {
+      postdata.storeid = option.storeid
+    }
+    http.post(postdata, function(status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorage({
           key: 'getOrderDetail' + option.orderno,
@@ -74,6 +76,35 @@ export default {
       year: option.year
     };
     if (option.status) postdata.status = option.status;
+    http.post(postdata, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        option.success(rest.data.data)
+      } else {
+        option.fail({ error: true, message: "数据读取失败" })
+        return;
+      }
+    })
+  },
+  sendFormid(option) {
+    if (!option.success) option.success = function(res) { console.log('sendFormid success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('sendFormid fail ', res) }
+    if (!option.openid) {
+      option.fail({ error: true, message: "没有设置openid" })
+      return;
+    }
+    if (!option.formid) {
+      option.fail({ error: true, message: "没有设置formid" })
+      return;
+    }
+    const extJson = my.getExtConfigSync();
+    var postdata = {
+      method: "miniapp.MiniOther.uploadFormid",
+      openid: option.openid,
+      third_appid: extJson.aliappid,
+      source: 2,
+      formidtype: 2,
+      formid: option.formid
+    };
     http.post(postdata, function(status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data)
@@ -137,6 +168,7 @@ export default {
       }
     })
   },
+
   getIntegralList(openid, page, callback) {
     http.post({
       method: "member.OpenUser.getIntegralWater",

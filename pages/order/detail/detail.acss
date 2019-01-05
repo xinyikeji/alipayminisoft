@@ -1,0 +1,158 @@
+
+.order-list {
+  margin: 20px;
+  background-color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.order-notpay{
+  height: 100px;
+  text-align: center;
+
+}
+.nopay{
+  font-size: 14px;
+  color: #f76260;
+  line-height: 24px;
+}
+.nopaytimer{
+  font-size: 14px;
+  line-height: 24px;
+  color: #909399;
+}
+.gopaybutton{
+  padding: 0px 15px;
+  height: 32px;
+  line-height: 32px;
+}
+.pages {
+  line-height: 52px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.order-status {
+  text-align: center;
+  height: 152px;
+}
+
+.status-text {
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.order-code {
+  font-size: 48px;
+  color: #f76260;
+  line-height: 52px;
+}
+
+.status-image {
+  padding-top: 10px;
+}
+
+.status-text.new {
+  color: #10aeff;
+}
+
+.status-text.success {
+  color: #61B865;
+}
+
+.status-text.waring {
+  color: #ffbe00;
+}
+
+.status-text.remarks {
+  color: #909399;
+}
+
+.store-info {
+  background: #f8f8f8;
+  height: 60px;
+  border-radius: 5px;
+  margin: 8px 0px;
+  display: flex;
+}
+
+.store-name {
+  flex: 1;
+}
+
+.storename {
+  font-size: 14px;
+  line-height: 26px;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.storeaddress {
+  font-size: 12px;
+  line-height: 24px;
+  padding-left: 10px;
+  color: #909399;
+}
+
+.store-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #10aeff;
+  border-radius: 50%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 10px 10px 10px 0px;
+  background: #FFF;
+}
+
+.goods-list {
+  background: #f8f8f8;
+  border-radius: 5px;
+  margin: 8px 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.shopping-cart-remarks {
+  line-height: 24px;
+  font-size: 10px;
+  color: #909399;
+}
+.shopping-cart-garnish {
+  font-size: 10px;
+  border: 1px solid #EEEEEE;
+  display: inline-block;
+  border-radius: 5px;
+  line-height: 24px;
+  padding: 0px 6px;
+  margin: 6px 6px 0px 0px;
+}
+.ordertime {
+  background: #f8f8f8;
+  height: 36px;
+  border-radius: 5px;
+  margin: 8px 0px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #909399;
+}
+.am-list-item{
+  background: rgba(0,0,0,0)
+}
+.this-loading{
+  text-align: center;
+}
+.noorder{
+  margin-top: 50px; 
+}
+.gotoshopping{
+  padding: 20px;
+}
+.noorder-text{
+  line-height: 24px;
+  font-size: 14px;
+  color: #909399;
+}
+.center{
+  text-align: center;
+}

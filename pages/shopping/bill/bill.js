@@ -106,7 +106,7 @@ Page({
         clickgoods.addPaylist({
           storeid: _this.data.options.id,
           paytype: [{
-            ptid: _this.data.storeInfo.ptid,
+            ptid: -1,
             price: res.sprice,
             paytype: 1,
             isonline: 1
@@ -179,10 +179,43 @@ Page({
     clickgoods.setTangshi({
       storeid: this.data.storeInfo.storeid,
       success: function(res) {
-        _this.setData({
-          shopCart: res
+        clickgoods.removePaylist({
+          storeid: _this.data.options.id,
+          ptid: -1,
+          success: function() {
+            clickgoods.addPaylist({
+              storeid: _this.data.options.id,
+              paytype: [{
+                ptid: -1,
+                price: res.sprice,
+                paytype: 1,
+                isonline: 1,
+              }],
+              success: function(resdata) {
+                _this.setData({
+                  shopCart: resdata
+                })
+                _this.setScHeight();
+              }
+            })
+          }, fail: function() {
+            clickgoods.addPaylist({
+              storeid: _this.data.options.id,
+              paytype: [{
+                ptid: -1,
+                price: res.sprice,
+                paytype: 1,
+                isonline: 1,
+              }],
+              success: function(resdata) {
+                _this.setData({
+                  shopCart: resdata
+                })
+                _this.setScHeight();
+              }
+            })
+          }
         })
-        _this.setScHeight();
       }
     });
 
@@ -193,10 +226,44 @@ Page({
     clickgoods.setWaidai({
       storeid: this.data.storeInfo.storeid,
       success: function(res) {
-        _this.setData({
-          shopCart: res
+        clickgoods.removePaylist({
+          storeid: _this.data.options.id,
+          ptid: -1,
+          success: function() {
+            clickgoods.addPaylist({
+              storeid: _this.data.options.id,
+              paytype: [{
+                ptid: -1,
+                price: res.sprice,
+                paytype: 1,
+                isonline: 1,
+              }],
+              success: (resdata) => {
+                _this.setData({
+                  shopCart: resdata
+                })
+                _this.setScHeight();
+              }
+            })
+          }, fail: function() {
+            clickgoods.addPaylist({
+              storeid: _this.data.options.id,
+              paytype: [{
+                ptid: -1,
+                price: res.sprice,
+                paytype: 1,
+                isonline: 1,
+              }],
+              success: (resdata) => {
+                _this.setData({
+                  shopCart: resdata
+                })
+                _this.setScHeight();
+              }
+            })
+          }
         })
-        _this.setScHeight();
+
       }
     });
 
@@ -400,9 +467,12 @@ Page({
     // console.log(orderData.user)
   },
   sendOrderToServer(event) {
-    // console.log(event)
+    console.log(event)
     var _this = this;
-
+    api.sendFormid({
+      openid: this.data.userInfo.openid,
+      formid: event.detail.formId
+    })
     // 获取赠品设置
     if (this.data.giveGoodsData.length > 0) { //如果存在赠送商品
       if (this.data.giveGoodsDataIndex < 0) {

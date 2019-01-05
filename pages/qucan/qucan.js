@@ -1,7 +1,7 @@
 import api from '/libs/api'
 import php from '/libs/php'
 const app = getApp();
-
+var timer = null;
 Page({
   data: {
     onshow: false,
@@ -68,7 +68,6 @@ Page({
 
   },
   showQrcode(event) {
-    console.log(event)
     var _this = this;
     this.setData({
       imagesrc: event.target.dataset.src,
@@ -98,20 +97,100 @@ Page({
     // 获取订单详情
     this.reloadDetail();
   },
-  reloadDetail() {
+  reloadDetail(reloadCache) {
     var _this = this;
     var order = _this.data.orderList[this.data.activeOrder]
     api.getOrderDetail({
       storeid: order.storeid,
       orderno: order.orderno,
+      cache: reloadCache,
       success: function(res) {
         var orderDetail = _this.data.orderDetail;
         orderDetail[order.orderno] = res;
-        console.log(res);
         _this.setData({
           orderDetail: orderDetail
         })
+        if (res.order.pstatus != 1) {
+          var maxtime = (105 * 60) - (php.time() - res.order.addtime)
+          _this.setData({
+            maxtime: maxtime
+          })
+          if (timer) {
+            clearTimeout(timer)
+          }
+          _this.CountDown()
+        } else {
+          _this.setData({
+            maxtime: -1
+          })
+        }
       }
     })
+  },
+  gotoPay(event) {
+    var _this = this;
+    const extJson = my.getExtConfigSync();
+    var ordeDetailTmp = _this.data.orderDetail[event.target.dataset.orderno];
+
+    api.getStoreInfo(ordeDetailTmp.order.storeid, function(storeInfo) {
+      //计算支付方式
+      var price = 0;
+      for (var i in ordeDetailTmp.paytype) {
+        if (ordeDetailTmp.paytype[i].ptid == -1) {
+          price = ordeDetailTmp.paytype[i].price
+        }
+      }
+      if (price <= 0) {
+        return false;
+      }
+
+      api.createAlipay({
+        orderno: ordeDetailTmp.order.orderno,
+        third_appid: extJson.aliappid,
+        openid: _this.data.userInfo.openid,
+        storeid: ordeDetailTmp.order.storeid,
+        ptid: storeInfo.ptid,
+        type: 1,
+        price: price / 100,
+      }, function(respay) {
+        my.hideLoading();
+        if (respay) {
+          my.tradePay({
+            tradeNO: respay.trade_no,
+            success: function(resdata) {
+              _this.reloadDetail(true);
+            },
+            fail: function(resdata) {
+              _this.reloadDetail(true);
+            },
+          });
+        }
+      })
+    })
+  },
+  CountDown() {
+    console.log('1111111111111')
+    if (this.data.maxtime >= 0) {
+      var minutes = Math.floor(this.data.maxtime / 60);
+      var seconds = Math.floor(this.data.maxtime % 60);
+      var msg = minutes + "分" + seconds + "秒后取消订单";
+      this.setData({
+        maxtime: this.data.maxtime - 1,
+        countTime: msg
+      })
+      var _this = this;
+      timer = setTimeout(function() {
+        _this.CountDown()
+      }, 1000)
+    } else {
+      this.setData({
+        countTime: '订单超时未支付'
+      })
+    }
+  },
+  onHide() {
+    if (timer) {
+      clearTimeout(timer)
+    }
   }
 });

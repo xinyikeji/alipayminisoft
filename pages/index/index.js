@@ -50,7 +50,11 @@ Page({
   clearCache() {
     my.clearStorage();
   },
-  showQrcode() {
+  showQrcode(event) {
+    api.sendFormid({
+      openid: this.data.userInfo.openid,
+      formid: event.detail.formId
+    })
     my.navigateTo({
       url: '../shopping/shopping?id=3&t=100'
     });
