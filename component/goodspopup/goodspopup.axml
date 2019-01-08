@@ -1,7 +1,7 @@
 <view>
   <view class="goodsinfodetail" style="height:{{scrollHeight+61}}px">
     <view class="goodsinfo-name">
-      <image src="{{goodsInfo.shoppic}}" style="width:24px;height:18px;margin-right:5px;" mode="aspectFill" />      {{goodsInfo.goodsname}}{{goodsInfo.goodsid}}    
+      <image src="{{goodsInfo.shoppic}}" style="width:24px;height:18px;margin-right:5px;" mode="aspectFill" />      {{goodsInfo.goodsname}}
     </view>
     <scroll-view style="height:{{scrollHeight+1}}px" scroll-y="{{true}}">
       <view class="datainfoview">

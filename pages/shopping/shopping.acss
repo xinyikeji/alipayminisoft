@@ -204,7 +204,9 @@
   line-height: 32px;
   padding-left: 10px;
 }
-
+.am-list-sticky.android{
+  position: static;
+}
 .am-list-sticky text {
   font-size: 12px;
   padding-left: 10px;

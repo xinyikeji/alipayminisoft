@@ -44,7 +44,7 @@
         <list>
         <block a:for="{{goodsData.goodstype}}" a:for-item="typeGoodsItemName">
           <view class="goodslist-item{{typeGoodsItemName.gtid}}">
-            <list-item class="am-list-sticky">
+            <list-item class="am-list-sticky {{brand != 'iphone' ? 'android':''}}">
               <view data-gtid="{{typeGoodsItemName.gtid}}">
                 {{typeGoodsItemName.name}}
                 <text a:if="{{typeGoodsItemName.desc != ''}}">
@@ -99,9 +99,7 @@
                       <image onTap="decGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
                     </block>
                   </block>
-                </block>
-              </view>
-              
+                </block> 
             </list-item>
           </view>
         </block>

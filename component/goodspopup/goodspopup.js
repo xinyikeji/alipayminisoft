@@ -26,7 +26,7 @@ Component({
   didMount() {
     var _this = this;
     my.createSelectorQuery().select('.datainfoview').boundingClientRect().exec(function(ret) {
-      var height = (ret[0].height > (_this.props.windowHeight - 300)) ? (_this.props.windowHeight - 300) : ret[0].height;
+      var height = (ret[0].height > (_this.props.windowHeight - 200)) ? (_this.props.windowHeight - 200) : ret[0].height;
       _this.setData({
         scrollHeight: height
       })
@@ -148,7 +148,7 @@ Component({
   didUpdate(event) {
     var _this = this;
     my.createSelectorQuery().select('.datainfoview').boundingClientRect().exec(function(ret) {
-      var height = (ret[0].height > (_this.props.windowHeight - 300)) ? (_this.props.windowHeight - 300) : ret[0].height;
+      var height = (ret[0].height > (_this.props.windowHeight - 200)) ? (_this.props.windowHeight - 200) : ret[0].height;
       _this.setData({
         scrollHeight: height
       })
@@ -212,7 +212,7 @@ Component({
         goodsTmp,
         selectGarnish
       })
-      console.log('incGarnish', goodsTmp);
+      // console.log('incGarnish', goodsTmp);
     },
     //配菜减1
     decGarnish(event) {
@@ -245,7 +245,7 @@ Component({
           goodsTmp,
           selectGarnish
         })
-        console.log('decGarnish', goodsTmp);
+        // console.log('decGarnish', goodsTmp);
       }
     },
     //修改规格
@@ -258,6 +258,7 @@ Component({
       }
 
       var goodsTmp = this.data.goodsTmp;
+      // console.log(goodsTmp)
       goodsTmp.child = [{
         goodsid: goodsData.child[index].goodsid,
         goodsno: goodsData.child[index].goodsno,
@@ -271,11 +272,17 @@ Component({
         remarks: '',
         yprice: goodsData.child[index].price
       }];
-      goodsTmp.tmp_oneprice = goodsData.child[index].price;
+      var garnishprice = 0;
+      if (goodsTmp.garnish && goodsTmp.garnish.length > 0) {
+        for (var ii in goodsTmp.garnish) {
+          garnishprice += goodsTmp.garnish[ii].sprice
+        }
+      }
+      goodsTmp.tmp_oneprice = goodsData.child[index].price + garnishprice;
       goodsData.child[index].isdefault = 1;
-      goodsTmp.tmpprice = goodsData.child[index].price;
-      goodsTmp.tmp_oneprice = goodsData.child[index].price;
-      console.log(goodsTmp)
+      goodsTmp.tmpprice = goodsData.child[index].price + garnishprice;
+      goodsTmp.tmp_oneprice = goodsData.child[index].price + garnishprice;
+      // console.log(goodsTmp)
       this.setData({
         goodsInfo: goodsData,
         goodsTmp: goodsTmp
@@ -486,6 +493,7 @@ Component({
       //设置当前的选中项
       selectSuitData[this.data.suitIndex] = goodsSuitTmp.goodsid;
       //更新要加入购物车的数据
+      console.log(this.data.suitIndex,goodsTmp.child[this.data.suitIndex])
       goodsTmp.tmpprice -= goodsTmp.child[this.data.suitIndex].addprice;
       goodsTmp.tmp_oneprice -= goodsTmp.child[this.data.suitIndex].addprice;
 

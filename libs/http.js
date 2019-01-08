@@ -1,4 +1,4 @@
-const APIURL = 'http://api.yunshouyin.org'
+const APIURL = 'https://api.xinyisoft.net'
 import php from './php.js'
 
 const getPostData = function(data) {
@@ -21,7 +21,7 @@ const getSign = function(data,secret) {
     if (typeof value === 'object') value = php.json_encode(value)
     queryString.push(key + '=' + value);
   }
-  // console.log(queryString.join('&'))
+  console.log(queryString.join('&'))
   return php.md5(queryString.join('&'));
 }
 const post = function(postdata, callback) {

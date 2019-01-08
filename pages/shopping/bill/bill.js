@@ -24,7 +24,7 @@ Page({
     giveGoodsDataSelected: {}
   },
   onLoad(options) {
-    if (!options.id) options.id = 3;
+    if (!options.id) options.id = 8;
     var _this = this;
     this.setData({
       options: options

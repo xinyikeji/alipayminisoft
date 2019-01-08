@@ -21,13 +21,14 @@ var settab =
       showShoppingCart: false,
     },
     onLoad(options) {
-      if (!options.id) options.id = 3;
+      if (!options.id) options.id = 8;
       this.setData({
         options: options
       })
       my.getSystemInfo({
         success: (res) => {
           this.setData({
+            brand: res.brand.toLowerCase(),
             windowHeight: res.windowHeight,
             windowWidth: res.windowWidth
           })
@@ -35,79 +36,94 @@ var settab =
       });
 
       var _this = this;
+      my.showLoading({
+        content: "商品数据加载中"
+      })
+      // 开始拉取门店基本数据
       app.getUserInfo(function(userinfo) {
         if (userinfo) {
-
           _this.setData({
             userInfo: userinfo
           })
-
-          // 开始拉取门店基本数据
-          my.showLoading({
-            content: "数据加载中"
-          });
-          api.getStoreInfo(_this.data.options.id, function(storeinfo) {
-            console.log(storeinfo)
-            if (storeinfo) {
-              my.getLocation({
-                success(res) {
-                  storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
-                  storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
-                  storeinfo.name = storeinfo.storename;
-                  _this.setData({
-                    storeData: storeinfo
-                  })
-                  userinfo.name = userinfo.nickname;
-                  clickgoods.setUserInfo({
-                    storeid: _this.data.options.id,
-                    user: userinfo,
-                    success: function(res) {
-                      clickgoods.setStoreInfo({
-                        storeid: _this.data.options.id,
-                        store: storeinfo,
-                        success: function(res) {
-                          my.hideLoading();
-                          _this.setData({
-                            shopCart: res
-                          })
-                        }
-                      })
-                    }
-                  })
-
-                  api.getGoodsInfo(_this.data.options.id, function(goodsdata) {
-                    console.log('all goodsdata', goodsdata)
-                    my.hideLoading();
-                    //计算分类下每个商品区域的高度
+          api.getGoodsInfo(_this.data.options.id, function(goodsdata) {
+            console.log('all goodsdata', goodsdata)
+            my.hideLoading();
+            //计算分类下每个商品区域的高度
+            _this.setData({
+              goodsData: goodsdata,
+            })
+            my.showLoading({
+              content: "门店数据加载中"
+            })
+            api.getStoreInfo(_this.data.options.id, function(storeinfo) {
+              console.log(storeinfo)
+              my.hideLoading();
+              if (storeinfo) {
+                _this.setData({
+                  storeData: storeinfo
+                })
+                my.getLocation({
+                  success(res) {
+                    storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
+                    storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
+                    storeinfo.name = storeinfo.storename;
                     _this.setData({
-                      goodsData: goodsdata,
+                      storeData: storeinfo
+                    })
+                    userinfo.name = userinfo.nickname;
+                    clickgoods.setUserInfo({
+                      storeid: _this.data.options.id,
+                      user: userinfo,
+                      success: function(res) {
+                        clickgoods.setStoreInfo({
+                          storeid: _this.data.options.id,
+                          store: storeinfo,
+                          success: function(res) {
+                            my.hideLoading();
+                            _this.setData({
+                              shopCart: res
+                            })
+                          }
+                        })
+                      }
                     })
                     var indexMap = [];
                     for (var i in goodsdata.goodstype) {
                       my.createSelectorQuery().select('.goodslist-item' + goodsdata.goodstype[i].gtid).boundingClientRect().exec(function(ret) {
+                        // console.log(ret)
                         indexMap.push(ret[0]);
                       })
                     }
+                    // console.log(indexMap)
                     _this.setData({
                       indexMap: indexMap
                     })
-                  })
-                },
-                fail() {
-                  my.hideLoading();
-                  my.alert({ title: '定位失败', content: '请检查是否授权我们使用您的位置信息' });
-                },
-              })
-            } else {
-              my.hideLoading();
-              my.alert({ title: "错误提示", content: '门店数据获取失败，请重新进入尝试' });
-            }
+                  },
+                  fail() {
+                    my.hideLoading();
+                    my.alert({ title: '定位失败', content: '请检查是否授权我们使用您的位置信息' });
+                    // my.reLaunch({
+                    //   url: '/pages/index/index'
+                    // });
+                  },
+                })
+              } else {
+                my.hideLoading();
+                my.alert({ title: "错误提示", content: '门店数据获取失败，请尝试重新进入' });
+                // my.reLaunch({
+                //   url: '/pages/index/index'
+                // });
+              }
+            })
           })
-
         } else {
+          my.hideLoading();
           my.alert({
-            title: '获取用户信息失败'
+            title: '获取用户信息失败，请重新进入页面尝试'
           });
+          // my.reLaunch({
+          //   url: '/pages/index/index'
+          // });
         }
       })
 
@@ -115,7 +131,7 @@ var settab =
     goShopping() {
       if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
         my.redirectTo({
-          url: 'bill/bill'
+          url: 'bill/bill?id+' + this.data.options.id
         });
       } else {
         my.showToast({
@@ -153,7 +169,7 @@ var settab =
       })
     },
     decGoods(event) {
-      console.log(event.currentTarget.dataset)
+      // console.log(event.currentTarget.dataset)
       var _this = this;
       clickgoods.decGoodsByGoodsid({
         storeid: this.data.options.id,
@@ -163,7 +179,7 @@ var settab =
             shopCart: res
           })
         }, fail(res) {
-          console.log(res)
+          // console.log(res)
         }
       })
     },
@@ -212,7 +228,7 @@ var settab =
       }
     },
     AddToShoppingCart(res) {
-      console.log('onAddToShoppingCart', res);
+      // console.log('onAddToShoppingCart', res);
       this.setData({
         showSelect: false,
         shopCart: res
@@ -257,7 +273,7 @@ var settab =
                 storeid: _this.data.options.id,
                 store: _this.data.storeData,
                 success: function(res) {
-                  console.log('showCart ', res)
+                  // console.log('showCart ', res)
                   _this.setData({
                     shopCart: res
                   })

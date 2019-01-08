@@ -224,12 +224,15 @@ export default {
       callback(datainfo.data);
     }
     const extJson = my.getExtConfigSync();
-    http.post({
+    var postdata = {
       method: "miniapp.Activity.getIndexActivityLink",
-      openid: openid,
       third_appid: extJson.aliappid,
       ptype: 2
-    }, function(status, rest) {
+    }
+    if(openid){
+      postdata.openid = openid;
+    }
+    http.post(postdata, function(status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorageSync({
           key: "indexads-all",
@@ -394,6 +397,7 @@ export default {
               goodsTypeData: goodsTypeData
             });
           } else {
+            console.log(status, restgoods)
             callback(false);
           }
         })

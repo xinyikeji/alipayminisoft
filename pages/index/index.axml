@@ -4,7 +4,7 @@
       <block a:for="{{indexAds.swiper}}">
         <swiper-item>
           <view class="swiper-item">
-            <navigator url="{{item.page == '' ? '/pages/web/web?url=' + item.link : item.page}}">          
+            <navigator url="{{item.page == '' ? '/pages/web/web?url=' + item.link : item.page}}">
               <image src="{{item.image}}" style="width:100%;height:200px;" mode="aspectFill" />
             </navigator>
           </view>
@@ -13,9 +13,9 @@
     </swiper>
   </view>
   <view class="appbutton">
-    <navigator url="/pages/shopping/shopping?id=3" hover-class="active" class="zizhubutton">
+    <navigator url="/pages/shopping/shopping?id=8" hover-class="active" class="zizhubutton">
       <image src="/static/saoyisao.png" style="width:20px;height:20px;" mode="aspectFit" />
-      <text>自助点餐                                
+      <text>自助点餐                                      
       </text>
     </navigator>
   </view>
@@ -23,5 +23,11 @@
     <navigator url="{{item.page == '' ? '/pages/web/web?url=' + item.link : item.page}}" class="listads-item" a:for="{{indexAds.indexlistads}}">
       <image src="{{item.image}}" style="width:100%;height:120px;" mode="aspectFill" />
     </navigator>
+    <view class="listads-item" onTap="clearCache">
+      <image src="http://f.xinyisoft.org/076c6fa22c3515f7af87d2c653688a53" style="width:100%;height:120px;" mode="aspectFill" />
+    </view>
+  </view>
+  <view class="footer">
+    轻餐饮 v1.0.9
   </view>
 </view>

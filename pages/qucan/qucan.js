@@ -131,7 +131,9 @@ Page({
     var _this = this;
     const extJson = my.getExtConfigSync();
     var ordeDetailTmp = _this.data.orderDetail[event.target.dataset.orderno];
-
+    my.showLoading({
+      content:"支付中..."
+    });
     api.getStoreInfo(ordeDetailTmp.order.storeid, function(storeInfo) {
       //计算支付方式
       var price = 0;
