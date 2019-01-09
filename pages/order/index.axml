@@ -96,12 +96,12 @@
                     <view class="storeaddress">{{item.storename}}                                                                                                                                                                      
                     </view>
                   </view>
-                  <view class="store-button">
+                  <!-- <view class="store-button">
                     <image src="/static/order/dianhua.png" style="width:20px;height:20px;" mode="aspectFit" />
                   </view>
                   <view class="store-button">
                     <image src="/static/order/weizhi.png" style="width:20px;height:20px;" mode="aspectFit" />
-                  </view>
+                  </view> -->
                 </view>
                 <view class="goods-list" style="height:{{windowHeight-440}}px;">
                   <scroll-view style="height:{{windowHeight-440}}px" scroll-y="{{true}}">

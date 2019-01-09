@@ -17,7 +17,7 @@
           <block a:if="{{typeItemName.image == ''}}">
             <block a:if="{{shopCart.typenumbers[typeItemName.gtid]}}">
               <badge text="{{shopCart.typenumbers[typeItemName.gtid]}}">
-                <view slot="inner"> {{typeItemName.name}}                                              
+                <view slot="inner" class="typetext"> {{typeItemName.name}}                                              
                 </view>
               </badge>
             </block>

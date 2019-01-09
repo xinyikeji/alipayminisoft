@@ -23,14 +23,14 @@
       </navigator>
     </view>
     <view style="width:33.3333%" class="am-grid-item has-desc">
-      <navigator url="coupon/coupon" class="am-grid-item-wrapper">
+      <view class="am-grid-item-wrapper">
         <view class="gridinfo">
           <view class="am-grid-text">{{userAccount.usercoupon.length}}张                    
           </view>
           <view class="am-grid-desc">优惠券                    
           </view>
         </view>
-      </navigator>
+      </view>
     </view>
   </view>
   <list>

@@ -194,7 +194,12 @@
   top: 3px;
   right: 3px;
 }
-
+.typelist-text .am-badge{
+  width: 80px;
+}
+.typetext{
+  display: block;
+}
 .am-list-sticky {
   position: sticky;
   top: 0px;

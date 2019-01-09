@@ -96,6 +96,7 @@
 .shopping-caert-plusbutton text {
   display: inline-block;
   width: 30px;
+  line-height: 44px;
   text-align: center;
 }
 .shopping-cart-goodslist-view .am-list-item{

@@ -21,7 +21,7 @@ var settab =
       showShoppingCart: false,
     },
     onLoad(options) {
-      if (!options.id) options.id = 8;
+      if (!options.id) options.id = 3;
       this.setData({
         options: options
       })

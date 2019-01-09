@@ -52,8 +52,8 @@
               </view>
             </view>
           </view>
-          <view class="goods-list" style="height:{{windowHeight-440}}px;">
-            <scroll-view style="height:{{windowHeight-440}}px" scroll-y="{{true}}">
+          <view class="goods-list" style="height:{{windowHeight-440 + (orderDetail[item.orderno].order.pstatus == 1? 0:100)}}px;">
+            <scroll-view style="height:{{windowHeight-440 + (orderDetail[item.orderno].order.pstatus == 1? 0:100)}}px" scroll-y="{{true}}">
               <view id="goodslistview" class="shopping-cart-goodslist-view goodslistview">
                 <list>
                   <block a:for="{{orderDetail[item.orderno].goodsdata}}" a:for-item="goodsitem">

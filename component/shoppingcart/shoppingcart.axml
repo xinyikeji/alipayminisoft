@@ -1,7 +1,7 @@
 <view>
   <view class="shopping-cart">
     <view class="shopping-cart-title">
-      <image src="/static/icon/shanchu.png" class="shopping-cart-clear-icon" mode="aspectFit" />
+      <image src="/static/icon/shanchu.png" onTap="clearShoppingCart" class="shopping-cart-clear-icon" mode="aspectFit" />
       <text class="shopping-cart-clear-text" onTap="clearShoppingCart">清空购物车            
       </text>
     </view>

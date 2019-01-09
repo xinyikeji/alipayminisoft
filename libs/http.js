@@ -1,4 +1,4 @@
-const APIURL = 'https://api.xinyisoft.net'
+const APIURL = 'http://api.yunshouyin.org/'
 import php from './php.js'
 
 const getPostData = function(data) {
