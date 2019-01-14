@@ -1,0 +1,161 @@
+<view class="takemeals">
+  <block a:if="{{loading}}">
+    <view class="loading">数据加载中...    
+    </view>
+  </block>
+  <block a:else>
+    <block a:if="{{orderList.length > 0}}">
+      <block a:for="{{orderList}}">
+        <block a:if="{{item.paystatus == 1}}">
+          <view class="order-info" a:if="{{item.status == 5}}">
+            <!-- 已签收的订单 -->
+            <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
+              <view class="padding10">
+                <view class="storename">{{item.storename}}                                                                                                                                          
+                  <text class="success">{{item.statustext}}                                                                                                                                                
+                  </text>
+                </view>
+                <view class="thanks">感谢您的的惠顾，欢迎再次光临，有什么建议请给我们留言！                                                                                                                      
+                </view>
+              </view>
+            </navigator>
+            <view class="goodslist">
+              <block a:for="{{item.goods_data}}" a:for-item="goodsItem">
+                <image src="{{goodsItem.shoppic}}" style="width:60px;height:45px;" mode="aspectFill" />
+              </block>
+            </view>
+            <view class="padding10">
+              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                      
+              </view>
+              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                       
+              </view>
+              <view class="orderno">      就餐时间：{{item.serial}}                                                                                                                                                                                
+                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                             
+                </text>
+              </view>
+              <view class="toolsbutton">
+                <button type="default" size="mini" onTap="defaultTap">领取发票                                                                                                                                                                                 
+                </button>
+                <button type="primary" size="mini" onTap="defaultTap">我要留言                                                                                                                                                                                      
+                </button>
+              </view>
+            </view>
+          </view>
+          <view class="order-info" a:elif="{{item.status === 0}}">
+            <!-- 已取消的订单 -->
+            <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
+              <view class="padding10">
+                <view class="storename">{{item.storename}}                                                                                                                                        
+                  <text class="error">{{item.statustext}}                                                                                                                                              
+                  </text>
+                </view>
+                <view class="thanks">感谢您的的惠顾，欢迎再次光临，有什么建议请给我们留言！                                                                                                                    
+                </view>
+              </view>
+            </navigator>
+            <view class="goodslist">
+              <block a:for="{{item.goods_data}}" a:for-item="goodsItem">
+                <image src="{{goodsItem.shoppic}}" style="width:60px;height:45px;" mode="aspectFill" />
+              </block>
+            </view>
+            <view class="padding10">
+              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                      
+              </view>
+              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                       
+              </view>
+              <view class="orderno">      就餐时间：{{item.serial}}                                                                                                                                                                                
+                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                             
+                </text>
+              </view>
+              <view class="toolsbutton">
+                <button type="default" size="mini" onTap="defaultTap">我要留言                                                                                                                                                                                    
+                </button>
+              </view>
+            </view>
+          </view>
+          <view class="order-info" a:else>
+            <!-- 未完成的订单 -->
+            <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
+              <view class="padding10">
+                <view class="storename">{{item.storename}}                                                                                                                                        
+                  <text>{{item.statustext}}                                                                                                                                              
+                  </text>
+                </view>
+                <view class="sereilno">     {{item.serial}}                                                                                                                  
+                </view>
+              </view>
+            </navigator>
+            <view class="padding10">
+              <view class="sereilno">
+                <image src="http://api.canruanshequ.cn/open/qrcode?text={{item.serial}}" data-src="http://api.canruanshequ.cn/open/qrcode?text={{item.serial}}" onTap="showQrcode" style="width:120px;height:120px;" mode="aspectFit" />
+              </view>
+              <view class="sereiltext">      取餐号                                                                                                                        
+              </view>
+            </view>
+            <view class="goodslist">
+              <block a:for="{{item.goods_data}}" a:for-item="goodsItem">
+                <image src="{{goodsItem.shoppic}}" style="width:60px;height:45px;" mode="aspectFill" />
+              </block>
+            </view>
+            <view class="padding10">
+              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                      
+              </view>
+              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                       
+              </view>
+              <view class="orderno">      就餐时间：{{item.serial}}                                                                                                                                                                                
+                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                             
+                </text>
+              </view>
+              <view class="toolsbutton">
+                <button type="default" size="mini" onTap="defaultTap">我已取餐                                                        
+                </button>
+              </view>
+            </view>
+          </view>
+        </block>
+        <block a:else>
+          <view class="order-info">
+            <!-- 未支付的订单 -->
+            <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
+              <view class="padding10">
+                <view class="storename">{{item.storename}}
+                  <text>待支付                                                                                                                                              
+                  </text>
+                </view>
+              </view>
+            </navigator>
+            <view class="padding10">
+              <view class="sereilno"> 尚未支付                                                                                                                          
+              </view>
+            </view>
+            <view class="goodslist">
+              <block a:for="{{item.goods_data}}" a:for-item="goodsItem">
+                <image src="{{goodsItem.shoppic}}" style="width:60px;height:45px;" mode="aspectFill" />
+              </block>
+            </view>
+            <view class="padding10">
+              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                       
+              </view>
+              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                        
+              </view>
+              <view class="orderno">      就餐时间：{{item.yytime}}                                                                                                                                                  
+                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                              
+                </text>
+              </view>
+              <view class="toolsbutton">
+                <button type="default" size="mini" onTap="defaultTap">取消订单                                                                                                                                                
+                </button>
+                <button type="primary" size="mini" onTap="defaultTap">立即支付                                                                                                                                                
+                </button>
+              </view>
+            </view>
+          </view>
+        </block>
+      </block>
+    </block>
+    <block a:else>
+      <view class="noorder">没有余额记录                
+      </view>
+    </block>
+  </block>
+</view>

@@ -17,7 +17,6 @@ export default {
         people: 0, //就餐人数
         reservation: 0,//是否预约单
         prefix: 'AX',//是否预约单
-        yytime: php.time(),//预约时间
         is_suitflag: 1,//启用套餐
         ispay: 0, //是否已经支付
         total_price: 0, //订单总价
@@ -26,7 +25,7 @@ export default {
         sprice: 0, //实收金额（需要支付的金额）
         remark: "", //整单备注
         need_invoice: 1,//是否需要发票，1是2不需要
-        ctime: php.time(),
+
         goodsnumbers: {},
         typenumbers: {},
         store: {
@@ -152,7 +151,7 @@ export default {
     api.getSerial({
       storeid: option.storeid,
       success: (res) => {
-        option.success('AX' + php.date('YmdHis') + option.storecode + res);
+        option.success({ order_id: 'AX' + php.date('YmdHis') + option.storecode + res, orderindex: res });
       }, fail: (res) => {
         option.fail(res)
       }

@@ -25,9 +25,10 @@ const getSign = function(data,secret) {
   return php.md5(queryString.join('&'));
 }
 const post = function(postdata, callback) {
+  var postdataObj = getPostData(postdata);
   my.httpRequest({
     url: APIURL,
-    data: getPostData(postdata),
+    data: postdataObj,
     method: 'POST',
     header: {
       'custom-header': 'Alipaysoft/application' //自定义请求头信息

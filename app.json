@@ -11,15 +11,16 @@
     "pages/qucan/qucan",
     "pages/member/address/address",
     "pages/member/about/about",
-    "pages/demo/demo",
     "pages/shopping/shopping",
     "pages/shopping/bill/bill",
     "pages/order/detail/detail",
     "pages/member/balance/balance",
-    "pages/web/web"
+    "pages/web/web",
+    "pages/takemeals/takemeals",
+    "pages/orderinfo/orderinfo"
   ],
   "window": {
-    "defaultTitle": "My App"
+    "defaultTitle": "轻餐饮"
   },
   "tabBar": {
     "textColor": "#8a8a8a",
@@ -33,7 +34,7 @@
         "name": "点餐"
       },
       {
-        "pagePath": "pages/qucan/qucan",
+        "pagePath": "pages/takemeals/takemeals",
         "icon": "static/icon/dingdan.png",
         "activeIcon": "static/icon/active/dingdan.png",
         "name": "取餐"
@@ -49,7 +50,7 @@
   "ext": {
     "appid": "100068",
     "secret": "553c050a6f9b636832c62c40",
-    "aliappid": "2018121162524384",
+    "aliappid": "2019011062882037",
     "xinyitoken": "87bfe246d5642277b008f8b346a9230d18dbf850"
   }
 }

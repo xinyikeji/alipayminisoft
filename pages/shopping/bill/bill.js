@@ -317,10 +317,12 @@ Page({
     clickgoods.getOrderId({
       storeid: this.data.options.id,
       storecode: this.data.storeInfo.storecode,
-      success: function(order_id) {
+      success: function(orderNoData) {
 
         var uploadData = {};
-        orderData.order_id = order_id;
+        orderData.order_id = orderNoData.order_id;
+        orderData.orderindex = orderNoData.orderindex;
+        // orderData.orderindex = order_id;
         uploadData.goods = orderData.goods;
         delete orderData.goods;
         uploadData.paylist = php.json_encode(orderData.paylist);
@@ -337,6 +339,8 @@ Page({
           orderData.total_price = orderData.sprice
         }
 
+        orderData.ctime = php.time();
+        orderData.yytime = php.time();//预约时间
         //赠品活动
         if (_this.data.giveGoodsDataIndex >= 0) {
           var goodsTmp = {

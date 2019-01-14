@@ -57,15 +57,6 @@ Page({
             })
           }
         })
-        //开始拉取积分商城数据
-        api.getIntegralShoppingList(userinfo.openid, function(integralList) {
-          console.log(integralList)
-          if (integralList) {
-            _this.setData({
-              integralList: integralList
-            })
-          }
-        })
       }
     })
   },

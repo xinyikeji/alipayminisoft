@@ -76,6 +76,7 @@ export default {
       year: option.year
     };
     if (option.status) postdata.status = option.status;
+    if (typeof option.isfinish != undefined) postdata.isfinish = option.isfinish;
     http.post(postdata, function(status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data)
@@ -229,7 +230,7 @@ export default {
       third_appid: extJson.aliappid,
       ptype: 2
     }
-    if(openid){
+    if (openid) {
       postdata.openid = openid;
     }
     http.post(postdata, function(status, rest) {
@@ -244,6 +245,77 @@ export default {
         callback(false);
       }
     })
+  },
+  getRemarks(callback) {
+    var datainfo = my.getStorageSync({
+      key: 'remarks-all', // 缓存数据的key
+    });
+    if (datainfo.data) {
+      callback(datainfo.data);
+      return false;
+    }
+    const extJson = my.getExtConfigSync();
+    var postdata = {
+      method: "goods.goodsinfo.getAllGoodsRemarks"
+    }
+    http.post(postdata, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        var obj = {}, typeobj = {};
+        for (var i in rest.data.data) {
+          for (var j in rest.data.data[i].child) {
+            rest.data.data[i].child[j].gptid = rest.data.data[i].gptid;
+            obj[rest.data.data[i].child[j].grid] = rest.data.data[i].child[j];
+          }
+          typeobj[rest.data.data[i].gptid] = rest.data.data[i].name;
+        }
+        var backdata = {
+          obj: obj,
+          typeobj: typeobj,
+          data: rest.data.data
+        };
+        my.setStorageSync({
+          key: "remarks-all",
+          data: backdata
+        })
+        callback(backdata);
+      } else {
+        console.log(status, rest)
+        callback(false);
+      }
+    })
+  },
+  setOrderComplete(option) {
+    if (!option.success) option.success = function(res) { console.log('setOrderComplete success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('setOrderComplete fail ', res) }
+    if (!option.storeid) {
+      option.fail({ error: true, message: "没有设置storeid" })
+      return;
+    }
+    if (!option.orderno) {
+      option.fail({ error: true, message: "没有设置orderno" })
+      return;
+    }
+    if (!option.price) {
+      option.fail({ error: true, message: "没有设置price" })
+      return;
+    }
+    http.post({
+      method: "order.weborder.setOrderComplete",
+      storeid: option.storeid,
+      status: 1,
+      orderno: option.orderno,
+      yprice: option.price,
+      sprice: option.price,
+      cprice: 0
+    }, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        option.success(rest.data.data);
+      } else {
+        console.log(status, rest)
+        option.fail(rest);
+      }
+    })
+
   },
   getIntegralShoppingList(openid, callback) {
     var storeinfo = my.getStorageSync({
