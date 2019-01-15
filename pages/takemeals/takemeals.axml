@@ -1,87 +1,21 @@
 <view class="takemeals">
   <block a:if="{{loading}}">
-    <view class="loading">数据加载中...    
+    <view class="loading">数据加载中...            
     </view>
   </block>
   <block a:else>
     <block a:if="{{orderList.length > 0}}">
       <block a:for="{{orderList}}">
         <block a:if="{{item.paystatus == 1}}">
-          <view class="order-info" a:if="{{item.status == 5}}">
-            <!-- 已签收的订单 -->
-            <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
-              <view class="padding10">
-                <view class="storename">{{item.storename}}                                                                                                                                          
-                  <text class="success">{{item.statustext}}                                                                                                                                                
-                  </text>
-                </view>
-                <view class="thanks">感谢您的的惠顾，欢迎再次光临，有什么建议请给我们留言！                                                                                                                      
-                </view>
-              </view>
-            </navigator>
-            <view class="goodslist">
-              <block a:for="{{item.goods_data}}" a:for-item="goodsItem">
-                <image src="{{goodsItem.shoppic}}" style="width:60px;height:45px;" mode="aspectFill" />
-              </block>
-            </view>
-            <view class="padding10">
-              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                      
-              </view>
-              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                       
-              </view>
-              <view class="orderno">      就餐时间：{{item.serial}}                                                                                                                                                                                
-                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                             
-                </text>
-              </view>
-              <view class="toolsbutton">
-                <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
-                <button type="primary" size="mini">查看详情</button>
-                </navigator>
-              </view>
-            </view>
-          </view>
-          <view class="order-info" a:elif="{{item.status === 0}}">
-            <!-- 已取消的订单 -->
-            <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
-              <view class="padding10">
-                <view class="storename">{{item.storename}}                                                                                                                                        
-                  <text class="error">{{item.statustext}}                                                                                                                                              
-                  </text>
-                </view>
-                <view class="thanks">感谢您的的惠顾，欢迎再次光临，有什么建议请给我们留言！                                                                                                                    
-                </view>
-              </view>
-            </navigator>
-            <view class="goodslist">
-              <block a:for="{{item.goods_data}}" a:for-item="goodsItem">
-                <image src="{{goodsItem.shoppic}}" style="width:60px;height:45px;" mode="aspectFill" />
-              </block>
-            </view>
-            <view class="padding10">
-              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                      
-              </view>
-              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                       
-              </view>
-              <view class="orderno">      就餐时间：{{item.serial}}                                                                                                                                                                                
-                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                             
-                </text>
-              </view>
-              <view class="toolsbutton">
-                <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
-                <button type="primary" size="mini">查看详情</button>
-                </navigator>
-              </view>
-            </view>
-          </view>
-          <view class="order-info" a:else>
+          <view class="order-info" a:for="{{item.status !== 5 && item.status !== 0}}">
             <!-- 未完成的订单 -->
             <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
               <view class="padding10">
-                <view class="storename">{{item.storename}}                                                                                                                                        
-                  <text>{{item.statustext}}                                                                                                                                              
+                <view class="storename">{{item.storename}}                                                                                                                                                                            
+                  <text>{{item.statustext}}                                                                                                                                                                                  
                   </text>
                 </view>
-                <view class="sereilno">     {{item.serial}}                                                                                                                  
+                <view class="sereilno">     {{item.serial}}                                                                                                                                                  
                 </view>
               </view>
             </navigator>
@@ -89,7 +23,7 @@
               <view class="sereilno">
                 <image src="http://api.canruanshequ.cn/open/qrcode?text={{item.serial}}" data-src="http://api.canruanshequ.cn/open/qrcode?text={{item.serial}}" onTap="showQrcode" style="width:120px;height:120px;" mode="aspectFit" />
               </view>
-              <view class="sereiltext">      取餐号                                                                                                                        
+              <view class="sereiltext">      取餐号                                                                                                                                                    
               </view>
             </view>
             <view class="goodslist">
@@ -98,16 +32,16 @@
               </block>
             </view>
             <view class="padding10">
-              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                      
+              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                                                  
               </view>
-              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                       
+              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                                                   
               </view>
-              <view class="orderno">      就餐时间：{{item.serial}}                                                                                                                                                                                
-                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                             
+              <view class="orderno">      就餐时间：{{item.serial}}                                                                                                                                                                                                                
+                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                                                             
                 </text>
               </view>
               <view class="toolsbutton">
-                <button type="default" size="mini" data-index="{{index}}" onTap="setOrderComplete">我已取餐                                                        
+                <button type="default" size="mini" data-index="{{index}}" onTap="setOrderComplete">我已取餐                                                                                        
                 </button>
               </view>
             </view>
@@ -118,14 +52,14 @@
             <!-- 未支付的订单 -->
             <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
               <view class="padding10">
-                <view class="storename">{{item.storename}}
-                  <text>待支付                                                                                                                                              
+                <view class="storename">{{item.storename}}                                    
+                  <text>待支付                                                                                                                                                                                  
                   </text>
                 </view>
               </view>
             </navigator>
             <view class="padding10">
-              <view class="sereilno"> 尚未支付                                                                                                                          
+              <view class="sereilno"> 尚未支付                                                                                                                                                      
               </view>
             </view>
             <view class="goodslist">
@@ -134,17 +68,18 @@
               </block>
             </view>
             <view class="padding10">
-              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                       
+              <view class="orderno">      订单编号：{{item.orderno}}                                                                                                                                                                   
               </view>
-              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                        
+              <view class="orderno">      下单时间：{{item.addtime}}                                                                                                                                                                    
               </view>
-              <view class="orderno">      就餐时间：{{item.yytime}}                                                                                                                                                  
-                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                              
+              <view class="orderno">      就餐时间：{{item.yytime}}                                                                                                                                                                                  
+                <text class="orderprice">￥{{item.priceFormat}}                                                                                                                                                                              
                 </text>
               </view>
               <view class="toolsbutton">
                 <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
-                <button type="primary" size="mini">查看详情</button>
+                  <button type="primary" size="mini">查看详情                  
+                  </button>
                 </navigator>
               </view>
             </view>
@@ -153,8 +88,7 @@
       </block>
     </block>
     <block a:else>
-      <view class="noorder">
-        没有待取餐订单          
+      <view class="noorder">        没有待取餐订单                      
       </view>
     </block>
   </block>
