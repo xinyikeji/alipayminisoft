@@ -3,7 +3,7 @@ import api from '/libs/api'
 import php from '/libs/php'
 import clickgoods from '/libs/clickgoods'
 const app = getApp();
-
+var giveGoodsDataLog = [];
 Page({
   data: {
     shopCart: {},
@@ -21,7 +21,8 @@ Page({
     windowHeight: 0,
     giveGoodsData: [],
     giveGoodsDataIndex: -1,
-    giveGoodsDataSelected: {}
+    giveGoodsDataSelected: {},
+
   },
   onUnload() {
     api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/bill/bill' } });
@@ -290,6 +291,11 @@ Page({
     // 选择赠送商品
     var _this = this;
     if (this.data.giveGoodsDataIndex == event.currentTarget.dataset.index) {
+      //取消选择
+      giveGoodsDataLog.push({
+        event: 'unselect',
+        goods: this.data.giveGoodsData[event.currentTarget.dataset.index]
+      })
       this.setData({
         giveGoodsDataIndex: -1,
         giveGoodsDataSelected: {}
@@ -299,6 +305,10 @@ Page({
         ptid: _this.data.memberConfig.youhui_paytype
       })
     } else {
+      giveGoodsDataLog.push({
+        event: 'select',
+        goods: this.data.giveGoodsData[event.currentTarget.dataset.index]
+      })
       this.setData({
         giveGoodsDataIndex: event.currentTarget.dataset.index,
         giveGoodsDataSelected: this.data.giveGoodsData[event.currentTarget.dataset.index]
@@ -328,6 +338,7 @@ Page({
         }
       })
     }
+    console.log(giveGoodsDataLog)
   },
   setOrder() {
     var _this = this;
@@ -336,6 +347,19 @@ Page({
       storeid: this.data.options.id,
       storecode: this.data.storeInfo.storecode,
       success: function(orderNoData) {
+
+        //提交赠品日志数据
+        api.uploadBehavior({
+          data: {
+            openid: this.data.userInfo.openid,
+            mode: "activity_give_goods",
+            path: '/pages/shopping/bill/bill',
+            orderno: orderNoData.order_id,
+            giveGoodsDataLog: giveGoodsDataLog,
+            giveGoods: _this.data.giveGoodsDataSelected
+          }
+        });
+
 
         var uploadData = {};
         orderData.order_id = orderNoData.order_id;
