@@ -1,5 +1,8 @@
 <view class="takemeals">
-  <view class="order-info">
+  <view class="onloading" a:if="{{loading}}">
+    加载中...
+  </view>
+  <view class="order-info" a:else>
     <view class="padding10">
       <view class="storename">{{order.order.storename}}                                           
         <block a:if="{{order.order.pstatus === 0}}">
@@ -29,6 +32,9 @@
       </block>
       <block a:else>
         <block a:if="{{order.order.status == 5}}">
+          <view class="sereiltext">
+            <image src="/static/order/iconset0316.png" style="width:80px;height:80px;" mode="aspectFit" />                                                               
+          </view>
           <view class="sereiltext">订单已经完成，感谢您的惠顾，期待下次光临！                                                                      
           </view>
         </block>
@@ -54,8 +60,7 @@
           </text>
         </view>
         <view class="remarks">
-          <view a:for="{{order.goodsdata.remarks}}" a:for-item="remarkItem" class="remark">            {{remarks[remarkItem]}}                                                                                                    
-          </view>
+          <view a:for="{{order.goodsdata.remarks}}" a:for-item="remarkItem" class="remark">{{remarks[remarkItem]}}  </view>
         </view>
       </view>
     </view>
@@ -73,11 +78,11 @@
         </text>
       </view>
       <view class="orderno">     下单时间： 
-        <text>{{order.order.addtime}}  
+        <text>{{order.order.addtimeFormat}}  
         </text>
       </view>
       <view class="orderno">     就餐时间： 
-        <text>{{order.order.yytime}}  
+        <text>{{order.order.yytimeFormat}}  
         </text>
       </view>
       <view class="toolsbutton">
@@ -89,8 +94,8 @@
         </block>
         <block a:else>
           <block a:if="{{order.order.status == 5}}">
-            <button type="primary" size="mini">订单留言                                                                        
-            </button>
+            <!-- <button type="primary" size="mini">订单留言                                                                        
+            </button> -->
           </block>
           <block a:elif="{{order.order.status === 0}}">
           </block>

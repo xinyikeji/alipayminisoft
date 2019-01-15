@@ -23,12 +23,29 @@ Page({
     giveGoodsDataIndex: -1,
     giveGoodsDataSelected: {}
   },
+  onUnload() {
+    api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/bill/bill' } });
+  },
   onLoad(options) {
-    if (!options.id) options.id = 3;
     var _this = this;
     this.setData({
       options: options
     })
+    console.log(options)
+    if (!options.id) {
+      api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/shopping/bill/bill' } });
+      my.alert({
+        title: "错误提示",
+        content: "参数错误，请重新进入当前页面重试！",
+        buttonText: '返回首页',
+        success: () => {
+          my.reLaunch({
+            url: '/pages/index/index'
+          });
+        }
+      })
+      return false;
+    };
     my.getSystemInfo({
       success: (res) => {
         this.setData({
@@ -43,6 +60,7 @@ Page({
     })
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
+        api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/shopping/bill/bill' } });
         _this.setData({
           userInfo: userinfo
         })
@@ -437,12 +455,12 @@ Page({
                         tradeNO: respay.trade_no,
                         success: function(resdata) {
                           my.redirectTo({
-                            url: '/pages/order/detail/detail?orderno=' + res.order_no
+                            url: '/pages/orderinfo/orderinfo?orderno=' + res.order_no
                           });
                         },
                         fail: function(resdata) {
                           my.redirectTo({
-                            url: '/pages/order/detail/detail?orderno=' + res.order_no
+                            url: '/pages/orderinfo/orderinfo?orderno=' + res.order_no
                           });
                         },
                       });
@@ -457,21 +475,18 @@ Page({
                 storeid: _this.data.storeInfo.storeid,
                 success: function() {
                   my.redirectTo({
-                    url: '/pages/order/detail/detail?orderno=' + res.order_no
+                    url: '/pages/orderinfo/orderinfo?orderno=' + res.order_no
                   });
                 }
               })
 
             }
           }
-          // console.log(res)
         })
       }
     })
-    // console.log(orderData.user)
   },
   sendOrderToServer(event) {
-    console.log(event)
     var _this = this;
     api.sendFormid({
       openid: this.data.userInfo.openid,

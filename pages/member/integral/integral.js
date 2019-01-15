@@ -24,7 +24,10 @@ Page({
       }
     })
   },
-  onLoad() {
+  onUnload() {
+    api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/member/integral/integral' } });
+  },
+  onLoad(options) {
     my.getSystemInfo({
       success: (res) => {
         this.setData({
@@ -36,10 +39,12 @@ Page({
     var _this = this;
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
+        api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/member/integral/integral' } });
         _this.setData({
-          userInfo: userinfo
+          userInfo: userinfo,
+          options: options
         })
-        //开始拉取积分商城数据
+        //开始拉取积分
         api.getIntegralList(userinfo.openid, _this.data.page, function(integralList) {
           if (integralList) {
             _this.setData({
@@ -48,6 +53,8 @@ Page({
             })
           }
         })
+      } else {
+        api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/member/integral/integral' } });
       }
     })
   },

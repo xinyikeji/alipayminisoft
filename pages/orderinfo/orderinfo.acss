@@ -95,3 +95,9 @@
 .toolsbutton button {
   margin-left: 5px;
 }
+.onloading{
+  display: block;
+  
+  line-height: 100px;
+  text-align: center;
+}

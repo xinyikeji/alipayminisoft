@@ -34,7 +34,6 @@ const post = function(postdata, callback) {
       'custom-header': 'Alipaysoft/application' //自定义请求头信息
     },
     success(res) {
-      // console.log(res)
       callback(true, res)
     },
     fail(res) {

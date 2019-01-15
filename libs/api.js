@@ -1,4 +1,5 @@
 import http from './http'
+import php from './php'
 export default {
   getSerial(option) {
     if (!option.success) option.success = function(res) { console.log('getSerial success ', res) }
@@ -16,6 +17,37 @@ export default {
     }, function(status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data.code)
+      } else {
+        option.fail({ error: true, message: "数据读取失败" })
+      }
+    })
+  },
+  uploadBehavior(option) {
+    if (!option.success) option.success = function(res) { console.log('uploadBehavior success ', res) }
+    if (!option.fail) option.fail = function(res) { console.log('uploadBehavior fail ', res) }
+    if (!option.data) {
+      option.fail({ error: true, message: "没有设置data" })
+      return;
+    }
+
+    const extJson = my.getExtConfigSync();
+    var appkey = my.getStorageSync({
+      key: 'appkey'
+    });
+
+    option.data.key = appkey.data;
+    option.data.time = php.time();
+    
+    var postdata = {
+      method: "miniapp.Activity.uploadUserAction",
+      third_appid: extJson.aliappid,
+      source: 2,
+      data: JSON.stringify(option.data)
+    };
+    console.log(postdata)
+    http.post(postdata, function(status, rest) {
+      if (status && rest.data.code === 1) {
+        option.success(rest.data.data)
       } else {
         option.fail({ error: true, message: "数据读取失败" })
       }
@@ -76,7 +108,8 @@ export default {
       year: option.year
     };
     if (option.status) postdata.status = option.status;
-    if (typeof option.isfinish != undefined) postdata.isfinish = option.isfinish;
+    console.log(typeof option.isfinish)
+    if (typeof (option.isfinish) != 'undefined') postdata.isfinish = option.isfinish;
     http.post(postdata, function(status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data)
@@ -218,6 +251,7 @@ export default {
     })
   },
   getIndexAds(openid, callback) {
+    console.log(this)
     var datainfo = my.getStorageSync({
       key: 'indexads-all', // 缓存数据的key
     });
@@ -370,21 +404,30 @@ export default {
   },
   uploadOrder(data, callback) {
     data.method = "order.xinyiorder.uploadOrder";
+    var _this = this;
     http.post(data, function(status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
         console.log(status, rest)
+        _this.postError({postdata:data,restback:rest})
         callback(false);
       }
     })
   },
+  postError(error){
+    data.method = "bussiness.Writeloginfo.uploadLogInfo";
+    data.loginfo = JSON.stringify(error);
+    http.post(data, function(status, rest) {})
+  },
   createAlipay(data, callback) {
     data.method = "miniapp.OnlinePay.getAliPayPaymentOrderno";
+    var _this = this;
     http.post(data, function(status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
+        _this.postError({postdata:data,restback:rest})
         console.log(status, rest)
         callback(false);
       }

@@ -7,16 +7,20 @@ Page({
     storeList: {},
     indexAds: {}
   },
-  onLoad() {
+  onLoad(options) {
     var _this = this;
     //获取首页广告
     api.getIndexAds(false, function(indexads) {
       // console.log(indexads)
       _this.setData({
-        indexAds: indexads
+        indexAds: indexads,
+        options: options
       })
-
     })
+    api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/index/index' } });
+  },
+  onUnload() {
+    api.uploadBehavior({ data: { mode: "uninstpage", query: this.data.options, path: '/pages/index/index' } });
   },
   clearCache() {
     my.clearStorage();

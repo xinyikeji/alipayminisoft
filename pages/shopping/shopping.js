@@ -15,10 +15,13 @@ var settab =
       shopCart: {},
       goodsData: {},
       showSelect: false,
-      showSelectGoodsData: {},
       showGoodsInfo: false,
-      showGoodsInfoData: {},
       showShoppingCart: false,
+      showSelectGoodsData: {},
+      showGoodsInfoData: {},
+    },
+    onUnload() {
+      api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/shopping' } });
     },
     onLoad(options) {
       if (!options.id) {
@@ -36,7 +39,23 @@ var settab =
           })
         },
       });
-
+      this.loadData();
+    },
+    onShow() {
+      if (this.data.show) {
+        this.setData({
+          showSelect: false,
+          showGoodsInfo: false,
+          showShoppingCart: false,
+        })
+        this.loadData();
+      } else {
+        this.setData({
+          show: true
+        })
+      }
+    },
+    loadData() {
       var _this = this;
       my.showLoading({
         content: "商品数据加载中"
@@ -44,6 +63,7 @@ var settab =
       // 开始拉取门店基本数据
       app.getUserInfo(function(userinfo) {
         if (userinfo) {
+          api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: _this.data.options, path: '/pages/shopping/shopping' } });
           _this.setData({
             userInfo: userinfo
           })
@@ -128,12 +148,11 @@ var settab =
           // });
         }
       })
-
     },
     goShopping() {
       if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
-        my.redirectTo({
-          url: 'bill/bill?id+' + this.data.options.id
+        my.navigateTo({
+          url: 'bill/bill?id=' + this.data.options.id
         });
       } else {
         my.showToast({

@@ -1,5 +1,6 @@
 
 import api from '/libs/api'
+import php from '/libs/php'
 
 const app = getApp();
 
@@ -10,6 +11,9 @@ Page({
     remarks: {},
     options: {}
   },
+  onUnload() {
+    api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/orderinfo/orderinfo' } });
+  },
   onLoad(options) {
     this.setData({
       options: options
@@ -17,10 +21,13 @@ Page({
     var _this = this;
     app.getUserInfo(function(userInfo) {
       if (userInfo) {
+        api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/orderinfo/orderinfo' } });
         _this.setData({
           userInfo: userInfo
         })
-        _this.reloadData()
+        _this.reloadData(true)
+      }else{
+        api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/orderinfo/orderinfo' } });
       }
     })
 
@@ -79,7 +86,7 @@ Page({
       success: (res) => {
         my.hideLoading();
         _this.reloadData(true);
-        console.log(res)
+        // console.log(res)
       }
     })
   },
@@ -88,18 +95,20 @@ Page({
   },
   reloadData(reloadCache) {
     var _this = this;
-    console.log(this.data.options.orderno)
+    // console.log(this.data.options.orderno)
     api.getRemarks(function(remarks) {
-      console.log(remarks)
+      // console.log(remarks)
       api.getOrderDetail({
         orderno: _this.data.options.orderno,
         cache: reloadCache,
         success: function(res) {
           my.stopPullDownRefresh();
-          console.log(res)
+          // console.log(res)
           for (var i in res.goodsdata) {
             res.goodsdata[i].remarks = res.goodsdata[i].remarks.split(',');
           }
+          res.order.addtimeFormat = php.date('Y-m-d H:i:s',res.order.addtime);
+          res.order.yytimeFormat = php.date('Y-m-d H:i:s',res.order.yytime);
           _this.setData({
             loading: false,
             order: res,

@@ -152,6 +152,6 @@
     </view>
   </popup>
   <popup show="{{showShoppingCart}}" zIndex="10"  onClose="onShoppingCartlose" disableScroll="{{false}}">
-    <shopping-cart a:if="{{showShoppingCart}}" onClearShoppingCart="clearShoppingCart" onChang="changeShoppingCart" billPath="/pages/shopping/bill/bill" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></shopping-cart>
+    <shopping-cart a:if="{{showShoppingCart}}" onClearShoppingCart="clearShoppingCart" onChang="changeShoppingCart" billPath="/pages/shopping/bill/bill?id={{options.id}}" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></shopping-cart>
   </popup>
 </view>

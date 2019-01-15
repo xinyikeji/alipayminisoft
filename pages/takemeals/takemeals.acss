@@ -78,3 +78,7 @@
   line-height: 60px;
   text-align: center;
 }
+.noorder{
+  text-align: center;
+  line-height: 100px;
+}

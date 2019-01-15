@@ -107,7 +107,7 @@
                 </text>
               </view>
               <view class="toolsbutton">
-                <button type="default" size="mini" onTap="defaultTap">我已取餐                                                        
+                <button type="default" size="mini" data-index="{{index}}" onTap="setOrderComplete">我已取餐                                                        
                 </button>
               </view>
             </view>
@@ -143,10 +143,9 @@
                 </text>
               </view>
               <view class="toolsbutton">
-                <button type="default" size="mini" onTap="defaultTap">取消订单                                                                                                                                                
-                </button>
-                <button type="primary" size="mini" onTap="defaultTap">立即支付                                                                                                                                                
-                </button>
+                <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
+                <button type="primary" size="mini">查看详情</button>
+                </navigator>
               </view>
             </view>
           </view>
@@ -154,7 +153,8 @@
       </block>
     </block>
     <block a:else>
-      <view class="noorder">没有余额记录                
+      <view class="noorder">
+        没有待取餐订单          
       </view>
     </block>
   </block>

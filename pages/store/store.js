@@ -9,7 +9,7 @@ Page({
     markers: []
   },
   onLoad() {
-
+    api.uploadBehavior({ data: { mode: "instpage", query: {}, path: '/pages/store/store' } });
   },
   onReady(e) {
     this.mapCtx = my.createMapContext('storemap');
@@ -45,6 +45,9 @@ Page({
         },
       })
     })
+  },
+  onUnload() {
+    api.uploadBehavior({ data: { mode: "uninstpage", query: {}, path: '/pages/store/store' } });
   },
   gotoClickGoodsTap(event) {
 

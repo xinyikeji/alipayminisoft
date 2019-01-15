@@ -33,7 +33,10 @@ Page({
       }
     })
   },
-  onLoad() {
+  onUnload() {
+    api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/member/balance/balance' } });
+  },
+  onLoad(options) {
     my.getSystemInfo({
       success: (res) => {
         this.setData({
@@ -45,8 +48,10 @@ Page({
     var _this = this;
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
+        api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/member/balance/balance' } });
         _this.setData({
-          userInfo: userinfo
+          userInfo: userinfo,
+          options: options
         })
         //开始拉取积分商城数据
         api.getFinancialflow(userinfo.openid, _this.data.page, function(dataList) {
@@ -62,6 +67,8 @@ Page({
             })
           }
         })
+      } else {
+        api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/member/balance/balance' } });
       }
     })
   },

@@ -15,7 +15,10 @@ Page({
     orderList: [],
     orderDetail: {}
   },
-  onLoad() {
+  onUnload() {
+    api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/order/index' } });
+  },
+  onLoad(options) {
     var years = [];
     for (var i = 2014; i <= this.data.year; i++) {
       years.push({
@@ -25,7 +28,8 @@ Page({
     var activeYear = years.length - 1;
     this.setData({
       years: years,
-      activeYear: activeYear
+      activeYear: activeYear,
+      options: options
     })
     my.getSystemInfo({
       success: (res) => {
@@ -39,11 +43,14 @@ Page({
     var _this = this;
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
+        api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/order/index' } });
         _this.setData({
           userInfo: userinfo
         })
         //开始拉取用户基本数据
         _this.getOrderList();
+      } else {
+        api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/order/index' } });
       }
     })
     this.setData({
@@ -53,23 +60,19 @@ Page({
   onShow() {
     if (this.data.onshow) {
       this.setData({
-        orderList: [],
         year: this.data.years[(this.data.years.length - 1)].title,
         activeYear: (this.data.years.length - 1),
         activeOrder: 0,
         current: 0
       })
       var _this = this;
-      setTimeout(function() {
-        _this.getOrderList()
-      }, 100)
+      _this.getOrderList()
     }
   },
   handleYearClick(event) {
     if (this.data.activeYear == event.index) {
       return false;
     }
-    console.log('22222')
     this.setData({
       loading: true,
       orderList: [],
@@ -105,9 +108,6 @@ Page({
   },
   getOrderList() {
     var _this = this;
-    _this.setData({
-      loading: true
-    })
     api.getOrderList({
       openid: _this.data.userInfo.openid,
       year: _this.data.year,
@@ -125,7 +125,7 @@ Page({
             success: function(res) {
               var orderDetail = _this.data.orderDetail;
               orderDetail[order.orderno] = res;
-              console.log(res);
+              // console.log(res);
               _this.setData({
                 orderDetail: orderDetail
               })
@@ -136,9 +136,9 @@ Page({
       }
     })
   },
-  gotoShopping(){
+  gotoShopping() {
     my.navigateTo({
-      url:"/pages/shopping/shopping"
+      url: "/pages/shopping/shopping"
     });
   },
 });

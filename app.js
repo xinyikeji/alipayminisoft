@@ -1,12 +1,15 @@
 import http from '/libs/http'
+import api from '/libs/api'
 App({
   onLaunch(options) {
-    this.dataInfo.runkey = this.getUUID();
-    // console.log(options)
-    // my.clearStorage();
-  },
-  setLog(logdata) {
-
+    my.setStorage({
+      key: 'appkey', // 缓存数据的key
+      data: this.getUUID()
+    });
+    options.mode = 'onLaunch';
+    var systemInfo = my.getSystemInfoSync();
+    options.systemInfo = systemInfo;
+    api.uploadBehavior({ data: options });
   },
   getUserInfo(callback) {
     const UserCache = my.getStorageSync({
@@ -37,7 +40,7 @@ App({
             callback(false);
           }
         })
-      }, 
+      },
       fail: function(res) {
         my.alert({
           title: '错误提示',

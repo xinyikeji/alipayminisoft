@@ -136,3 +136,80 @@
 .center{
   text-align: center;
 }
+
+.order-info{
+  background-color: #FFF;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.padding10{
+  padding: 10px;
+}
+.storename{
+  font-size: 14px;
+  line-height: 24px;
+  border-bottom: 1px solid #F7F7F7;
+}
+.storename text{
+  float: right;
+  font-size: 12px;
+  line-height: 24px;
+  color: #ffbe00;
+}
+.storename text.success{
+  color: #61b865;
+}
+.storename text.error{
+  color: #F76260;
+}
+.thanks{
+  font-size: 12px;
+  color: #909399;
+  line-height: 32px;
+}
+.orderno{
+  font-size: 12px;
+  color: #909399;
+  line-height: 18px;
+}
+.sereilno{
+  font-size: 42px;
+  color: #F76260;
+  text-align: center;
+  line-height: 60px;
+}
+.sereiltext{
+  font-size: 12px;
+  color: #909399;
+  line-height: 24px;
+  text-align: center;
+}
+.orderprice{
+  float: right;
+  color: #000;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: bold;
+}
+.goodslist{
+  background-color: #F7F7F7;
+  border-left: 1px solid #FFF;
+  border-right: 1px solid #FFF;
+  overflow: hidden;
+}
+.goodslist image{
+  margin: 7px 0px 7px 7px;
+}
+.toolsbutton{
+  text-align: right;
+  padding-top: 5px;
+  margin-top: 5px;
+  border-top: 1px solid #F7F7F7;
+}
+.toolsbutton button {
+  margin-left: 5px;
+}
+.order-item{
+  padding: 10px;
+}
