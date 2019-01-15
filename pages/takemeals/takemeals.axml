@@ -34,10 +34,9 @@
                 </text>
               </view>
               <view class="toolsbutton">
-                <button type="default" size="mini" onTap="defaultTap">领取发票                                                                                                                                                                                 
-                </button>
-                <button type="primary" size="mini" onTap="defaultTap">我要留言                                                                                                                                                                                      
-                </button>
+                <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
+                <button type="primary" size="mini">查看详情</button>
+                </navigator>
               </view>
             </view>
           </view>
@@ -68,8 +67,9 @@
                 </text>
               </view>
               <view class="toolsbutton">
-                <button type="default" size="mini" onTap="defaultTap">我要留言                                                                                                                                                                                    
-                </button>
+                <navigator url="/pages/orderinfo/orderinfo?orderno={{item.orderno}}">
+                <button type="primary" size="mini">查看详情</button>
+                </navigator>
               </view>
             </view>
           </view>

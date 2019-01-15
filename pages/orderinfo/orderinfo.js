@@ -19,11 +19,11 @@ Page({
       options: options
     })
     var _this = this;
-    app.getUserInfo(function(userInfo) {
-      if (userInfo) {
+    app.getUserInfo(function(userinfo) {
+      if (userinfo) {
         api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/orderinfo/orderinfo' } });
         _this.setData({
-          userInfo: userInfo
+          userInfo: userinfo
         })
         _this.reloadData(true)
       }else{

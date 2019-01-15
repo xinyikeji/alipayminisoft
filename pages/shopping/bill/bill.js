@@ -351,7 +351,7 @@ Page({
         //提交赠品日志数据
         api.uploadBehavior({
           data: {
-            openid: this.data.userInfo.openid,
+            openid: _this.data.userInfo.openid,
             mode: "activity_give_goods",
             path: '/pages/shopping/bill/bill',
             orderno: orderNoData.order_id,

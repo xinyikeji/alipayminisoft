@@ -2,6 +2,25 @@ import http from '/libs/http'
 import api from '/libs/api'
 App({
   onLaunch(options) {
+    var version = my.getStorageSync({
+      key: "version"
+    });
+    console.log(version)
+    if (version.data) {
+      if (version.data != 10000) {
+        my.clearStorage();
+        my.setStorage({
+          key: 'version', // 缓存数据的key
+          data: 10000
+        });
+      }
+    } else {
+      my.clearStorage();
+      my.setStorage({
+        key: 'version', // 缓存数据的key
+        data: 10000
+      });
+    }
     my.setStorage({
       key: 'appkey', // 缓存数据的key
       data: this.getUUID()

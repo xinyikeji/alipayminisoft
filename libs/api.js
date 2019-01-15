@@ -44,7 +44,7 @@ export default {
       source: 2,
       data: JSON.stringify(option.data)
     };
-    console.log(postdata)
+    // console.log(postdata)
     http.post(postdata, function(status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data)
@@ -108,7 +108,6 @@ export default {
       year: option.year
     };
     if (option.status) postdata.status = option.status;
-    console.log(typeof option.isfinish)
     if (typeof (option.isfinish) != 'undefined') postdata.isfinish = option.isfinish;
     http.post(postdata, function(status, rest) {
       if (status && rest.data.code === 1) {
@@ -251,7 +250,7 @@ export default {
     })
   },
   getIndexAds(openid, callback) {
-    console.log(this)
+    // console.log(this)
     var datainfo = my.getStorageSync({
       key: 'indexads-all', // 缓存数据的key
     });
