@@ -504,8 +504,7 @@ function date (format, timestamp) {
     },
     A: function () {
       // AM or PM
-      return f.a()
-        .toUpperCase()
+      return f.a().toUpperCase();
     },
     B: function () {
       // Swatch Internet time; 000..999
@@ -2131,18 +2130,6 @@ function md5 (str) {
   //   returns 1: '6e658d4bfcb59cc13f96c14450ac40b9'
 
   var hash
-  try {
-    var crypto = require('crypto')
-    var md5sum = crypto.createHash('md5')
-    md5sum.update(str)
-    hash = md5sum.digest('hex')
-  } catch (e) {
-    hash = undefined
-  }
-
-  if (hash !== undefined) {
-    return hash
-  }
   var utf8Encode = utf8_encode
   var xl
 

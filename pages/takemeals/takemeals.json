@@ -1,4 +1,5 @@
 {
   "defaultTitle": "待取餐订单",
-  "pullRefresh": true
+  "pullRefresh": true,
+  "transparentTitle": "none"
 }

@@ -1,5 +1,6 @@
 {
   "defaultTitle": "会员中心",
+  "transparentTitle": "none",
   "usingComponents":{
     "card": "mini-antui/es/card/index",
     "grid": "mini-antui/es/grid/index",

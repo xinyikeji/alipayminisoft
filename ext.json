@@ -1,6 +1,7 @@
 {
   "extEnable": true,
   "ext": {
+    "version":"0.0.10",
     "appid":"100068",
     "secret":"553c050a6f9b636832c62c40",
     "aliappid" :"2019011062882037",

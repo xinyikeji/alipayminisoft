@@ -2,23 +2,24 @@ import http from '/libs/http'
 import api from '/libs/api'
 App({
   onLaunch(options) {
+     const extJson = my.getExtConfigSync();
     var version = my.getStorageSync({
       key: "version"
     });
     console.log(version)
     if (version.data) {
-      if (version.data != 10000) {
+      if (version.data != extJson.version) {
         my.clearStorage();
         my.setStorage({
           key: 'version', // 缓存数据的key
-          data: 10000
+          data: extJson.version
         });
       }
     } else {
       my.clearStorage();
       my.setStorage({
         key: 'version', // 缓存数据的key
-        data: 10000
+        data: extJson.version
       });
     }
     my.setStorage({

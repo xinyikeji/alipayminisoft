@@ -37,7 +37,8 @@ export default {
 
     option.data.key = appkey.data;
     option.data.time = php.time();
-    
+    option.data.version = extJson.version;
+
     var postdata = {
       method: "miniapp.Activity.uploadUserAction",
       third_appid: extJson.aliappid,
@@ -409,15 +410,15 @@ export default {
         callback(rest.data.data);
       } else {
         console.log(status, rest)
-        _this.postError({postdata:data,restback:rest})
+        _this.postError({ postdata: data, restback: rest })
         callback(false);
       }
     })
   },
-  postError(error){
+  postError(error) {
     data.method = "bussiness.Writeloginfo.uploadLogInfo";
     data.loginfo = JSON.stringify(error);
-    http.post(data, function(status, rest) {})
+    http.post(data, function(status, rest) { })
   },
   createAlipay(data, callback) {
     data.method = "miniapp.OnlinePay.getAliPayPaymentOrderno";
@@ -426,7 +427,7 @@ export default {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
-        _this.postError({postdata:data,restback:rest})
+        _this.postError({ postdata: data, restback: rest })
         console.log(status, rest)
         callback(false);
       }

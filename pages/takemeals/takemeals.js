@@ -6,6 +6,7 @@ Page({
   data: {
     onshow: false,
     loading: true,
+    brand: 'iphone',
     orderList: []
   },
   onUnload() {
@@ -16,6 +17,13 @@ Page({
     my.showLoading({
       content: "加载中.."
     });
+    my.getSystemInfo({
+      success: (res) => {
+        this.setData({
+          brand: res.brand.toLowerCase()
+        })
+      },
+    });
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
         api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/takemeals/takemeals' } });
@@ -25,8 +33,8 @@ Page({
           userInfo: userinfo
         })
         _this.reloadData();
-      }else{
-         api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/takemeals/takemeals' } });
+      } else {
+        api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/takemeals/takemeals' } });
       }
     })
   },

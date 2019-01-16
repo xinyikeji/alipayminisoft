@@ -7,6 +7,7 @@ Page({
       iconurl: 'https://tfsimg.alipay.com/images/partner/T12rhxXkxcXXXXXXXX',
       ucode: "获取中..."
     },
+    brand:'iphone',
     userAccount: {
       account_balance: 0,
       account_integral: 0,
@@ -36,6 +37,13 @@ Page({
   },
   onLoad(options) {
     var _this = this;
+    my.getSystemInfo({
+      success: (res) => {
+        this.setData({
+          brand: res.brand.toLowerCase()
+        })
+      },
+    });
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
         api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/member/page' } });

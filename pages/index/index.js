@@ -8,13 +8,15 @@ Page({
     indexAds: {}
   },
   onLoad(options) {
+    const extJson = my.getExtConfigSync();
     var _this = this;
     //获取首页广告
     api.getIndexAds(false, function(indexads) {
       // console.log(indexads)
       _this.setData({
         indexAds: indexads,
-        options: options
+        options: options,
+        version: extJson.version
       })
     })
     api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/index/index' } });
@@ -64,5 +66,40 @@ Page({
   },
   onAuthError() {
     // console.log('getPhoneNumber_error')
-  }
+  },
+  onPageScroll(e) {
+    console.log(e)
+    const { scrollTop } = e;
+    let titleOpacity = 1 - scrollTop * 0.02;
+    let shadow = false;
+
+    if (titleOpacity < 0) {
+      titleOpacity = 0;
+    }
+
+    if (titleOpacity > 1) {
+      titleOpacity = 1;
+    }
+
+    if (scrollTop > 80) {
+      my.setNavigationBar({
+        title: '自助点餐',
+      });
+    } else {
+      my.setNavigationBar({
+        title: ' ',
+      });
+    }
+
+    if (scrollTop > 320) {
+      shadow = true;
+    } else {
+      shadow = false;
+    }
+
+    this.setData({
+      shadow,
+      titleOpacity,
+    });
+  },
 });
