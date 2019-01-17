@@ -26,11 +26,11 @@ Page({
           userInfo: userinfo
         })
         _this.reloadData(true)
+        _this.getCancleRemarks();
       }else{
         api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/orderinfo/orderinfo' } });
       }
     })
-
   },
   gotoPay() {
     var _this = this;
@@ -86,12 +86,20 @@ Page({
       success: (res) => {
         my.hideLoading();
         _this.reloadData(true);
+        
         // console.log(res)
       }
     })
   },
   onPullDownRefresh() {
     this.reloadData(true);
+  },
+  getCancleRemarks(){
+    api.getOrderCancleRemarks({
+      success:function (remarks){
+        console.log(remarks)
+      }
+    })
   },
   reloadData(reloadCache) {
     var _this = this;

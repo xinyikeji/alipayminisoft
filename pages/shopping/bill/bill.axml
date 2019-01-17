@@ -81,6 +81,7 @@
           </view>
         </list-item>
       </list>
+      <view style="height:100px;"></view>
     </view>
     <view class="shopping-caert-shoppingcart">
       <view class="shopping-caert-cartinfo">

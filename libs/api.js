@@ -2,8 +2,8 @@ import http from './http'
 import php from './php'
 export default {
   getSerial(option) {
-    if (!option.success) option.success = function(res) { console.log('getSerial success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('getSerial fail ', res) }
+    if (!option.success) option.success = function (res) { console.log('getSerial success ', res) }
+    if (!option.fail) option.fail = function (res) { console.log('getSerial fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -14,7 +14,7 @@ export default {
       isDaily: 1,
       isEachStoreCode: 0,
       codeLength: 4
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data.code)
       } else {
@@ -23,8 +23,8 @@ export default {
     })
   },
   uploadBehavior(option) {
-    if (!option.success) option.success = function(res) { console.log('uploadBehavior success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('uploadBehavior fail ', res) }
+    if (!option.success) option.success = function (res) { console.log('uploadBehavior success ', res) }
+    if (!option.fail) option.fail = function (res) { console.log('uploadBehavior fail ', res) }
     if (!option.data) {
       option.fail({ error: true, message: "没有设置data" })
       return;
@@ -46,7 +46,7 @@ export default {
       data: JSON.stringify(option.data)
     };
     // console.log(postdata)
-    http.post(postdata, function(status, rest) {
+    http.post(postdata, function (status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data)
       } else {
@@ -54,9 +54,36 @@ export default {
       }
     })
   },
+  getOrderCancleRemarks(option) {
+    if (!option.success) option.success = function (res) { console.log('getOrderCancleRemarks success ', res) }
+    if (!option.fail) option.fail = function (res) { console.log('getOrderCancleRemarks fail ', res) }
+    var info = my.getStorageSync({
+      key: 'getOrderCancleRemarks', // 缓存数据的key
+    });
+    if (info.data) {
+      option.success(info.data);
+      return;
+    }
+    const extJson = my.getExtConfigSync();
+    var postdata = {
+      method: "bussiness.Sysconfig.getDictionariesItems",
+      type: 32
+    };
+    http.post(postdata, function (status, rest) {
+      if (status && rest.data.code === 1) {
+        my.setStorage({
+          key: 'getOrderCancleRemarks',
+          data: rest.data.data
+        })
+        option.success(rest.data.data)
+      } else {
+        option.fail({ error: true, message: "数据读取失败" })
+      }
+    })
+  },
   getOrderDetail(option) {
-    if (!option.success) option.success = function(res) { console.log('getOrderDetail success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('getOrderDetail fail ', res) }
+    if (!option.success) option.success = function (res) { console.log('getOrderDetail success ', res) }
+    if (!option.fail) option.fail = function (res) { console.log('getOrderDetail fail ', res) }
     if (!option.orderno) {
       option.fail({ error: true, message: "没有设置orderno" })
       return;
@@ -79,7 +106,7 @@ export default {
     if (option.storeid) {
       postdata.storeid = option.storeid
     }
-    http.post(postdata, function(status, rest) {
+    http.post(postdata, function (status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorage({
           key: 'getOrderDetail' + option.orderno,
@@ -92,8 +119,8 @@ export default {
     })
   },
   getOrderList(option) {
-    if (!option.success) option.success = function(res) { console.log('getOrderList success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('getOrderList fail ', res) }
+    if (!option.success) option.success = function (res) { console.log('getOrderList success ', res) }
+    if (!option.fail) option.fail = function (res) { console.log('getOrderList fail ', res) }
     if (!option.openid) {
       option.fail({ error: true, message: "没有设置openid" })
       return;
@@ -110,7 +137,7 @@ export default {
     };
     if (option.status) postdata.status = option.status;
     if (typeof (option.isfinish) != 'undefined') postdata.isfinish = option.isfinish;
-    http.post(postdata, function(status, rest) {
+    http.post(postdata, function (status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data)
       } else {
@@ -120,8 +147,8 @@ export default {
     })
   },
   sendFormid(option) {
-    if (!option.success) option.success = function(res) { console.log('sendFormid success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('sendFormid fail ', res) }
+    if (!option.success) option.success = function (res) { console.log('sendFormid success ', res) }
+    if (!option.fail) option.fail = function (res) { console.log('sendFormid fail ', res) }
     if (!option.openid) {
       option.fail({ error: true, message: "没有设置openid" })
       return;
@@ -139,7 +166,7 @@ export default {
       formidtype: 2,
       formid: option.formid
     };
-    http.post(postdata, function(status, rest) {
+    http.post(postdata, function (status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data)
       } else {
@@ -163,7 +190,7 @@ export default {
       type: 1,
       ptype: 2,
       storeid: storeid
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorageSync({
           key: "storeinfo-" + storeid,
@@ -189,7 +216,7 @@ export default {
       third_appid: extJson.aliappid,
       ptype: 2,
       type: 1
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorageSync({
           key: "storeinfo-all",
@@ -209,7 +236,7 @@ export default {
       openid: openid,
       page: page,
       page_size: 30
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
@@ -224,7 +251,7 @@ export default {
       openid: openid,
       page: page,
       page_size: 30
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data.rowdata);
       } else {
@@ -241,7 +268,7 @@ export default {
       storeid: storeid,
       third_appid: extJson.aliappid,
       ptype: 2
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
@@ -267,7 +294,7 @@ export default {
     if (openid) {
       postdata.openid = openid;
     }
-    http.post(postdata, function(status, rest) {
+    http.post(postdata, function (status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorageSync({
           key: "indexads-all",
@@ -292,7 +319,7 @@ export default {
     var postdata = {
       method: "goods.goodsinfo.getAllGoodsRemarks"
     }
-    http.post(postdata, function(status, rest) {
+    http.post(postdata, function (status, rest) {
       if (status && rest.data.code === 1) {
         var obj = {}, typeobj = {};
         for (var i in rest.data.data) {
@@ -319,8 +346,8 @@ export default {
     })
   },
   setOrderComplete(option) {
-    if (!option.success) option.success = function(res) { console.log('setOrderComplete success ', res) }
-    if (!option.fail) option.fail = function(res) { console.log('setOrderComplete fail ', res) }
+    if (!option.success) option.success = function (res) { console.log('setOrderComplete success ', res) }
+    if (!option.fail) option.fail = function (res) { console.log('setOrderComplete fail ', res) }
     if (!option.storeid) {
       option.fail({ error: true, message: "没有设置storeid" })
       return;
@@ -341,7 +368,7 @@ export default {
       yprice: option.price,
       sprice: option.price,
       cprice: 0
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data);
       } else {
@@ -364,7 +391,7 @@ export default {
       method: "member.OpenIntegralMall.getIntegralList",
       openid: openid,
       page: 1
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorageSync({
           key: "getIntegralList-all",
@@ -389,7 +416,7 @@ export default {
     http.post({
       method: "member.MemberInfo.memberAccount",
       storeid: storeid,
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         my.setStorageSync({
           key: "member.MemberInfo.memberAccount",
@@ -405,7 +432,7 @@ export default {
   uploadOrder(data, callback) {
     data.method = "order.xinyiorder.uploadOrder";
     var _this = this;
-    http.post(data, function(status, rest) {
+    http.post(data, function (status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
@@ -418,12 +445,12 @@ export default {
   postError(error) {
     data.method = "bussiness.Writeloginfo.uploadLogInfo";
     data.loginfo = JSON.stringify(error);
-    http.post(data, function(status, rest) { })
+    http.post(data, function (status, rest) { })
   },
   createAlipay(data, callback) {
     data.method = "miniapp.OnlinePay.getAliPayPaymentOrderno";
     var _this = this;
-    http.post(data, function(status, rest) {
+    http.post(data, function (status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
@@ -459,7 +486,7 @@ export default {
       type: 1,
       ptype: 2,
       storeid: storeid
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         http.post({
           method: "miniapp.GoodsInfo.getGoodsInfo",
@@ -467,7 +494,7 @@ export default {
           type: 1,
           ptype: 2,
           storeid: storeid
-        }, function(status, restgoods) {
+        }, function (status, restgoods) {
           if (status && restgoods.data.code === 1) {
             //处理数据
             var goodsObj = {}, goodsTypeData = {};
@@ -483,7 +510,7 @@ export default {
                 goodstype: rest.data.data,
                 goodsdata: restgoods.data.data,
               },
-              fail: function(res) {
+              fail: function (res) {
                 my.alert({ content: '1' + res.errorMessage });
               }
             })
@@ -492,7 +519,7 @@ export default {
               data: {
                 goodsObj: goodsObj,
               },
-              fail: function(res) {
+              fail: function (res) {
                 my.alert({ content: '2' + res.errorMessage });
               }
             })
@@ -501,7 +528,7 @@ export default {
               data: {
                 goodsTypeData: goodsTypeData,
               },
-              fail: function(res) {
+              fail: function (res) {
                 my.alert({ content: '3' + res.errorMessage });
               }
             })
@@ -526,7 +553,7 @@ export default {
       openid: openid,
       usercoupon: '1',
       method: "member.MemberInfo.getMemberInfoDetail",
-    }, function(status, rest) {
+    }, function (status, rest) {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {

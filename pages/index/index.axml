@@ -40,6 +40,6 @@
       </block>
     </block>
   </view>
-  <view class="footer">    当前版本 v{{version}}
+  <view class="footer" onTap="clearCache">    当前版本 v{{version}}
   </view>
 </view>

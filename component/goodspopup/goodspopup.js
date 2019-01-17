@@ -236,6 +236,7 @@ Component({
               goodsTmp.garnish.splice(i, 1);
             } else {
               goodsTmp.garnish[i].goodsno--;
+               goodsTmp.garnish[i].one_goodsno--;
               goodsTmp.garnish[i].sprice = goodsTmp.garnish[i].one_price * goodsTmp.garnish[i].goodsno;
               goodsTmp.garnish[i].yprice = goodsTmp.garnish[i].one_price * goodsTmp.garnish[i].goodsno;
             }

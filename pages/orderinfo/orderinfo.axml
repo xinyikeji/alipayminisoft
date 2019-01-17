@@ -55,7 +55,9 @@
     </view>
     <view class="goodslist">
       <view class="goods" a:for="{{order.goodsdata}}">
-        <view class="goodsname">{{item.goodsname}} x {{item.goodsno}}                                                                                                              
+        <view class="goodsname">
+          <image src="/static/package.png" a:if="{{item.dabao == 1}}" style="width:24px;height:24px;float:left;" mode="aspectFit" />
+          {{item.goodsname}} x {{item.goodsno}}                                                                                                              
           <text class="price">￥{{(item.sprice/100).toFixed(2)}}                                                                                                          
           </text>
         </view>
