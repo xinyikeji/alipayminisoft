@@ -61,13 +61,13 @@ var settab =
         content: "商品数据加载中"
       })
       // 开始拉取门店基本数据
-      app.getUserInfo(function(userinfo) {
+      app.getUserInfo(function (userinfo) {
         if (userinfo) {
           api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: _this.data.options, path: '/pages/shopping/shopping' } });
           _this.setData({
             userInfo: userinfo
           })
-          api.getGoodsInfo(_this.data.options.id, function(goodsdata) {
+          api.getGoodsInfo(_this.data.options.id, function (goodsdata) {
             console.log('all goodsdata', goodsdata)
             my.hideLoading();
             //计算分类下每个商品区域的高度
@@ -77,7 +77,7 @@ var settab =
             my.showLoading({
               content: "门店数据加载中"
             })
-            api.getStoreInfo(_this.data.options.id, function(storeinfo) {
+            api.getStoreInfo(_this.data.options.id, function (storeinfo) {
               console.log(storeinfo)
               my.hideLoading();
               if (storeinfo) {
@@ -96,11 +96,11 @@ var settab =
                     clickgoods.setUserInfo({
                       storeid: _this.data.options.id,
                       user: userinfo,
-                      success: function(res) {
+                      success: function (res) {
                         clickgoods.setStoreInfo({
                           storeid: _this.data.options.id,
                           store: storeinfo,
-                          success: function(res) {
+                          success: function (res) {
                             my.hideLoading();
                             _this.setData({
                               shopCart: res
@@ -111,7 +111,7 @@ var settab =
                     })
                     var indexMap = [];
                     for (var i in goodsdata.goodstype) {
-                      my.createSelectorQuery().select('.goodslist-item' + goodsdata.goodstype[i].gtid).boundingClientRect().exec(function(ret) {
+                      my.createSelectorQuery().select('.goodslist-item' + goodsdata.goodstype[i].gtid).boundingClientRect().exec(function (ret) {
                         // console.log(ret)
                         indexMap.push(ret[0]);
                       })
@@ -124,11 +124,12 @@ var settab =
                   fail() {
                     my.hideLoading();
                     my.alert({ title: '定位失败', content: '请检查是否授权我们使用您的位置信息' });
-                    // my.reLaunch({
-                    //   url: '/pages/index/index'
-                    // });
+                    my.reLaunch({
+                      url: '/pages/index/index'
+                    });
                   },
                 })
+
               } else {
                 my.hideLoading();
                 my.alert({ title: "错误提示", content: '门店数据获取失败，请尝试重新进入' });
@@ -168,7 +169,7 @@ var settab =
         this.timerId = null;
       }
 
-      this.timerId = setTimeout(function() {
+      this.timerId = setTimeout(function () {
         for (var i in _this.data.indexMap) {
           if (_this.data.indexMap[i].top < (e.detail.scrollTop + 130) && _this.data.indexMap[i].bottom > (e.detail.scrollTop + 130)) {
             _this.setData({
@@ -195,7 +196,7 @@ var settab =
       clickgoods.decGoodsByGoodsid({
         storeid: this.data.options.id,
         goodsid: event.currentTarget.dataset.goodsid,
-        success: function(res) {
+        success: function (res) {
           _this.setData({
             shopCart: res
           })
@@ -235,7 +236,7 @@ var settab =
         clickgoods.addGoodsToShoppingCart({
           storeid: this.data.options.id,
           goodsdata: goodsTmp,
-          success: function(res) {
+          success: function (res) {
             _this.setData({
               shopCart: res
             })
@@ -283,17 +284,17 @@ var settab =
 
       clickgoods.clearShoppingCart({
         storeid: _this.data.options.id,
-        success: function(resdata) {
+        success: function (resdata) {
           var userinfo = _this.data.userInfo;
           userinfo.name = userinfo.nickname;
           clickgoods.setUserInfo({
             storeid: _this.data.options.id,
             user: userinfo,
-            success: function(res) {
+            success: function (res) {
               clickgoods.setStoreInfo({
                 storeid: _this.data.options.id,
                 store: _this.data.storeData,
-                success: function(res) {
+                success: function (res) {
                   // console.log('showCart ', res)
                   _this.setData({
                     shopCart: res

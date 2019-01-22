@@ -1,17 +1,17 @@
-const APIURL = 'http://api.yunshouyin.org/'
+const APIURL = 'https://api.xinyisoft.net/'
 import php from './php.js'
 
-const getPostData = function(data) {
+const getPostData = function (data) {
   const extJson = my.getExtConfigSync();
   data['appid'] = extJson.appid;
   data['version'] = '1.0';
   data['timestamp'] = php.time();
   data['xinyitoken'] = extJson.xinyitoken;
-  data['sign'] = getSign(data,extJson.secret);
+  data['sign'] = getSign(data, extJson.secret);
   if (data['secret']) delete data['secret'];
   return data;
 }
-const getSign = function(data,secret) {
+const getSign = function (data, secret) {
   data['secret'] = secret;
   php.ksort(data); // array按照key进行排序
   const queryString = [];
@@ -24,10 +24,11 @@ const getSign = function(data,secret) {
   // console.log(queryString.join('&'))
   return php.md5(queryString.join('&'));
 }
-const post = function(postdata, callback) {
+const post = function (postdata, callback) {
   var postdataObj = getPostData(postdata);
+  const extJson = my.getExtConfigSync();
   my.httpRequest({
-    url: APIURL,
+    url: extJson.apiurl || APIURL,
     data: postdataObj,
     method: 'POST',
     header: {

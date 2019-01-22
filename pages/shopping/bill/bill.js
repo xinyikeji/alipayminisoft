@@ -342,6 +342,9 @@ Page({
   },
   setOrder() {
     var _this = this;
+    my.showLoading({
+      content:"处理中..."
+    })
     var orderData = clickgoods.getShoppingCart(this.data.storeInfo.storeid);
     clickgoods.getOrderId({
       storeid: this.data.options.id,
@@ -446,6 +449,7 @@ Page({
         }
 
         // console.log(uploadData)
+        my.hideLoading();
         my.showLoading({
           content: "正在创建订单",
         });

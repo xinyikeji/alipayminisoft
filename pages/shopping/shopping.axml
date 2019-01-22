@@ -112,7 +112,7 @@
       <view class="cartbuttons">
         <view class="shoppcar">
           <block a:if="{{shopCart.goodsnumber && shopCart.goodsnumber > 0}}">
-            <badge  text="{{shopCart.goodsnumber}}">
+            <badge text="{{shopCart.goodsnumber}}">
               <view slot="inner" style="height: 26px; width: 26px;">
                 <image onTap="showShoppingCartPopup" src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
               </view>

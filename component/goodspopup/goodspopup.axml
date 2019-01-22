@@ -20,7 +20,7 @@
                     <image a:else src="{{goodsInfo.shoppic}}" style="width:{{((windowWidth-100)/4)}}px;height:{{((windowWidth-100)/4)/4*3}}px" mode="aspectFill" />
                     <view class="suit-name">                        {{itemName.goodsname}}                                                                                                            
                     </view>
-                    <view class="suit-price">                        +￥{{(itemName.addprice/100).toFixed(2)}}                                                                                                            
+                    <view class="suit-price"> +￥{{(itemName.addprice/100).toFixed(2)}} [{{itemName.goodsno}}]                                                                                                            
                     </view>
                   </view>
                 </block>
@@ -35,7 +35,7 @@
                   <image a:else src="{{goodsInfo.shoppic}}" style="width:{{((windowWidth-100)/4)}}px;height:{{((windowWidth-100)/4)/4*3}}px" mode="aspectFill" />
                   <view class="suit-name">{{item.goodsname}}                                                                                                                        
                   </view>
-                  <view class="suit-price">+￥{{(item.addprice/100).toFixed(2)}}                                                                                                                        
+                  <view class="suit-price">+￥{{(item.addprice/100).toFixed(2)}}  [{{item.goodsno}}]                                                                                                                       
                   </view>
                 </view>
               </view>
