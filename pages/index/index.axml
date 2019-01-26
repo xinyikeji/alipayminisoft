@@ -1,4 +1,5 @@
 <view>
+	
   <view class="ads-one">
     <swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="3000">
       <block a:for="{{indexAds.swiper}}">
