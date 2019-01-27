@@ -443,6 +443,7 @@ export default {
     })
   },
   postError(error) {
+		let data = {};
     data.method = "bussiness.Writeloginfo.uploadLogInfo";
     data.loginfo = JSON.stringify(error);
     http.post(data, function (status, rest) { })

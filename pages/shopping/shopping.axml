@@ -1,157 +1,169 @@
 <view>
-  <view class="storeinfo">
-    <view class="storename">
-      <text class="replace">
-        <navigator url="../store/store" class="replacestore" open-type="redirect" >[换门店]</navigator>                
-      </text>{{storeData.storename}}               
-      <text class="long">距离{{storeData.longvalueFormat}}                  
-      </text>
-    </view>
-    <view class="storetelphone">电话：{{storeData.tel_phone}}  地址：{{storeData.address}} 
-    </view>
-  </view>
-  <view class="clickgoods" style="height:{{windowHeight-140}}px">
-    <view class="goodstype">
-      <scroll-view style="height:{{windowHeight-140}}px" scroll-y="{{true}}">
-        <view a:for="{{goodsData.goodstype}}" onTap="typeHandleClick" data-index="{{typeIdx}}" a:for-item="typeItemName" a:for-index="typeIdx" class="typelist-text {{avtiveType == typeIdx ? 'active':''}}">
-          <block a:if="{{typeItemName.image == ''}}">
-            <block a:if="{{shopCart.typenumbers[typeItemName.gtid]}}">
-              <badge text="{{shopCart.typenumbers[typeItemName.gtid]}}">
-                <view slot="inner" class="typetext"> {{typeItemName.name}}                                              
-                </view>
-              </badge>
-            </block>
-            <block a:else>{{typeItemName.name}}                                  
-            </block>
-          </block>
-          <block a:else>
-            <block a:if="{{shopCart.typenumbers[typeItemName.gtid]}}">
-              <badge text="{{shopCart.typenumbers[typeItemName.gtid]}}">
-                <view slot="inner">
-                  <image src="{{typeItemName.image}}" style="width:80px;height:40px;" mode="aspectFill" />
-                </view>
-              </badge>
-            </block>
-            <block a:else>
-              <image src="{{typeItemName.image}}" style="width:80px;height:40px; margin-top:6px;" mode="aspectFill" />
-            </block>
-          </block>
+    <view class="storeinfo">
+        <view class="storename">
+            <text class="replace">
+                <navigator url="../store/store" class="replacestore" open-type="redirect">[换门店]
+                </navigator>
+            </text>{{storeData.storename}}                     
+            <text class="long">距离{{storeData.longvalueFormat}}                        
+            </text>
         </view>
-      </scroll-view>
+        <view class="storetelphone">电话：{{storeData.tel_phone}}  地址：{{storeData.address}}     
+        </view>
     </view>
-    <view class="goodslist">
-      <scroll-view style="height:{{windowHeight-140}}px" scroll-y="{{!showSelect && !showShoppingCart}}" scroll-with-animation="{{true}}" scroll-animation-duration="{{500}}" scroll-top="{{scrollTop}}" onScroll="goodsListOnScroll">
-        <list>
-        <block a:for="{{goodsData.goodstype}}" a:for-item="typeGoodsItemName">
-          <view class="goodslist-item{{typeGoodsItemName.gtid}}">
-            <list-item class="am-list-sticky {{brand != 'iphone' ? 'android':''}}">
-              <view data-gtid="{{typeGoodsItemName.gtid}}">
-                {{typeGoodsItemName.name}}
-                <text a:if="{{typeGoodsItemName.desc != ''}}">
-                  {{typeGoodsItemName.desc}}
-                </text>
-              </view>
-            </list-item>
-            <list-item a:for="{{goodsData.goodsTypeData[typeGoodsItemName.gtid]}}" a:for-item="itemGoods" multipleLine="{{true}}" wrap disabled="{{true}}">
-              <view class="goods">
-                <view class="goodspic" onTap="showGoodsInfo" data-goodsid="{{itemGoods.goodsid}}" a:if="{{itemGoods.shoppic}}">
-                  <image src="{{itemGoods.shoppic}}_800" style="width:60px;height:45px;" mode="aspectFill" />
-                </view>
-                <view>
-                  <view class="goodsinfo">{{itemGoods.goodsname}}           
-                  </view>
-                  <view class="goodsprice">￥{{itemGoods.priceFormat}} <text class="yprice"> ￥{{itemGoods.priceFormat}} <text>                   
-                  </view>
-                </view>
-              </view>
-              <view class="goodsstepper">
-                <block a:if="{{itemGoods.suitflag == 1}}">
-                  <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                    <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                      <view slot="inner">
-                        <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}</view>
-                      </view>
-                    </badge>
-                  </block>
-                  <block a:else>
-                    <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}</view>
-                  </block>
-                </block>
-                <block a:else>
-                  <block a:if="{{itemGoods.garnish && itemGoods.garnish.length > 0}}">
-                    <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                      <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                        <view slot="inner">
-                          <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜</view>
-                        </view>
-                      </badge>
+    <view class="clickgoods" style="height:{{windowHeight-140}}px">
+        <view class="goodstype">
+            <scroll-view style="height:{{windowHeight-140}}px" scroll-y="{{true}}">
+                <view a:for="{{goodsData.goodstype}}" onTap="typeHandleClick" data-index="{{typeIdx}}" a:for-item="typeItemName" a:for-index="typeIdx" class="typelist-text {{avtiveType == typeIdx ? 'active':''}}">
+                    <block a:if="{{typeItemName.image == ''}}">
+                        <block a:if="{{shopCart.typenumbers[typeItemName.gtid]}}">
+                            <badge text="{{shopCart.typenumbers[typeItemName.gtid]}}">
+                                <view slot="inner" class="typetext"> {{typeItemName.name}}                                                              
+                                </view>
+                            </badge>
+                        </block>
+                        <block a:else>{{typeItemName.name}}                                              
+                        </block>
                     </block>
                     <block a:else>
-                      <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜</view>
+                        <block a:if="{{shopCart.typenumbers[typeItemName.gtid]}}">
+                            <badge text="{{shopCart.typenumbers[typeItemName.gtid]}}">
+                                <view slot="inner">
+                                    <image src="{{typeItemName.image}}" style="width:80px;height:40px;" mode="aspectFill" />
+                                </view>
+                            </badge>
+                        </block>
+                        <block a:else>
+                            <image src="{{typeItemName.image}}" style="width:80px;height:40px; margin-top:6px;" mode="aspectFill" />
+                        </block>
                     </block>
-                  </block>
-                  <block a:else>
-                    <image onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
-                    <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                      <text class="numbers">
-                        {{shopCart.goodsnumbers[itemGoods.goodsid]}}               
-                      </text>
-                      <image onTap="decGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
-                    </block>
-                  </block>
-                </block> 
-            </list-item>
-          </view>
-        </block>
-        </list>
-      </scroll-view>
-    </view>
-  </view>
-  <view class="shoppingcart">
-    <view class="cartinfo">
-      <view class="cartbuttons">
-        <view class="shoppcar">
-          <block a:if="{{shopCart.goodsnumber && shopCart.goodsnumber > 0}}">
-            <badge text="{{shopCart.goodsnumber}}">
-              <view slot="inner" style="height: 26px; width: 26px;">
-                <image onTap="showShoppingCartPopup" src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
-              </view>
-            </badge>
-          </block>
-          <block a:else>
-            <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
-          </block>
+                </view>
+            </scroll-view>
         </view>
-        <view class="priceinfo">
-          ￥{{((shopCart.sprice||0)/100).toFixed(2)}} <text class="total_price">￥{{((shopCart.total_price||0)/100).toFixed(2)}}</text> 
-        </view>
-        <view onTap="goShopping" class="goShopping">
-            去结算
-        </view>
-      </view>
-    </view>
-  </view>
-  <popup show="{{showSelect}}" zIndex="10"  onClose="onSelectPopupClose" disableScroll="{{false}}">
-    <goods-popup onAddToShoppingCart="AddToShoppingCart" goodsInfo="{{showSelectGoodsData}}" a:if="{{showSelect}}" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></goods-popup>
-  </popup>
-  <popup show="{{showGoodsInfo}}" zIndex="10"  onClose="onGoodsInfoPopupClose">
-    <view  class="goodsdetail">
-      <view class="goodsdetail-image">
-        <image src="{{showGoodsInfoData.shoppic}}" style="width:100%;" mode="aspectFill" />
-      </view>
-      <view class="goodsdetail-name">
-        {{showGoodsInfoData.goodsname}}
-      </view>
-      <view class="goodsdetail-desc">
-        {{showGoodsInfoData.desc}}
-      </view>
-      <view class="goodsdetail-button">
-       <text>￥ {{showGoodsInfoData.priceFormat}}</text>
-        <button type="primary" onTap="defaultTap" size="mini">选套餐</button>
-      </view>
-    </view>
-  </popup>
-  <popup show="{{showShoppingCart}}" zIndex="10"  onClose="onShoppingCartlose" disableScroll="{{false}}">
-    <shopping-cart a:if="{{showShoppingCart}}" onClearShoppingCart="clearShoppingCart" onChang="changeShoppingCart" billPath="/pages/shopping/bill/bill?id={{options.id}}" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}"></shopping-cart>
-  </popup>
-</view>
+        <view class="goodslist">
+            <scroll-view style="height:{{windowHeight-140}}px" scroll-y="{{!showSelect && !showShoppingCart}}" scroll-with-animation="{{true}}" scroll-animation-duration="{{500}}" scroll-top="{{scrollTop}}" onScroll="goodsListOnScroll">
+                <list>
+                    <block a:for="{{goodsData.goodstype}}" a:for-item="typeGoodsItemName">
+                        <view class="goodslist-item{{typeGoodsItemName.gtid}}">
+                            <list-item class="am-list-sticky {{brand != 'iphone' ? 'android':''}}">
+                                <view data-gtid="{{typeGoodsItemName.gtid}}">                {{typeGoodsItemName.name}}                
+                                    <text a:if="{{typeGoodsItemName.desc != ''}}">                  {{typeGoodsItemName.desc}}                
+                                    </text>
+                                </view>
+                            </list-item>
+                            <list-item a:for="{{goodsData.goodsTypeData[typeGoodsItemName.gtid]}}" a:for-item="itemGoods" multipleLine="{{true}}" wrap disabled="{{true}}">
+                                <view class="goods">
+                                    <view class="goodspic" onTap="showGoodsInfo" data-goodsid="{{itemGoods.goodsid}}" a:if="{{itemGoods.shoppic}}">
+                                        <image src="{{itemGoods.shoppic}}_800" style="width:60px;height:45px;" mode="aspectFill" />
+                                    </view>
+                                    <view>
+                                        <view class="goodsinfo">{{itemGoods.goodsname}}                             
+                                        </view>
+                                        <view class="goodsprice">￥{{itemGoods.priceFormat}} 
+                                            <text class="yprice"> ￥{{itemGoods.priceFormat}} 
+                                                <text>
+                                                    </view>
+                                                    </view>
+                                                    </view>
+                                                    <view class="goodsstepper">
+                                                        <block a:if="{{itemGoods.suitflag == 1}}">
+                                                            <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
+                                                                <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
+                                                                    <view slot="inner">
+                                                                        <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}
+                                                                        </view>
+                                                                    </view>
+                                                                </badge>
+                                                            </block>
+                                                            <block a:else>
+                                                                <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}
+                                                                </view>
+                                                            </block>
+                                                        </block>
+                                                        <block a:else>
+                                                            <block a:if="{{itemGoods.garnish && itemGoods.garnish.length > 0}}">
+                                                                <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
+                                                                    <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
+                                                                        <view slot="inner">
+                                                                            <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜
+                                                                            </view>
+                                                                        </view>
+                                                                    </badge>
+                                                                </block>
+                                                                <block a:else>
+                                                                    <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜
+                                                                    </view>
+                                                                </block>
+                                                            </block>
+                                                            <block a:else>
+                                                                <image onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
+                                                                <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
+                                                                    <text class="numbers">                        {{shopCart.goodsnumbers[itemGoods.goodsid]}}                                     
+                                                                    </text>
+                                                                    <image onTap="decGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
+                                                                </block>
+                                                            </block>
+                                                        </block>
+                                                        </list-item>
+                                                    </view>
+                                                    </block>
+                                                    </list>
+                                                    </scroll-view>
+                                                    </view>
+                                                    </view>
+                                                    <view class="shoppingcart">
+                                                        <view class="cartinfo">
+                                                            <view class="cartbuttons">
+                                                                <view class="shoppcar" onTap="showShoppingCartPopup" a:if="{{shopCart.goodsnumber && shopCart.goodsnumber > 0}}">
+                                                                    <block >
+                                                                        <badge text="{{shopCart.goodsnumber}}">
+                                                                            <view slot="inner" style="height: 26px; width: 26px;">
+                                                                                <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+                                                                            </view>
+                                                                        </badge>
+                                                                    </block>
+                                                                </view>
+                                                                <view class="shoppcar" a:else>
+                                                                    <block >
+                                                                        <badge text="{{shopCart.goodsnumber}}">
+                                                                            <view slot="inner" style="height: 26px; width: 26px;">
+                                                                                <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
+                                                                            </view>
+                                                                        </badge>
+                                                                    </block>
+                                                                </view>
+                                                                <view class="priceinfo">  ￥{{((shopCart.sprice||0)/100).toFixed(2)}} 
+                                                                    <text class="total_price">￥{{((shopCart.total_price||0)/100).toFixed(2)}}
+                                                                    </text>
+                                                                </view>
+                                                                <view onTap="goShopping" class="goShopping">            去结算        
+                                                                </view>
+                                                            </view>
+                                                        </view>
+                                                    </view>
+                                                    <popup show="{{showSelect}}" zIndex="10" onClose="onSelectPopupClose" disableScroll="{{false}}">
+                                                        <goods-popup onAddToShoppingCart="AddToShoppingCart" goodsInfo="{{showSelectGoodsData}}" a:if="{{showSelect}}" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}">
+                                                        </goods-popup>
+                                                    </popup>
+                                                    <popup show="{{showGoodsInfo}}" zIndex="10" onClose="onGoodsInfoPopupClose">
+                                                        <view class="goodsdetail">
+                                                            <view class="goodsdetail-image">
+                                                                <image src="{{showGoodsInfoData.shoppic}}" style="width:100%;" mode="aspectFill" />
+                                                            </view>
+                                                            <view class="goodsdetail-name">        {{showGoodsInfoData.goodsname}}      
+                                                            </view>
+                                                            <view class="goodsdetail-desc">        {{showGoodsInfoData.desc}}      
+                                                            </view>
+                                                            <view class="goodsdetail-button">
+                                                                <text>￥ {{showGoodsInfoData.priceFormat}}
+                                                                </text>
+                                                                <button type="primary" onTap="defaultTap" size="mini">选套餐
+                                                                </button>
+                                                            </view>
+                                                        </view>
+                                                    </popup>
+                                                    <popup show="{{showShoppingCart}}" zIndex="10" onClose="onShoppingCartlose" disableScroll="{{false}}">
+                                                        <shopping-cart a:if="{{showShoppingCart}}" onClearShoppingCart="clearShoppingCart" onChang="changeShoppingCart" billPath="/pages/shopping/bill/bill?id={{options.id}}" storeid="{{options.id}}" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}">
+                                                        </shopping-cart>
+                                                    </popup>
+                                                    </view>
