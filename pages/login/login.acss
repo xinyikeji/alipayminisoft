@@ -1,0 +1,142 @@
+page {
+  background-color: #ffffff;
+}
+
+.weui-cell{
+    display: flex;
+}
+
+
+
+/*登录LOGIN start*/
+.xy-login {
+  background: #ffffff;
+}
+.xy-login .login-onekey .xy-login-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+	padding-top: 104rpx;
+	padding-bottom: 88rpx;
+}
+.xy-login .login-onekey .xy-login-head .xy-login-logo {
+  height: 200rpx;
+  width: 200rpx;
+  border-radius: 100%;
+  overflow: hidden;
+}
+.xy-login .login-onekey .xy-login-head .page__title {
+  text-align: center;
+  margin: 28rpx 0 0 0;
+}
+.xy-login .login-onekey  .xy-login-btn .weui-btn {
+  background:#10aeff;
+	color:#ffffff;
+	font-size: 30rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	font-weight: bold;
+}
+
+.login-way{
+	position: fixed;
+	left:0;
+	right:0;
+	bottom: 126rpx;
+	padding: 0 40rpx;
+	justify-content:space-between;
+    display: flex;
+}
+
+.login-way .weui-btn{
+	color:#10aeff;
+	background: #F2F2F2;
+	font-size: 30rpx;
+	width: 300rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	border:0;
+	text-align: center;
+	border-radius: 9rpx;
+	justify-content: space-between;
+}
+
+.login-way .weui-flex__item{
+	flex: 0 0 300rpx;
+}
+
+
+
+/* 手机号登录 */
+.login-phone .xy-login-head {
+	padding: 80rpx 40rpx;
+}
+
+.login-phone .page__title{
+		font-size: 48rpx;
+		color:#10aeff;
+		font-weight: bold;
+		text-align: left;
+	
+}
+
+.login-phone .weui-cell::before{
+	border:0;
+}
+
+.login-phone .page__bd .weui-cell{
+	border-bottom: 1px solid #ededed;
+}
+.login-phone .page__bd .weui-cell:first-child{
+	margin-bottom: 60rpx;
+}
+
+.login-phone .weui-label{
+	width: 60rpx;
+}
+
+.login-phone .weui-vcode-btn{
+	border-radius: 20rpx;
+	color:#10aeff;
+	border:1px solid #10aeff;
+	font-size: 24rpx;
+    padding: 16rpx 20rpx;
+    width: 120rpx;
+}
+
+.login-phone .weui-btn{
+	margin-top: 70rpx;
+	font-size:36rpx;
+	font-weight: bold;
+}
+
+.login-phone .xy-login-btn .weui-btn {
+  background:#10aeff;
+	color:#ffffff;
+	font-size: 36rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	font-weight: bold;
+	letter-spacing:4rpx;
+}
+
+.checkbox-text{
+    font-size: 24rpx;
+    display: flex;
+}
+
+.checkbox-text checkbox{
+    width: 30rpx;
+    height: 30rpx;
+}
+.input-placeholder{
+	color:#CCCCCC;
+	font-size: 28rpx;
+}
+
+/*登录LOGIN end*/
+.loginicon{
+    width: 60rpx;
+    height: 60rpx;
+}

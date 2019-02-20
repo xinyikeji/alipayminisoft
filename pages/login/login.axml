@@ -1,0 +1,112 @@
+    
+<view class="page xy-login">
+    <view class="login-onekey" a:if="{{loginWay == 'oneKey'}}">
+        <view class="page__hd  xy-login-head">
+            <view class="">
+                <view class="xy-login-logo">
+                    <image mode="aspectFill" src="logo">
+                    </image>
+                </view>
+            </view>
+            <view class="page__title">{{ merchantName }}                                                                            
+            </view>
+            <view class="page__desc">申请获取你微信绑定的手机号                                                                            
+            </view>
+        </view>
+        <view class="page__bd page__bd_spacing xy-login-btn">
+            <button open-type="getAuthorize" onGetAuthorize="oneKeyLogin" onError="onAuthError" scope='phoneNumber' class="weui-btn">授权手机号                            
+            </button>
+        </view>
+    </view>
+    <view class="login-phone" a:if="{{loginWay == 'phone'}}">
+        <form onSubmit="phoneLogin">
+            <view class="page__hd  xy-login-head">
+                <view class="page__title">手机号登录                                                                                                
+                </view>
+            </view>
+            <view class="page__bd page__bd_spacing xy-login-btn">
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                     
+                        <image style="width: 20px; height:20px;"  src="/static/icon/user.png" />
+
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" type="number" maxlength="11" onInput="onInputPhoneBlur" name="phone" value="{{phone}}" placeholder="请输入手机号码" />
+                    </view>
+                </view>
+                <view class="weui-cell weui-cell_input weui-cell_vcode">
+                    <view class="weui-cell__hd">
+                        <view class="weui-label">
+                          <image style="width: 20px; height:20px;"  src="/static/icon/yanzhengma.png" />
+
+                        </view>
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" name="vcode" placeholder="请输入验证码" placeholder-class="" />
+                    </view>
+                    <view class="weui-cell__ft">
+                        <view class="weui-vcode-btn" onTap="sendSmsVerifiCode">								{{ vcode_text }}							                                                                                                                                        
+                        </view>
+                    </view>
+                </view>
+                <checkbox-group onTap="bindAgreeChange">
+                    <label class="checkbox-text">
+                        <checkbox value="1" checked="checked" />
+                        <text>阅读并同意</text>
+                        <text>
+                             <navigator url="" class="weui-agree__link">《相关条款》                                                                                                                                                            
+                            </navigator>
+                        </text>
+                    </label>
+                </checkbox-group>
+                <button class="weui-btn" type="primary" form-type="submit">登录                                                                                                
+                </button>
+            </view>
+        </form>
+    </view>
+    <view class="login-phone" a:if="{{loginWay == 'account'}}">
+        <form onSubmit="accountLogin">
+            <view class="page__hd  xy-login-head">
+                <view class="page__title">账号登录                                                                                                
+                </view>
+            </view>
+            <view class="page__bd page__bd_spacing xy-login-btn">
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                          <image style="width: 20px; height:20px;"  src="/static/icon/user.png" />
+
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" name="user" placeholder="请输入用户名" />
+                    </view>
+                </view>
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                         <image style="width: 20px; height:20px;"  src="/static/icon/yanzhengma.png" />
+
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" name="pass" placeholder="请输入密码" />
+                    </view>
+                </view>
+                <button class="weui-btn" type="primary" form-type="submit" onTap="getPhoneNumber">						登录					                                                                                                
+                </button>
+            </view>
+        </form>
+    </view>
+    <view class="weui-flex login-way">
+        <view class="weui-flex__item" a:if="{{loginWay !== 'oneKey'}}">
+            <view class="weui-btn" data-type="oneKey" data-text="一键登录" onTap="switchLoginWay">					一键登录				                                                                            
+            </view>
+        </view>
+        <view class="weui-flex__item" a:if="{{loginWay !== 'phone'}}">
+            <view class="weui-btn" data-type="phone" data-text="手机号登录" onTap="switchLoginWay">					手机号登录				                                                                            
+            </view>
+        </view>
+        <view class="weui-flex__item" a:if="{{loginWay !== 'account'}}">
+            <view class="weui-btn" data-type="account" data-text="账号登录" onTap="switchLoginWay">					账号登录				                                                                            
+            </view>
+        </view>
+    </view>
+</view>

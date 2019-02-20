@@ -14,7 +14,8 @@
     "pages/member/balance/balance",
     "pages/web/web",
     "pages/takemeals/takemeals",
-    "pages/orderinfo/orderinfo"
+    "pages/orderinfo/orderinfo",
+    "pages/login/login"
   ],
   "window": {
     "defaultTitle": "轻餐饮"
@@ -45,9 +46,11 @@
     ]
   },
   "ext": {
+    "version": "1.1.5",
     "appid": "100068",
     "secret": "553c050a6f9b636832c62c40",
     "aliappid": "2019011062882037",
+    "apiurl": "http://api.yunshouyin.org",
     "xinyitoken": "87bfe246d5642277b008f8b346a9230d18dbf850"
   }
 }
