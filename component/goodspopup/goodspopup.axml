@@ -107,7 +107,7 @@
           </view>
         </view>
         <view class="goodsinfo-remarks" a:if="{{goodsInfo.remarks.length !== 0}}">
-          <view a:for="{{goodsInfo.remarks}}" a:for-item="remarksItem">
+          <view a:for="{{goodsInfo.remarks}}" a:for-item="remarksItem" a:if="{{remarksItem.data.length>0}}">
             <view class="remarkstitle">{{remarksItem.name}}                                                                    
             </view>
             <view>

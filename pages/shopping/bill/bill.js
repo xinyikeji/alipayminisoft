@@ -101,7 +101,15 @@ Page({
                                 }
                             })
                         } else {
-                            my.hideLoading()
+                            my.hideLoading();
+                            my.alert({
+                                title: '错误',
+                                content: '获取赠送的商品错误',
+                                buttonText: '我知道了',
+                                success: () => {
+
+                                },
+                            });
                         }
                     })
 
@@ -152,7 +160,7 @@ Page({
                             return y.price - x.price
                         })
                         _this.setData({
-                            jifenmax: jifenmax,
+                            jifenmax: jifenmax.toFixed(2),
                             shopCart: res,
                             couponList: couponList,
                             couponData: couponList[0] || {}

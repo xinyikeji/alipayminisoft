@@ -22,7 +22,7 @@
     </swiper>
   </view>
   <view class="appbutton">
-    <navigator url="/pages/shopping/shopping?id=3" hover-class="active" class="zizhubutton">
+    <navigator url="/pages/store/store" hover-class="active" class="zizhubutton">
       <image src="/static/saoyisao.png" style="width:20px;height:20px;" mode="aspectFit" />
       <text>自助点餐                                                        
       </text>

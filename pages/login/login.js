@@ -80,6 +80,7 @@ Page({
                         buttonText: '我知道了',
                     });
                 }
+                 _this.getLoginCode();
 
             }
         });
@@ -101,12 +102,21 @@ Page({
             success(rest) {
                 my.hideLoading();
                 console.log(rest);
-                _this.data.smsVode = rest.smscode;
-                _this.data.vcode_text = 60;
+                _this.setData({
+                    smsVode: rest.smscode,
+                    vcode_text: 60,
+                });
+
                 let setIntVCode = setInterval(function () {
-                    _this.data.vcode_text--;
+                    _this.setData({
+                        vcode_text: Number(_this.data.vcode_text) - 1,
+                    });
+
                     if (_this.data.vcode_text == 0) {
-                        _this.data.vcode_text = '获取验证码';
+                        _this.setData({
+                            vcode_text: '获取验证码',
+                        });
+
                         clearInterval(setIntVCode);
                     }
                 }, 1000);
@@ -124,6 +134,7 @@ Page({
                     content: err.msg,
                     buttonText: '我知道了',
                 });
+                 _this.getLoginCode();
             }
         });
     },
@@ -171,6 +182,7 @@ Page({
                     content: err.msg,
                     buttonText: '我知道了',
                 });
+                _this.getLoginCode();
             }
         });
     },
@@ -200,6 +212,7 @@ Page({
                     fail(err) {
                         my.hideLoading();
                         console.log('err', err);
+                        _this.getLoginCode();
                         my.alert({
                             title: '错误',
                             content: err.msg,
@@ -211,6 +224,7 @@ Page({
             fail: (err) => {
                 my.hideLoading();
                 console.log(err)
+                _this.getLoginCode();
                 my.alert({
                     title: '错误',
                     content: err.msg,
@@ -234,7 +248,7 @@ Page({
                 duration: 1500,
                 success: () => {
                     let pages = getCurrentPages();
-                    console.log(pages,'getCurrentPages');
+                    console.log(pages, 'getCurrentPages');
                     if (pages.length == 1) {
                         my.redirectTo({
                             url: '/pages/index/index'
@@ -243,7 +257,7 @@ Page({
                         console.log(pages);
                         //返回上一页
                         my.navigateBack({
-                            delta:1
+                            delta: 1
                         });
                     }
                 },

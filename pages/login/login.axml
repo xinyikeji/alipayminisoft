@@ -10,11 +10,11 @@
             </view>
             <view class="page__title">{{ merchantName }}                                                                            
             </view>
-            <view class="page__desc">申请获取你微信绑定的手机号                                                                            
+            <view class="page__desc">申请获取你绑定的手机号                                                                            
             </view>
         </view>
         <view class="page__bd page__bd_spacing xy-login-btn">
-            <button open-type="getAuthorize" onGetAuthorize="oneKeyLogin" onError="onAuthError" scope='phoneNumber' class="weui-btn">授权手机号                            
+            <button open-type="getAuthorize" onGetAuthorize="oneKeyLogin" onError="onAuthError" scope='phoneNumber' class="weui-btn">一键登录                            
             </button>
         </view>
     </view>
@@ -46,7 +46,7 @@
                         <input class="weui-input" name="vcode" placeholder="请输入验证码" placeholder-class="" />
                     </view>
                     <view class="weui-cell__ft">
-                        <view class="weui-vcode-btn" onTap="sendSmsVerifiCode">								{{ vcode_text }}							                                                                                                                                        
+                        <view class="weui-vcode-btn" onTap="sendSmsVerifiCode">		{{ vcode_text }}							                                                                                                                                        
                         </view>
                     </view>
                 </view>
@@ -87,7 +87,7 @@
 
                     </view>
                     <view class="weui-cell__bd">
-                        <input class="weui-input" name="pass" placeholder="请输入密码" />
+                        <input class="weui-input" password="true" name="pass" placeholder="请输入密码" />
                     </view>
                 </view>
                 <button class="weui-btn" type="primary" form-type="submit" onTap="getPhoneNumber">						登录					                                                                                                

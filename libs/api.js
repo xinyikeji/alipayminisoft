@@ -421,7 +421,7 @@ export default {
     getIntegralList(openid, page, callback) {
         http.post({
             method: "member.OpenUser.getIntegralWater",
-            openid: openid,
+            xyopenid: openid,
             page: page,
             page_size: 30
         }, function (status, rest) {

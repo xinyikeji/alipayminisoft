@@ -34,8 +34,12 @@ App({
         const UserCache = my.getStorageSync({
             key: 'userinfo', // 缓存数据的key
         });
-      
+
         if (!UserCache.data || UserCache.data.length == 0) {
+            my.alert({
+                title: '提示',
+                content: '你还没有登录，请登录~'
+            })
             my.navigateTo({
                 url: '/pages/login/login'
             })
@@ -49,7 +53,7 @@ App({
         const UserCache = my.getStorageSync({
             key: 'userinfo', // 缓存数据的key
         });
-         console.log(UserCache,'de');
+        console.log(UserCache, 'de');
         if (UserCache.data) {
             console.log(UserCache);
             callback(UserCache.data);
