@@ -151,7 +151,17 @@ var settab =
             })
         },
         goShopping() {
-            if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
+            let goodsArr = this.data.shopCart.goods;
+            let goodsIdArr = [];
+            goodsArr.forEach((item)=>{
+              goodsIdArr.push(item.gtid);
+            });
+            if ( goodsIdArr.indexOf(999999999) == -1) {
+              my.showToast({
+                type: "fail",
+                content: "请选择必点商品"
+                });
+            } else if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
                 my.navigateTo({
                     url: 'bill/bill?id=' + this.data.options.id
                 });
