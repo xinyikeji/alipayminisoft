@@ -86,6 +86,7 @@ Page({
                             })
                             api.getUserAccount(userinfo.openid, function (userAccount) {
                                 if (userAccount) {
+                                  console.log(userAccount.account_balance)
                                     api.getMemberConfigInfo(storeinfo.storeid, function (memberConfig) {
                                         my.hideLoading()
                                         //计算最多可以用多少积分,并且设置积分的步进长度

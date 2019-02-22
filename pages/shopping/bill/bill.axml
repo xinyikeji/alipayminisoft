@@ -61,7 +61,7 @@
         <view slot="header">账户信息                                                  
         </view>
         <list-item class="lit-item-stepper" disabled="{{true}}">余额                                                   
-          <text class="user-account">剩余￥{{(userAccount.account_balance/100).toFixed(2)}}                                                  
+          <text a:if="{{userAccount.account_balance}}" class="user-account">剩余￥{{(userAccount.account_balance/100).toFixed(2)}}                                                  
           </text>
           <view slot="extra">
             <stepper onChange="callBlanaceBackFn" step="{{1}}" showNumber readOnly="{{userAccount.account_balance === 0}}" value="{{account_balance}}" min="{{0}}" max="{{userAccount.account_balance > shopCart.sprice ? shopCart.sprice/100 : userAccount.account_balance/100}}" />
