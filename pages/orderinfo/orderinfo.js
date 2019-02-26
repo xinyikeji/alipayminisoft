@@ -9,7 +9,8 @@ Page({
     loading: true,
     order: {},
     remarks: {},
-    options: {}
+    options: {},
+    newGoodsdata:[]
   },
   onUnload() {
     api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/orderinfo/orderinfo' } });
@@ -18,6 +19,7 @@ Page({
     this.setData({
       options: options
     })
+    // console.log('options',options)
     var _this = this;
     app.getUserInfo(function(userinfo) {
       if (userinfo) {
@@ -27,11 +29,18 @@ Page({
         })
         _this.reloadData(true)
         _this.getCancleRemarks();
+        
+    console.log(1,_this.data.newGoodsdata)
       }else{
         api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/orderinfo/orderinfo' } });
       }
     })
   },
+  // 取消订单
+  // defaultTap(){
+  //   var _this = this;
+  // },
+  // 立即支付
   gotoPay() {
     var _this = this;
     const extJson = my.getExtConfigSync();
@@ -72,7 +81,6 @@ Page({
         }
       })
     })
-
   },
   setOrderComplete() {
     my.showLoading({
@@ -86,7 +94,6 @@ Page({
       success: (res) => {
         my.hideLoading();
         _this.reloadData(true);
-        
         // console.log(res)
       }
     })
@@ -97,7 +104,7 @@ Page({
   getCancleRemarks(){
     api.getOrderCancleRemarks({
       success:function (remarks){
-        console.log(remarks)
+        // console.log(remarks)
       }
     })
   },
@@ -110,21 +117,28 @@ Page({
         orderno: _this.data.options.orderno,
         cache: reloadCache,
         success: function(res) {
+          console.log('res',res)
           my.stopPullDownRefresh();
-          // console.log(res)
           for (var i in res.goodsdata) {
             res.goodsdata[i].remarks = res.goodsdata[i].remarks.split(',');
           }
           res.order.addtimeFormat = php.date('Y-m-d H:i:s',res.order.addtime);
           res.order.yytimeFormat = php.date('Y-m-d H:i:s',res.order.yytime);
+          // 声明新数组用于存放goodslist
+          let newGoodsdata = []
+          res.goodsdata.forEach((item,index)=>{
+            if(!item.child){
+              newGoodsdata.push(item);
+            }
+          })
           _this.setData({
             loading: false,
             order: res,
-            remarks: remarks
+            remarks: remarks,
+            newGoodsdata:newGoodsdata
           })
         }
       })
     })
-
   },
 });

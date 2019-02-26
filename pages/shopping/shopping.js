@@ -40,6 +40,8 @@ var settab =
                 },
             });
             this.loadData();
+            
+            // console.log('goodsData',this.data.goodsData)
         },
         onShow() {
             if (this.data.show) {
@@ -68,7 +70,7 @@ var settab =
                         userInfo: userinfo
                     })
                     api.getGoodsInfo(_this.data.options.id, function (goodsdata) {
-                        console.log('all goodsdata', goodsdata)
+                        // console.log('all goodsdata', goodsdata)
                         my.hideLoading();
                         //计算分类下每个商品区域的高度
                         _this.setData({
@@ -78,7 +80,7 @@ var settab =
                             content: "门店数据加载中"
                         })
                         api.getStoreInfo(_this.data.options.id, function (storeinfo) {
-                            console.log(storeinfo)
+                            // console.log(storeinfo)
                             my.hideLoading();
                             if (storeinfo) {
                                 _this.setData({
@@ -86,6 +88,7 @@ var settab =
                                 })
                                 my.getLocation({
                                     success(res) {
+                                      console.log('getLocation',res);
                                         storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
                                         storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
                                         storeinfo.name = storeinfo.storename;
@@ -121,7 +124,7 @@ var settab =
                                             indexMap: indexMap
                                         })
                                     },
-                                    fail() {
+                                    fail(err) {
                                         my.hideLoading();
                                         my.alert({ title: '定位失败', content: '请检查是否授权我们使用您的位置信息' });
                                         my.reLaunch({
@@ -215,11 +218,50 @@ var settab =
                 }
             })
         },
+        // 函数:当前时间是否在两个时间点之间
+        timeRange(beginTime, endTime){
+          var strb = beginTime.split (":");
+          // if(strb.length != 2) {
+          //   return false;
+          // };
+          var stre = endTime.split (":");
+          // if (stre.length != 2) {
+          //   return false;
+          // }
+          var b = new Date ();
+          var e = new Date ();
+          var n = new Date ();
+          b.setHours (strb[0]);
+          b.setMinutes (strb[1]);
+          e.setHours (stre[0]);
+          e.setMinutes (stre[1]);
+          if (n.getTime () - b.getTime () > 0 && n.getTime () - e.getTime () < 0) {
+            // 如果当前时间在开始时间和结束时间之间,返回true
+            return true;
+          } else {
+            // 如果不在,返回false
+            return false;
+          }
+        },
         plusGoods(event) {
+          // console.log(this.data.goodsData)
+          // goodsData.goodsTypeData[typeGoodsItemName.gtid]
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
+            // console.log("goodsData",goodsData)
+            // console.log(event)
             var _this = this;
-            if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
-                var goodsTmp = {
+            // 如果该商品设置了销售时段
+            if(goodsData.sales.length == !0 ){
+              let timeFlag = this.timeRange(goodsData.sales[0].stime,goodsData.sales[0].ttime)
+              // 如果不在销售时段内
+              if(timeFlag == false){
+                my.showToast({
+                  type: "fail",
+                  content: "该商品不在销售时段内"
+                })
+              }else{
+                 if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
+                  var goodsTmp = {
                     goodsid: goodsData.goodsid,
                     gtid: goodsData.gtid,
                     goodsname: goodsData.goodsname,
@@ -241,22 +283,64 @@ var settab =
                     one_yprice: goodsData.price,
                     tmp_oneprice: goodsData.price,
                     tmpprice: goodsData.price
-                };
-
-                clickgoods.addGoodsToShoppingCart({
+                  };
+                  clickgoods.addGoodsToShoppingCart({
                     storeid: this.data.options.id,
                     goodsdata: goodsTmp,
                     success: function (res) {
-                        _this.setData({
-                            shopCart: res
-                        })
+                      _this.setData({
+                        shopCart: res
+                      })
                     }
-                });
-            } else {
-                this.setData({
+                  });
+                } else {
+                  this.setData({
                     showSelect: true,
                     showSelectGoodsData: goodsData
+                  })
+                }
+              }
+            } else {
+              // 如果该商品没设置销售时段
+              if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
+                var goodsTmp = {
+                  goodsid: goodsData.goodsid,
+                  gtid: goodsData.gtid,
+                  goodsname: goodsData.goodsname,
+                  shoppic: goodsData.shoppic,
+                  pocket: 1,
+                  goodsno: 1,
+                  mprice: goodsData.price,
+                  discount: 100,
+                  youhuiprice: 0,
+                  suitflag: 0,
+                  is_give: 0,
+                  is_package: 0,
+                  is_default_package: 0,
+                  dabaohe: goodsData.dabaohe,
+                  remarks: "",
+                  yprice: goodsData.price,
+                  sprice: goodsData.price,
+                  one_sprice: goodsData.price,
+                  one_yprice: goodsData.price,
+                  tmp_oneprice: goodsData.price,
+                  tmpprice: goodsData.price
+                };
+                clickgoods.addGoodsToShoppingCart({
+                  storeid: this.data.options.id,
+                  goodsdata: goodsTmp,
+                  success: function (res) {
+                    _this.setData({
+                      shopCart: res
+                    })
+                  }
+                });
+              } else {
+                this.setData({
+                  showSelect: true,
+                  showSelectGoodsData: goodsData
                 })
+              }
             }
         },
         AddToShoppingCart(res) {

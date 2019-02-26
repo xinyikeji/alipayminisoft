@@ -59,7 +59,7 @@ export default {
             encryptedData: encryptedData,
             // iv: iv,
         }, function (status, rest) {
-            console.log(rest);
+            // console.log(rest);
              if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
@@ -70,9 +70,6 @@ export default {
 
         })
     },
-
-
-
 
     //账号密码登录
     fnAccountLogin(opt = {}) {
@@ -100,7 +97,7 @@ export default {
             password: password
         }, function (status, rest) {
 
-            console.log(rest);
+            // console.log(rest);
             if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
@@ -108,9 +105,6 @@ export default {
             } else {
                 opt.fail(rest.data)
             }
-
-
-
         })
     },
     /**
@@ -139,7 +133,7 @@ export default {
             phone: phone,
             verify_code: verify_code,
         }, function (status, rest) {
-            console.log(rest);
+            // console.log(rest);
            if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
@@ -174,7 +168,7 @@ export default {
             phone: phone,
             type: type
         }, function (status, rest) {
-            console.log(rest);
+            // console.log(rest);
            if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
@@ -412,7 +406,7 @@ export default {
                 })
                 callback(rest.data.data);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -428,7 +422,7 @@ export default {
             if (status && rest.data.code === 1) {
                 callback(rest.data.data);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -443,7 +437,7 @@ export default {
             if (status && rest.data.code === 1) {
                 callback(rest.data.data.rowdata);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -460,7 +454,7 @@ export default {
             if (status && rest.data.code === 1) {
                 callback(rest.data.data);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -490,7 +484,7 @@ export default {
                 })
                 callback(rest.data.data);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -528,7 +522,7 @@ export default {
                 })
                 callback(backdata);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -560,7 +554,7 @@ export default {
             if (status && rest.data.code === 1) {
                 option.success(rest.data.data);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 option.fail(rest);
             }
         })
@@ -587,7 +581,7 @@ export default {
                 })
                 callback(rest.data.data);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -612,7 +606,7 @@ export default {
                 })
                 callback(rest.data.data);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -624,7 +618,7 @@ export default {
             if (status && rest.data.code === 1) {
                 callback(rest.data.data);
             } else {
-                console.log(status, rest)
+                // console.log(status, rest)
                 _this.postError({ postdata: data, restback: rest })
                 callback(false);
             }
@@ -644,7 +638,7 @@ export default {
                 callback(rest.data.data);
             } else {
                 _this.postError({ postdata: data, restback: rest })
-                console.log(status, rest)
+                // console.log(status, rest)
                 callback(false);
             }
         })
@@ -728,7 +722,7 @@ export default {
                             goodsTypeData: goodsTypeData
                         });
                     } else {
-                        console.log(status, restgoods)
+                        // console.log(status, restgoods)
                         callback(false);
                     }
                 })
