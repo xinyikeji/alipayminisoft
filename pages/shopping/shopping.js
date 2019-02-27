@@ -33,10 +33,12 @@ var settab =
             })
             
             // 拉取门店停售/售罄商品信息
-            // api.getStopCompleteList(options.id, function(){
-
-            // });
-
+            api.getStopList(options.id, function(status,res){
+              console.log('返回停售商品信息',status,res)
+            });
+            api.getCompleteList(options.id,function(status,res){
+              console.log('返回售罄商品信息',status,res)
+            });
 
             my.getSystemInfo({
                 success: (res) => {
