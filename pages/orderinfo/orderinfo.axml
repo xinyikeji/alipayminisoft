@@ -89,7 +89,7 @@
       </view>
       <view class="toolsbutton">
         <block a:if="{{order.order.pstatus === 0}}">
-          <button type="warn" size="mini" onTap="defaultTap">取消订单                                                                      
+          <button type="warn" size="mini" onTap="cancelOrder">取消订单                                                                      
           </button>
           <button type="primary" size="mini" onTap="gotoPay">立即支付                                                                      
           </button>

@@ -60,7 +60,7 @@ export default {
             // iv: iv,
         }, function (status, rest) {
             console.log(rest);
-             if (status && rest.data.code == 1) {
+            if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
                 return false;
@@ -140,7 +140,7 @@ export default {
             verify_code: verify_code,
         }, function (status, rest) {
             console.log(rest);
-           if (status && rest.data.code == 1) {
+            if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
                 return false;
@@ -175,7 +175,7 @@ export default {
             type: type
         }, function (status, rest) {
             console.log(rest);
-           if (status && rest.data.code == 1) {
+            if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
                 return false;
@@ -269,6 +269,59 @@ export default {
             }
         })
     },
+    //取消订单
+    cancelOrder(option) {
+        if (!option.success) option.success = function (res) { console.log('getOrderDetail success ', res) }
+        if (!option.fail) option.fail = function (res) { console.log('getOrderDetail fail ', res) }
+        if (!option.orderno) {
+            option.fail({ error: true, message: "没有设置orderno" })
+            return;
+        }
+
+
+        // const extJson = my.getExtConfigSync();
+        var postdata = {
+            method: "order.ordercancel.setOrderCancel",
+            orderno: option.orderno
+        };
+
+        postdata.storeid = option.storeid;//	门店ID
+        postdata.orderno = option.orderno;//	订单编号
+        postdata.dociid = option.dociid;//	取消理由ID 拉取销单理由接口
+        postdata.canceltype = option.canceltype;//	订单编号
+
+        http.post(postdata, function (status, rest) {
+            if (status && rest.data.code === 1) {
+                option.success(rest.data.data)
+            } else {
+                option.fail(rest.data)
+            }
+        })
+    },
+
+        //取消理由
+    getCancelReason(option) {
+        if (!option.success) option.success = function (res) { console.log('getOrderDetail success ', res) }
+        if (!option.fail) option.fail = function (res) { console.log('getOrderDetail fail ', res) }
+      
+
+        // const extJson = my.getExtConfigSync();
+        var postdata = {
+            method: "order.cancelreason.getCancelReason",
+        };
+
+    
+        http.post(postdata, function (status, rest) {
+            if (status && rest.data.code === 1) {
+                option.success(rest.data.data)
+            } else {
+                option.fail({ error: true, message: "数据读取失败" })
+            }
+        })
+    },
+
+
+
     getOrderDetail(option) {
         if (!option.success) option.success = function (res) { console.log('getOrderDetail success ', res) }
         if (!option.fail) option.fail = function (res) { console.log('getOrderDetail fail ', res) }
