@@ -54,8 +54,9 @@ Page({
   },
   // 切换门店
   gotoClickGoodsTap(event) {
-    console.log('EVENT', event)
-    console.log('storelist', this.data.storelist)
+    // api.getStopCompleteList()
+    // console.log('EVENT', event)
+    // console.log('storelist', this.data.storelist)
     const storeinfo = this.data.storelist[event.currentTarget.dataset.index];
     if (storeinfo.shop_type === 0) {
       my.redirectTo({

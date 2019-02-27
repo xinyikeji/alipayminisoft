@@ -6,7 +6,7 @@ App({
         var version = my.getStorageSync({
             key: "version"
         });
-        console.log(version)
+        // console.log(version)
         if (version.data) {
             if (version.data != extJson.version) {
                 my.clearStorage();
@@ -53,9 +53,9 @@ App({
         const UserCache = my.getStorageSync({
             key: 'userinfo', // 缓存数据的key
         });
-        console.log(UserCache, 'de');
+        // console.log(UserCache, 'de');
         if (UserCache.data) {
-            console.log(UserCache);
+            // console.log(UserCache);
             callback(UserCache.data);
             return;
         }

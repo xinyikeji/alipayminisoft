@@ -24,6 +24,29 @@ Component({
 
   },
   methods: {
+    goShopping() {
+        let goodsArr = this.data.shopCart.goods;
+        let goodsIdArr = [];
+        console.log(this.data)
+        goodsArr.forEach((item)=>{
+          goodsIdArr.push(item.gtid);
+        });
+        if ( goodsIdArr.indexOf(999999999) == -1) {
+          my.showToast({
+            type: "fail",
+            content: "请选择必点商品"
+            });
+        } else if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
+            my.navigateTo({
+                url: 'bill/bill?id=' + this.data.options.id
+            });
+        } else {
+            my.showToast({
+                type: "fail",
+                content: "还没有点餐"
+            });
+        }
+    },
     reloadScHeight() {
       var _this = this;
       my.createSelectorQuery().select('.shopping-cart-goodslist-view').boundingClientRect().exec(function(ret) {
@@ -39,7 +62,9 @@ Component({
     clearShoppingCart() {
       this.props.onClearShoppingCart();
     },
+    // 从购物车里删除商品
     decGoods(event) {
+      console.log("在购物车里删除",event)
       var _this = this;
       clickgoods.decGoodsToShoppingCart({
         storeid: _this.props.storeid,

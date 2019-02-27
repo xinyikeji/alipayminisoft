@@ -24,12 +24,20 @@ var settab =
             api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/shopping' } });
         },
         onLoad(options) {
+            // console.log(options)
             if (!options.id) {
                 options.id = 3;
             }
             this.setData({
                 options: options
             })
+            
+            // 拉取门店停售/售罄商品信息
+            // api.getStopCompleteList(options.id, function(){
+
+            // });
+
+
             my.getSystemInfo({
                 success: (res) => {
                     this.setData({
@@ -40,8 +48,7 @@ var settab =
                 },
             });
             this.loadData();
-            
-            // console.log('goodsData',this.data.goodsData)
+            console.log('goodsData',this.data.goodsData)
         },
         onShow() {
             if (this.data.show) {
@@ -70,6 +77,8 @@ var settab =
                         userInfo: userinfo
                     })
                     api.getGoodsInfo(_this.data.options.id, function (goodsdata) {
+                      if(Object.keys(goodsdata.goodsObj).length !== 0){
+                        // 如果门店有商品信息
                         // console.log('all goodsdata', goodsdata)
                         my.hideLoading();
                         //计算分类下每个商品区域的高度
@@ -80,7 +89,7 @@ var settab =
                             content: "门店数据加载中"
                         })
                         api.getStoreInfo(_this.data.options.id, function (storeinfo) {
-                            // console.log(storeinfo)
+                            console.log("门店信息",storeinfo)
                             my.hideLoading();
                             if (storeinfo) {
                                 _this.setData({
@@ -88,7 +97,7 @@ var settab =
                                 })
                                 my.getLocation({
                                     success(res) {
-                                      console.log('getLocation',res);
+                                      // console.log('getLocation',res);
                                         storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
                                         storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
                                         storeinfo.name = storeinfo.storename;
@@ -141,6 +150,18 @@ var settab =
                                 // });
                             }
                         })
+                      }else{
+                        // 如果门店没有商品信息
+                        my.alert({
+                          title:'错误提示',
+                          content: "该门店暂无商品",
+                          success:function(){
+                            my.redirectTo({
+                              url:'/pages/store/store'
+                            })
+                          }
+                        })
+                      }
                     })
                 } else {
                     my.hideLoading();
@@ -411,13 +432,8 @@ var settab =
 
                         })
                     }
-
-
                 },
             });
-
-
-
         },
         onSelectPopupClose() {
             this.setData({

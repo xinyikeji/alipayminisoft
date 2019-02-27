@@ -1,6 +1,26 @@
-import http from './http'
+import http from './http' 
 import php from './php'
 export default {
+    // 拉取门店停售、售罄商品信息
+    getStopCompleteList(storeid){
+      // 拉取门店停售商品信息
+        http.post({
+            method: "goods.Storestopgoods.getStopList",
+            storeid: storeid,
+        }, function (res1, res2) {
+          console.log(res1, '停售信息',res2)
+          return res2
+        })
+        
+        // 拉取门店售罄商品信息
+        http.post({
+            method: "goods.Storeclear.getCompleteList",
+            storeid: storeid,
+        }, function (res3, res4) {
+          console.log(res3, '售罄信息',res4)
+          return res4
+        })
+    },
     /**
      * 获取指定页面URL 或者 URL+参数
      */

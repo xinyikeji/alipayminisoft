@@ -26,6 +26,7 @@ Component({
     }
   },
   didMount() {
+    // console.log('goodsInfo',this.props.goodsInfo)
     var _this = this;
     my.createSelectorQuery().select('.datainfoview').boundingClientRect().exec(function(ret) {
       var height = (ret[0].height > (_this.props.windowHeight - 200)) ? (_this.props.windowHeight - 200) : ret[0].height;
@@ -92,7 +93,6 @@ Component({
         }
       } else if (goodsData.suitflagtype == 2) { // 组合套餐
         // console.log(goodsData)
-
         goodsTmp.tmpprice = goodsData.price;
         goodsTmp.tmp_oneprice = goodsData.price;
         goodsTmp.child = [];
@@ -106,7 +106,6 @@ Component({
           goodsTmp.one_sprice = 0
           goodsTmp.one_yprice = 0
         }
-
       } else if (goodsData.suitflagtype == 1) { // 普通套餐
         // console.log(goodsData)
         var selectSuitData = {};
@@ -146,8 +145,14 @@ Component({
     this.setData({
       goodsTmp: goodsTmp
     })
-    // 重置要循环的配菜列表
-    this.setGarnish()
+    if(this.props.goodsInfo.child){
+      // 如果是配菜或规格商品，才执行重置要循环的配菜列表
+      this.setGarnish()
+    }else{
+      this.setData({
+        showGarnish: this.props.goodsInfo.garnish
+      })
+    }
   },
   didUpdate(event) {
     var _this = this;
@@ -161,25 +166,34 @@ Component({
   methods: {
     // 重置要循环的配菜列表
     setGarnish(){
-    // console.log('配菜列表原本循环的数据源garnish',this.props.goodsInfo.garnish,改)
-    // 声明要循环的配菜列表
-    let showGarnish = [];
-    // 循环所有规格
-    this.props.goodsInfo.child.forEach((itemChild,indexChild)=>{
-      // 若某一规格被选中
-      if(itemChild.isdefault == 1){
-        // 循环所有garnish
-        this.props.goodsInfo.garnish.forEach((itemGarnish,indexGarnish)=>{
-          // 找到与该规格的goodsid相同的所有garnish,放入新数组
-          if(itemGarnish.fgoodsid == itemChild.goodsid){
-            showGarnish.push(itemGarnish);
+      // console.log("类型",this.props.goodsInfo.suitflagtype)
+      if(this.props.goodsInfo.suitflagtype == 3 && this.props.goodsInfo.child){
+        // 如果有配菜选项且类型是规格商品，才需要重置循环的配菜列表
+        // console.log('配菜列表原本循环的数据源garnish',this.props.goodsInfo.garnish,改)
+        // 声明要循环的配菜列表
+        let showGarnish = [];
+        // 循环所有规格
+        // console.log(111,this.props.goodInfo)
+        this.props.goodsInfo.child.forEach((itemChild,indexChild)=>{
+          // 若某一规格被选中
+          if(itemChild.isdefault == 1){
+            // 循环所有garnish
+            this.props.goodsInfo.garnish.forEach((itemGarnish,indexGarnish)=>{
+              // 找到与该规格的goodsid相同的所有garnish,放入新数组
+              if(itemGarnish.fgoodsid == itemChild.goodsid){
+                showGarnish.push(itemGarnish);
+              }
+            })
           }
         })
+        this.setData({
+          showGarnish:showGarnish
+        })
+      }else{
+        this.setData({
+          showGarnish:this.props.goodsInfo.garnish
+        })
       }
-    })
-    this.setData({
-      showGarnish:showGarnish
-      })
     },
     setPackage() {
       var goodsTmp = this.data.goodsTmp;
@@ -384,10 +398,9 @@ Component({
       }
       // 该商品有child,且child有内容.即套餐/规格商品都有选项,才能加入购物车
       //加入购物车
-      // debugger
-      // console.log(goodsData.child)
+      // console.log(goodsData)
       if(goodsData.child == undefined){
-      // 如果没有child,正常执行
+      // 如果没有child,说明是单品，正常执行
         clickgoods.addGoodsToShoppingCart({
           storeid: this.props.storeid,
           goodsdata: this.data.goodsTmp,
@@ -396,16 +409,38 @@ Component({
           }
         });
       } else {
-        // 如果有child
-        if(goodsData.child.length != 0){
-          // 如果child不为空,即有选项,正常执行
-          clickgoods.addGoodsToShoppingCart({
-            storeid: this.props.storeid,
-            goodsdata: this.data.goodsTmp,
-            success: function(res) {
-              _this.props.onAddToShoppingCart(res);
+        // 如果有child，且不为空，说明是套餐或规格商品
+        if(goodsData.child.length != 0 && goodsData.child[0].length != 0){
+          if(goodsData.suitflagtype === 3){
+            // 如果是规格商品，才需要判断是否有选中项
+            let defaluFlag = goodsData.child.find((item,index)=>{
+              return item.isdefault == 1
+            })
+            if (defaluFlag !== undefined){
+              // 如果有选中项
+              clickgoods.addGoodsToShoppingCart({
+                storeid: this.props.storeid,
+                goodsdata: this.data.goodsTmp,
+                success: function(res) {
+                  _this.props.onAddToShoppingCart(res);
+                }
+              });
+            } else {
+              my.showToast({
+                type:'fail',
+                content:'未选择规格'
+              });
             }
-          });
+          } else{
+            // 如果有选中项
+            clickgoods.addGoodsToShoppingCart({
+              storeid: this.props.storeid,
+              goodsdata: this.data.goodsTmp,
+              success: function(res) {
+                _this.props.onAddToShoppingCart(res);
+              }
+            });
+          }
         } else {
           my.showToast({
             type:'fail',

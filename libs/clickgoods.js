@@ -310,6 +310,7 @@ export default {
       }
     });
   },
+  // 从购物车里减少商品
   incGoodsToShoppingCart(option) {
     if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
@@ -379,8 +380,8 @@ export default {
         option.fail({ error: true, message: "数据保存失败" })
       }
     });
-
   },
+  // 从商品列表里删除商品
   decGoodsByGoodsid(option) {
     if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
@@ -407,6 +408,7 @@ export default {
       }
     }
   },
+  // 从购物车里删除商品
   decGoodsToShoppingCart(option) {
     if (!option.success) option.success = function(res) { console.log('decGoodsToShoppingCart success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('decGoodsToShoppingCart fail ', res) }
@@ -470,9 +472,6 @@ export default {
             }
           }
         }
-
-
-
       }
     }
     my.setStorage({
