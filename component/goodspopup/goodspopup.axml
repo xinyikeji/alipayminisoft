@@ -87,8 +87,9 @@
         <view class="goodsinfo-garnish" a:if="{{goodsInfo.garnish.length > 0}}">
           <view class="suititle">配菜                                                          
           </view>
+          <!-- 循环goodsInfo.garnish,改成循环与规格对应的garnish新数组 -->
           <view>
-            <view class="garnish" style="width:{{((windowWidth-60)/3)}}px" a:for="{{goodsInfo.garnish}}" a:for-index="garnishIndex" a:for-item="itemName">
+            <view class="garnish" style="width:{{((windowWidth-60)/3)}}px" a:for="{{showGarnish}}" a:for-index="garnishIndex" a:for-item="itemName">
               <image a:if="{{itemName.shoppic}}" src="{{itemName.shoppic}}" style="width:{{((windowWidth-90)/3)}}px;height:{{((windowWidth-90)/3)/4*3}}px" mode="aspectFill" />
               <image a:else src="{{goodsInfo.shoppic}}" style="width:{{((windowWidth-90)/3)}}px;height:{{((windowWidth-90)/3)/4*3}}px" mode="aspectFill" />
               <view class="suit-name">{{itemName.goodsname}}                                                                                              

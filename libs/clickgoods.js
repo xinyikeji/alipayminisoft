@@ -60,7 +60,7 @@ export default {
   },
   reloadPackage(shoppingInfo) {
     var packageNumber = 0;
-    console.log('222222222222222222222')
+    // console.log('222222222222222222222')
     for (var i in shoppingInfo.goods) {
       if (shoppingInfo.goods[i].have_package) {
         shoppingInfo.goods.splice(i, 1);
@@ -70,7 +70,7 @@ export default {
         }
       }
     }
-    console.log('packageNumber', packageNumber)
+    // console.log('packageNumber', packageNumber)
     if (packageNumber > 0) {
       console.log(shoppingInfo.store)
       if (shoppingInfo.store.goodsid) {
@@ -393,10 +393,10 @@ export default {
       return;
     }
     var shoppingInfo = this.getShoppingCart(option.storeid);
-    console.log(shoppingInfo.goods)
+    // console.log(shoppingInfo.goods)
     for (var i in shoppingInfo.goods) {
       if (shoppingInfo.goods[i].goodsid == option.goodsid) {
-        console.log(shoppingInfo.goods[i])
+        // console.log(shoppingInfo.goods[i])
         this.decGoodsToShoppingCart({
           storeid: option.storeid,
           key: shoppingInfo.goods[i].key,

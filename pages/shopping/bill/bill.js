@@ -180,11 +180,31 @@ Page({
         this.setScHeight();
     },
     callBlanaceBackFn(event) {
+      console.log('设置余额',event)
         this.setData({
             account_balance: event
         })
     },
     callJifenBackFn(event) {
+      // console.log('设置积分',event)
+      // console.log('原积分',this.data.account_integral)
+        if(event === this.data.account_integral+20){
+          // 当赠加使用20积分，则减少使用1余额
+          console.log("+积分")
+          this.setData({
+            account_balance: this.data.account_balance-1
+          })
+        }else if(event === this.data.account_integral-20){
+          console.log('-积分')
+          // 当减少使用20积分，则增加使用1余额
+          this.setData({
+            account_balance: this.data.account_balance+1
+          })
+        }else{
+          // 当无法再增加或减少20积分，则余额不变
+          console.log('无变动')
+          return
+        }
         this.setData({
             account_integral: event
         })

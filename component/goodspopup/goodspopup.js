@@ -10,7 +10,9 @@ Component({
     selectGroupSuitData: {},
     showSuitSelect: false,
     suitIndex: -1,
-    suitData: []
+    suitData: [],
+    // 声明新数组,用于列表渲染规格-配菜
+    showGarnish:[]
   },
   props: {
     storeid: null,
@@ -64,7 +66,7 @@ Component({
       one_sprice: goodsData.price,
       one_yprice: goodsData.price,
       tmpprice: goodsData.price,
-      tmp_oneprice: goodsData.price,
+      tmp_oneprice: goodsData.price
     };
     if (goodsData.suitflag === 1) {
       if (goodsData.suitflagtype == 3) { //规格套餐
@@ -89,7 +91,7 @@ Component({
           }
         }
       } else if (goodsData.suitflagtype == 2) { // 组合套餐
-        console.log(goodsData)
+        // console.log(goodsData)
 
         goodsTmp.tmpprice = goodsData.price;
         goodsTmp.tmp_oneprice = goodsData.price;
@@ -106,7 +108,7 @@ Component({
         }
 
       } else if (goodsData.suitflagtype == 1) { // 普通套餐
-        console.log(goodsData)
+        // console.log(goodsData)
         var selectSuitData = {};
         goodsTmp.tmpprice = goodsData.price;
         goodsTmp.tmp_oneprice = goodsData.price;
@@ -140,10 +142,12 @@ Component({
         })
       }
     }
-    console.log('goodsTmp', goodsTmp)
+    // console.log('goodsTmp', goodsTmp)
     this.setData({
       goodsTmp: goodsTmp
     })
+    // 重置要循环的配菜列表
+    this.setGarnish()
   },
   didUpdate(event) {
     var _this = this;
@@ -155,6 +159,28 @@ Component({
     })
   },
   methods: {
+    // 重置要循环的配菜列表
+    setGarnish(){
+    // console.log('配菜列表原本循环的数据源garnish',this.props.goodsInfo.garnish,改)
+    // 声明要循环的配菜列表
+    let showGarnish = [];
+    // 循环所有规格
+    this.props.goodsInfo.child.forEach((itemChild,indexChild)=>{
+      // 若某一规格被选中
+      if(itemChild.isdefault == 1){
+        // 循环所有garnish
+        this.props.goodsInfo.garnish.forEach((itemGarnish,indexGarnish)=>{
+          // 找到与该规格的goodsid相同的所有garnish,放入新数组
+          if(itemGarnish.fgoodsid == itemChild.goodsid){
+            showGarnish.push(itemGarnish);
+          }
+        })
+      }
+    })
+    this.setData({
+      showGarnish:showGarnish
+      })
+    },
     setPackage() {
       var goodsTmp = this.data.goodsTmp;
       goodsTmp.is_package = goodsTmp.is_default_package = goodsTmp.is_default_package ? 0 : 1;
@@ -251,13 +277,15 @@ Component({
     },
     //修改规格
     setSpecifications(event) {
+      // console.log('goodsInfo',this.props.goodsInfo)
+      // console.log('child',this.props.goodsInfo.child)
+      // console.log('goodsTmp',this.data.goodsTmp)
       var goodsData = this.props.goodsInfo;
       var index = event.currentTarget.dataset.index;
 
       for (var i in goodsData.child) {
         goodsData.child[i].isdefault = 0;
       }
-
       var goodsTmp = this.data.goodsTmp;
       // console.log(goodsTmp)
       goodsTmp.child = [{
@@ -288,6 +316,7 @@ Component({
         goodsInfo: goodsData,
         goodsTmp: goodsTmp
       })
+      this.setGarnish()
     },
     //修改备注
     setRemarks(event) {
@@ -316,8 +345,9 @@ Component({
       var _this = this;
       //组合套餐需要在这里做检测
       var goodsData = this.props.goodsInfo;
+      // console.log(goodsData)
       var selectGroupSuitNumber = this.data.selectGroupSuitNumber;
-      console.log(goodsData);
+      // console.log(goodsData);
       if (goodsData.suitflag === 1 && goodsData.suitflagtype == 2) {
         //检测必选商品
         for (var i in goodsData.info) {
@@ -352,14 +382,37 @@ Component({
           }
         }
       }
+      // 该商品有child,且child有内容.即套餐/规格商品都有选项,才能加入购物车
       //加入购物车
-      clickgoods.addGoodsToShoppingCart({
-        storeid: this.props.storeid,
-        goodsdata: this.data.goodsTmp,
-        success: function(res) {
-          _this.props.onAddToShoppingCart(res);
+      // debugger
+      // console.log(goodsData.child)
+      if(goodsData.child == undefined){
+      // 如果没有child,正常执行
+        clickgoods.addGoodsToShoppingCart({
+          storeid: this.props.storeid,
+          goodsdata: this.data.goodsTmp,
+          success: function(res) {
+            _this.props.onAddToShoppingCart(res);
+          }
+        });
+      } else {
+        // 如果有child
+        if(goodsData.child.length != 0){
+          // 如果child不为空,即有选项,正常执行
+          clickgoods.addGoodsToShoppingCart({
+            storeid: this.props.storeid,
+            goodsdata: this.data.goodsTmp,
+            success: function(res) {
+              _this.props.onAddToShoppingCart(res);
+            }
+          });
+        } else {
+          my.showToast({
+            type:'fail',
+            content:'该商品暂时无法加入购物车'
+          });
         }
-      });
+      }
     },
     showSuitSelectPopup(event) {
       if (this.data.suitIndex === event.currentTarget.dataset.index) {
@@ -494,7 +547,7 @@ Component({
       //设置当前的选中项
       selectSuitData[this.data.suitIndex] = goodsSuitTmp.goodsid;
       //更新要加入购物车的数据
-      console.log(this.data.suitIndex,goodsTmp.child[this.data.suitIndex])
+      // console.log(this.data.suitIndex,goodsTmp.child[this.data.suitIndex])
       goodsTmp.tmpprice -= goodsTmp.child[this.data.suitIndex].addprice;
       goodsTmp.tmp_oneprice -= goodsTmp.child[this.data.suitIndex].addprice;
 

@@ -17,8 +17,8 @@ Page({
   },
   getStoreList() {
     var _this = this;
-    api.getStoreList(function(storelist) {
-      console.log(storelist)
+    api.getStoreList(function (storelist) {
+      // console.log(storelist)
       if (!storelist) {
         return;
       }
@@ -29,7 +29,7 @@ Page({
             storelist[i].longvalue = parseInt(app.getLong(res.latitude, res.longitude, storelist[i].lat, storelist[i].lng));
             storelist[i].longvalueFormat = app.getLongFormat(storelist[i].longvalue);
           }
-          storelist.sort(function(x, y) {
+          storelist.sort(function (x, y) {
             return x.longvalue > y.longvalue;
           })
 
@@ -42,6 +42,9 @@ Page({
         fail() {
           my.hideLoading();
           my.alert({ title: '定位失败' });
+          my.reLaunch({
+            url: '/pages/index/index'
+          });
         },
       })
     })
@@ -49,18 +52,25 @@ Page({
   onUnload() {
     api.uploadBehavior({ data: { mode: "uninstpage", query: {}, path: '/pages/store/store' } });
   },
+  // 切换门店
   gotoClickGoodsTap(event) {
-
+    console.log('EVENT', event)
+    console.log('storelist', this.data.storelist)
     const storeinfo = this.data.storelist[event.currentTarget.dataset.index];
     if (storeinfo.shop_type === 0) {
       my.redirectTo({
         url: "../shopping/shopping?id=" + storeinfo.storeid
       })
+    } else {
+      my.alert({
+        title: "提示",
+        content: '此门店暂不支持自助点餐~'
+      })
     }
-    console.log(storeinfo)
+    // console.log(storeinfo)
   },
   setStoreTomap(event) {
-    console.log(event)
+    // console.log(event)
     if (!my.canIUse('createMapContext.return.updateComponents')) {
       my.alert({
         title: '客户端版本过低',
@@ -72,7 +82,7 @@ Page({
       nowindex: event.index
     })
     const storeinfo = this.data.storelist[event.index];
-    console.log('storeinfo', storeinfo)
+    // console.log('storeinfo', storeinfo)
 
     this.mapCtx.updateComponents({
       scale: 14,

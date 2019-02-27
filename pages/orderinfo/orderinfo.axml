@@ -53,8 +53,9 @@
         </block>
       </block>
     </view>
+    <!-- 订单商品 -->
     <view class="goodslist">
-      <view class="goods" a:for="{{order.goodsdata}}">
+      <view class="goods" a:for="{{newGoodsdata}}">
         <view class="goodsname">
           <image src="/static/package.png" a:if="{{item.dabao == 1}}" style="width:24px;height:24px;float:left;" mode="aspectFit" />
           {{item.goodsname}} x {{item.goodsno}}                                                                                                              
@@ -62,7 +63,7 @@
           </text>
         </view>
         <view class="remarks">
-          <view a:for="{{order.goodsdata.remarks}}" a:for-item="remarkItem" class="remark">{{remarks[remarkItem]}}  </view>
+          <view a:for="{{newGoodsdata.remarks}}" a:for-item="remarkItem" class="remark">{{remarks[remarkItem]}}  </view>
         </view>
       </view>
     </view>
