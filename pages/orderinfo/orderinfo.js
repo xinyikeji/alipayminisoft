@@ -75,6 +75,7 @@ Page({
 
     },
     setOrderComplete() {
+      // console.log(this.data.order)
         my.showLoading({
             content: "处理中...",
         });
@@ -104,6 +105,8 @@ Page({
 
     //取消订单
     cancelOrder(e) {
+      console.log(this.data.order)
+      console.log(e)
         let _this = this;
         api.getCancelReason({
             success(reason) {
@@ -138,8 +141,6 @@ Page({
                         }
                     },
                 });
-
-
             }
         });
     },
@@ -167,6 +168,5 @@ Page({
                 }
             })
         })
-
     },
 });

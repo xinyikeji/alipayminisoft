@@ -61,8 +61,8 @@
             <text class="shopping-caert-total_price">￥{{(shopCart.total_price/100).toFixed(2)}}                                              
             </text>
           </view>
-          <navigator url="{{billPath}}" class="shopping-caert-goShopping">去结算                                              
-          </navigator>
+          <view onTap="cartGoShopping" class="shopping-caert-goShopping">            去结算        
+          </view>
         </view>
       </view>
     </view>

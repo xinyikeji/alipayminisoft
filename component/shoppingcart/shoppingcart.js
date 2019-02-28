@@ -12,7 +12,7 @@ Component({
     windowWidth: 0,
     windowHeight: 0,
     onChang: function(res) { },
-    onClearShoppingCart: function() { }
+    onClearShoppingCart: function() { },
   },
   didMount() {
     var cartData = clickgoods.getShoppingCart(this.props.storeid);
@@ -21,13 +21,14 @@ Component({
       shopCart: cartData
     })
     this.reloadScHeight();
-
   },
   methods: {
-    goShopping() {
+    // 在商品列表界面点击去结算
+    cartGoShopping() {
+        let storeid = this.data.shopCart.store.storeid;
+        // console.log(storeid)
         let goodsArr = this.data.shopCart.goods;
         let goodsIdArr = [];
-        console.log(this.data)
         goodsArr.forEach((item)=>{
           goodsIdArr.push(item.gtid);
         });
@@ -38,7 +39,7 @@ Component({
             });
         } else if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
             my.navigateTo({
-                url: 'bill/bill?id=' + this.data.options.id
+                url: 'bill/bill?id=' + storeid
             });
         } else {
             my.showToast({
@@ -62,7 +63,7 @@ Component({
     clearShoppingCart() {
       this.props.onClearShoppingCart();
     },
-    // 从购物车里删除商品
+    // 在购物车组件内减少商品
     decGoods(event) {
       // console.log("在购物车里删除",event)
       var _this = this;
@@ -78,6 +79,7 @@ Component({
         }
       })
     },
+    // 在购物车组件内增加商品
     incGoods(event) {
       var _this = this;
       clickgoods.incGoodsToShoppingCart({

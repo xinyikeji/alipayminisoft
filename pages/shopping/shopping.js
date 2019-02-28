@@ -21,21 +21,20 @@ var settab =
             showGoodsInfoData: {},
             // 停售和售罄商品信息
             stopIdList:[],
-            completeIdList:[]
+            completeIdList:[],
         },
         onUnload() {
             api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/shopping' } });
         },
         onLoad(options) {
             var _this = this
-            // console.log(options)
             if (!options.id) {
                 options.id = 3;
             }
             this.setData({
                 options: options
             })
-            
+            // console.log(this.data.options)
             // 拉取门店停售商品信息
             api.getStopList(options.id, function(status,res){
               if(Object.keys(res).length > 0){
@@ -206,7 +205,11 @@ var settab =
                 }
             })
         },
+        // 在商品列表界面点击去结算
         goShopping() {
+            console.log(this.data.shopCart.goods)
+            console.log(this.data.shopCart.goodsnumber)
+            console.log(this.data.options)
             let goodsArr = this.data.shopCart.goods;
             let goodsIdArr = [];
             goodsArr.forEach((item)=>{
@@ -256,6 +259,7 @@ var settab =
                 scrollTop: this.data.indexMap[e.currentTarget.dataset.index].top - 79
             })
         },
+        // 在商品列表界面减少商品
         decGoods(event) {
             // console.log(event.currentTarget.dataset)
             var _this = this;
@@ -296,6 +300,7 @@ var settab =
             return false;
           }
         },
+        // 在商品列表界面增加商品
         plusGoods(event) {
             // console.log('停售商品goodsid数组',this.data.stopIdList)
             // console.log('售罄商品goodsid数组',this.data.completeIdList)
@@ -428,6 +433,7 @@ var settab =
                 showShoppingCart: true
             })
         },
+        // 在购物车组件内加减商品
         changeShoppingCart(cartData) {
             var _this = this;
             _this.setData({
@@ -441,7 +447,6 @@ var settab =
         },
         clearShoppingCart(e) {
             var _this = this;
-
             my.confirm({
                 title: '温馨提示',
                 content: '你确定要清空购物车吗?',

@@ -76,6 +76,10 @@
         <text>￥{{(item.price/100).toFixed(2)}}                                                                                   
         </text>
       </view>
+      <!-- <view class="orderno" a:for="{{order.paytype}}">      {{item.pname}}：                                                                                       
+        <text>￥{{(item.price/100).toFixed(2)}}                                                                                   
+        </text>
+      </view> -->
       <view class="orderno">   订单编号：   
         <text>{{order.order.orderno}} 
         </text>
@@ -89,9 +93,11 @@
         </text>
       </view>
       <view class="toolsbutton">
-        <block a:if="{{order.order.pstatus === 0}}">
+        <block a:if="{{order.order.pstatus === 1 && order.order.status !== 5}}">
           <button type="warn" size="mini" onTap="cancelOrder">取消订单                                                                      
           </button>
+        </block>
+        <block a:if="{{order.order.pstatus === 0}}">
           <button type="primary" size="mini" onTap="gotoPay">立即支付                                                                      
           </button>
         </block>

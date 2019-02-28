@@ -32,7 +32,7 @@ Page({
         this.setData({
             options: options
         })
-        console.log(options)
+        // console.log(options)
         if (!options.id) {
             api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/shopping/bill/bill' } });
             my.alert({
@@ -86,7 +86,7 @@ Page({
                             })
                             api.getUserAccount(userinfo.openid, function (userAccount) {
                                 if (userAccount) {
-                                  console.log(userAccount.account_balance)
+                                  // console.log(userAccount.account_balance)
                                     api.getMemberConfigInfo(storeinfo.storeid, function (memberConfig) {
                                         my.hideLoading()
                                         //计算最多可以用多少积分,并且设置积分的步进长度
@@ -171,7 +171,7 @@ Page({
                     fail: function (res) { }
                 })
             }, fail: function (res) {
-                console.log('function22222', res)
+                // console.log('function22222', res)
 
             }
         })
@@ -179,32 +179,37 @@ Page({
     onReady() {
         this.setScHeight();
     },
+
+    // 步进器余额加减（不含输入）
     callBlanaceBackFn(event) {
       console.log('设置余额',event)
+      // console.log('原余额',this.data.account_balance)
+      // console.log('？',this.data.userAccount)
         this.setData({
             account_balance: event
         })
     },
+    // 步进器积分加减（不含输入）
     callJifenBackFn(event) {
-      // console.log('设置积分',event)
+      console.log('设置积分',event)
       // console.log('原积分',this.data.account_integral)
-        if(event === this.data.account_integral+20){
-          // 当赠加使用20积分，则减少使用1余额
-          console.log("+积分")
-          this.setData({
-            account_balance: this.data.account_balance-1
-          })
-        }else if(event === this.data.account_integral-20){
-          console.log('-积分')
-          // 当减少使用20积分，则增加使用1余额
-          this.setData({
-            account_balance: this.data.account_balance+1
-          })
-        }else{
-          // 当无法再增加或减少20积分，则余额不变
-          console.log('无变动')
-          return
-        }
+        // if(event === this.data.account_integral+this.data.memverConfig){
+        //   // 当赠加使用20积分，则减少使用1余额
+        //   console.log("+积分")
+        //   this.setData({
+        //     account_balance: this.data.account_balance-1
+        //   })
+        // }else if(event === this.data.account_integral-this.data.memverConfig){
+        //   console.log('-积分')
+        //   // 当减少使用20积分，则增加使用1余额
+        //   this.setData({
+        //     account_balance: this.data.account_balance+1
+        //   })
+        // }else{
+        //   // 当无法再增加或减少20积分，则余额不变
+        //   console.log('无变动')
+        //   return
+        // }
         this.setData({
             account_integral: event
         })
