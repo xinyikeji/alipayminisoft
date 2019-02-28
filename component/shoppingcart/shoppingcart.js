@@ -64,7 +64,7 @@ Component({
     },
     // 从购物车里删除商品
     decGoods(event) {
-      console.log("在购物车里删除",event)
+      // console.log("在购物车里删除",event)
       var _this = this;
       clickgoods.decGoodsToShoppingCart({
         storeid: _this.props.storeid,

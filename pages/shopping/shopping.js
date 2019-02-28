@@ -19,11 +19,15 @@ var settab =
             showShoppingCart: false,
             showSelectGoodsData: {},
             showGoodsInfoData: {},
+            // 停售和售罄商品信息
+            stopIdList:[],
+            completeIdList:[]
         },
         onUnload() {
             api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/shopping' } });
         },
         onLoad(options) {
+            var _this = this
             // console.log(options)
             if (!options.id) {
                 options.id = 3;
@@ -32,12 +36,38 @@ var settab =
                 options: options
             })
             
-            // 拉取门店停售/售罄商品信息
+            // 拉取门店停售商品信息
             api.getStopList(options.id, function(status,res){
-              console.log('返回停售商品信息',status,res)
+              if(Object.keys(res).length > 0){
+                // console.log('返回停售商品信息',res)
+                let tempList = []
+                let stopList = res.data.data.data
+                // console.log('stopList',stopList)
+                stopList.forEach(function(item,index){
+                  tempList.push(item.goodsid)
+                })
+                _this.setData({
+                  stopIdList:tempList
+                })
+                // console.log('停售商品goodsid数组',_this.data.stopIdList)
+              }
             });
+
+            // 拉取门店售罄商品信息
             api.getCompleteList(options.id,function(status,res){
-              console.log('返回售罄商品信息',status,res)
+              if(Object.keys(res).length > 0){
+                // console.log('返回售罄商品信息',status,res)
+                let tempList = []
+                let completeList = res.data.data.data
+                // console.log('completeList',completeList)
+                completeList.forEach(function(item,index){
+                  tempList.push(item.goodsid)
+                })
+                _this.setData({
+                  completeIdList:tempList
+                })
+                // console.log('售罄商品goodsid数组',_this.data.completeIdList)
+              }
             });
 
             my.getSystemInfo({
@@ -50,7 +80,7 @@ var settab =
                 },
             });
             this.loadData();
-            console.log('goodsData',this.data.goodsData)
+            // console.log('goodsData',this.data.goodsData)
         },
         onShow() {
             if (this.data.show) {
@@ -91,7 +121,7 @@ var settab =
                             content: "门店数据加载中"
                         })
                         api.getStoreInfo(_this.data.options.id, function (storeinfo) {
-                            console.log("门店信息",storeinfo)
+                            // console.log("门店信息",storeinfo)
                             my.hideLoading();
                             if (storeinfo) {
                                 _this.setData({
@@ -267,23 +297,77 @@ var settab =
           }
         },
         plusGoods(event) {
-          // console.log(this.data.goodsData)
-          // goodsData.goodsTypeData[typeGoodsItemName.gtid]
+            // console.log('停售商品goodsid数组',this.data.stopIdList)
+            // console.log('售罄商品goodsid数组',this.data.completeIdList)
+            // console.log('event',event)
+            // console.log(this.data.goodsData)
+            // goodsData.goodsTypeData[typeGoodsItemName.gtid]
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
-            // console.log("goodsData",goodsData)
-            // console.log(event)
             var _this = this;
-            // 如果该商品设置了销售时段
-            if(goodsData.sales.length == !0 ){
-              let timeFlag = this.timeRange(goodsData.sales[0].stime,goodsData.sales[0].ttime)
-              // 如果不在销售时段内
-              if(timeFlag == false){
+            if(this.data.stopIdList.indexOf(event.target.dataset.goodsid) !== -1){
                 my.showToast({
                   type: "fail",
-                  content: "该商品不在销售时段内"
+                  content: "该商品已停售"
                 })
-              }else{
-                 if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
+            } else if (this.data.completeIdList.indexOf(event.target.dataset.goodsid) !== -1) {
+                my.showToast({
+                  type: "fail",
+                  content: "该商品已售罄"
+                })
+            } else{
+              // 如果该商品设置了销售时段
+              if(goodsData.sales.length == !0 ){
+                let timeFlag = this.timeRange(goodsData.sales[0].stime,goodsData.sales[0].ttime)
+                // 如果不在销售时段内
+                if(timeFlag == false){
+                  my.showToast({
+                    type: "fail",
+                    content: "该商品不在销售时段内"
+                  })
+                }else{
+                  if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
+                    var goodsTmp = {
+                      goodsid: goodsData.goodsid,
+                      gtid: goodsData.gtid,
+                      goodsname: goodsData.goodsname,
+                      shoppic: goodsData.shoppic,
+                      pocket: 1,
+                      goodsno: 1,
+                      mprice: goodsData.price,
+                      discount: 100,
+                      youhuiprice: 0,
+                      suitflag: 0,
+                      is_give: 0,
+                      is_package: 0,
+                      is_default_package: 0,
+                      dabaohe: goodsData.dabaohe,
+                      remarks: "",
+                      yprice: goodsData.price,
+                      sprice: goodsData.price,
+                      one_sprice: goodsData.price,
+                      one_yprice: goodsData.price,
+                      tmp_oneprice: goodsData.price,
+                      tmpprice: goodsData.price
+                    };
+                    clickgoods.addGoodsToShoppingCart({
+                      storeid: this.data.options.id,
+                      goodsdata: goodsTmp,
+                      success: function (res) {
+                        _this.setData({
+                          shopCart: res
+                        })
+                      }
+                    });
+                  } else {
+                    this.setData({
+                      showSelect: true,
+                      showSelectGoodsData: goodsData
+                    })
+                  }
+                }
+              } else {
+                // 如果该商品没设置销售时段
+                if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
                   var goodsTmp = {
                     goodsid: goodsData.goodsid,
                     gtid: goodsData.gtid,
@@ -322,47 +406,6 @@ var settab =
                     showSelectGoodsData: goodsData
                   })
                 }
-              }
-            } else {
-              // 如果该商品没设置销售时段
-              if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
-                var goodsTmp = {
-                  goodsid: goodsData.goodsid,
-                  gtid: goodsData.gtid,
-                  goodsname: goodsData.goodsname,
-                  shoppic: goodsData.shoppic,
-                  pocket: 1,
-                  goodsno: 1,
-                  mprice: goodsData.price,
-                  discount: 100,
-                  youhuiprice: 0,
-                  suitflag: 0,
-                  is_give: 0,
-                  is_package: 0,
-                  is_default_package: 0,
-                  dabaohe: goodsData.dabaohe,
-                  remarks: "",
-                  yprice: goodsData.price,
-                  sprice: goodsData.price,
-                  one_sprice: goodsData.price,
-                  one_yprice: goodsData.price,
-                  tmp_oneprice: goodsData.price,
-                  tmpprice: goodsData.price
-                };
-                clickgoods.addGoodsToShoppingCart({
-                  storeid: this.data.options.id,
-                  goodsdata: goodsTmp,
-                  success: function (res) {
-                    _this.setData({
-                      shopCart: res
-                    })
-                  }
-                });
-              } else {
-                this.setData({
-                  showSelect: true,
-                  showSelectGoodsData: goodsData
-                })
               }
             }
         },

@@ -97,7 +97,7 @@ Page({
     getCancleRemarks() {
         api.getOrderCancleRemarks({
             success: function (remarks) {
-                console.log(remarks)
+                // console.log(remarks)
             }
         })
     },
@@ -111,7 +111,7 @@ Page({
                 for (let r in reason) {
                     items[r] = reason[r].name;
                 }
-                console.log('reason', reason);
+                // console.log('reason', reason);
                 my.showActionSheet({
                     title: '请选择取消理由',
                     items: items,
