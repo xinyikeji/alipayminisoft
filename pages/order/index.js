@@ -20,7 +20,7 @@ Page({
     },
     onLoad(options) {
         var years = [];
-        for (var i = 2016; i <= this.data.year; i++) {
+        for (var i = 2019; i <= this.data.year; i++) {
             years.push({
                 title: i
             })
