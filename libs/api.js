@@ -79,7 +79,7 @@ export default {
             encryptedData: encryptedData,
             // iv: iv,
         }, function (status, rest) {
-            console.log(rest);
+            // console.log(rest);
             if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
@@ -120,7 +120,7 @@ export default {
             password: password
         }, function (status, rest) {
 
-            console.log(rest);
+            // console.log(rest);
             if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
@@ -159,7 +159,7 @@ export default {
             phone: phone,
             verify_code: verify_code,
         }, function (status, rest) {
-            console.log(rest);
+            // console.log(rest);
             if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);
@@ -194,7 +194,7 @@ export default {
             phone: phone,
             type: type
         }, function (status, rest) {
-            console.log(rest);
+            // console.log(rest);
             if (status && rest.data.code == 1) {
 
                 opt.success(rest.data.data);

@@ -75,6 +75,7 @@ Page({
 
     },
     setOrderComplete() {
+      // console.log(this.data.order)
         my.showLoading({
             content: "处理中...",
         });
@@ -97,13 +98,15 @@ Page({
     getCancleRemarks() {
         api.getOrderCancleRemarks({
             success: function (remarks) {
-                console.log(remarks)
+                // console.log(remarks)
             }
         })
     },
 
     //取消订单
     cancelOrder(e) {
+      console.log(this.data.order)
+      console.log(e)
         let _this = this;
         api.getCancelReason({
             success(reason) {
@@ -111,7 +114,7 @@ Page({
                 for (let r in reason) {
                     items[r] = reason[r].name;
                 }
-                console.log('reason', reason);
+                // console.log('reason', reason);
                 my.showActionSheet({
                     title: '请选择取消理由',
                     items: items,
@@ -138,8 +141,6 @@ Page({
                         }
                     },
                 });
-
-
             }
         });
     },
@@ -167,6 +168,5 @@ Page({
                 }
             })
         })
-
     },
 });

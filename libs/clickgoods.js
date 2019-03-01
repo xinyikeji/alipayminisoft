@@ -310,7 +310,7 @@ export default {
       }
     });
   },
-  // 从购物车里减少商品
+  // 在购物车里增加商品
   incGoodsToShoppingCart(option) {
     if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
@@ -381,7 +381,7 @@ export default {
       }
     });
   },
-  // 从商品列表里删除商品
+  // 在商品列表里删除商品
   decGoodsByGoodsid(option) {
     if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
@@ -408,7 +408,7 @@ export default {
       }
     }
   },
-  // 从购物车里删除商品
+  // 在购物车里删除商品
   decGoodsToShoppingCart(option) {
     if (!option.success) option.success = function(res) { console.log('decGoodsToShoppingCart success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('decGoodsToShoppingCart fail ', res) }
@@ -485,6 +485,7 @@ export default {
       }
     });
   },
+  // 切换外带
   setTangshi(option) {
     if (!option.success) option.success = function(res) { console.log('setTangshi success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('setTangshi fail ', res) }
@@ -508,6 +509,7 @@ export default {
       }
     });
   },
+  // 切换堂食
   setWaidai(option) {
     if (!option.success) option.success = function(res) { console.log('addGoodsToShoppingCart success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('addGoodsToShoppingCart fail ', res) }
@@ -531,6 +533,7 @@ export default {
       }
     });
   },
+  // 清空购物车
   clearShoppingCart(option) {
     if (!option.success) option.success = function(res) { console.log('clearShoppingCart success ', res) }
     if (!option.fail) option.fail = function(res) { console.log('clearShoppingCart fail ', res) }
