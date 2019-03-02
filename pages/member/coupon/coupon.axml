@@ -1,3 +1,34 @@
 <view>
-  New Page
+  <view> 
+    <tabs tabs="{{tabs}}" className="tabBar" tabBarBackgroundColor="tabBarBackgroundColor" onTabClick="handleTabClick" activeTab="{{activeTab}}">
+    <block a:for="{{tabs}}">
+      <tab-content key="{{index}}">
+      </tab-content>
+    </block>
+  </tabs>
+  <view class="tab-content">
+      <!-- 每张优惠券 -->
+      <view class="coupons-wrap" a:for="{{showUserCoupon}}">
+        <view style="display:flex;background-color:white">
+          <!-- 左侧 -->
+          <view class="coupons-wrapLeft">
+            <view>￥<text style="font-size:80rpx; font-family:Arial">{{item.price}}</text></view>
+            <view a:if="item.minprice>0">满{{item.minprice}}元可用</view>
+          </view>
+          <!-- 右侧 -->
+          <view class="coupons-wrapRight">
+            <view style="font-weight:800">{{item.couponname}}</view>
+            <view style="margin:28rpx 0 12rpx 0;">
+              <text style="font-size:20rpx">{{item.startdate}}-{{item.enddate}}</text>
+              <button class="useCoupon" type="default" plain onTap="useCoupon">立即使用</button>
+            </view>
+            <view class="detail" a:if="item.discount_note"><text>详细信息{{item.discount_note}}</text><view class="triangle" onTap="isShowMsg"></view></view>
+          </view>
+        </view>
+        <!-- <view class="hiddenMsg" style="display:{{isShow}}">
+          <text>特价商品不可使用本券码</text>
+        </view> -->
+      </view>
+    </view>
+  </view>
 </view>

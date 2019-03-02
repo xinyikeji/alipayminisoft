@@ -61,23 +61,23 @@
         <view slot="header">账户信息                                                  
         </view>
         <!-- 余额 -->
-        <list-item class="lit-item-stepper" disabled="{{true}}">余额                                                   
+        <!-- <list-item class="lit-item-stepper" disabled="{{true}}">余额                                                   
           <text a:if="{{userAccount.account_balance}}" class="user-account">剩余￥{{(userAccount.account_balance/100).toFixed(2)}}                                                  
           </text>
-          <view slot="extra">
+          <view slot="extra"> -->
             <!-- 当剩余余额不为0，余额步进器可用 -->
-            <stepper onChange="callBlanaceBackFn" step="{{1}}" showNumber readOnly="{{userAccount.account_balance === 0}}" value="{{account_balance}}" min="{{0}}" max="{{userAccount.account_balance > shopCart.sprice ? shopCart.sprice/100 : userAccount.account_balance/100}}" />
+            <!-- <stepper onChange="callBlanaceBackFn" step="{{1}}" showNumber readOnly="{{userAccount.account_balance === 0}}" value="{{account_balance}}" min="{{0}}" max="{{userAccount.account_balance > shopCart.sprice ? shopCart.sprice/100 : userAccount.account_balance/100}}" />
           </view>
-        </list-item>
+        </list-item> -->
         <!-- 积分 -->
-        <list-item class="lit-item-stepper" disabled="{{true}}">积分                                                 
+        <!-- <list-item class="lit-item-stepper" disabled="{{true}}">积分                                                 
           <text class="user-account">剩余 {{userAccount.account_integral}} 本次可用 {{jifenmax}}                                                   
           </text>
-          <view slot="extra">
+          <view slot="extra"> -->
             <!-- 当单位加减积分小于用户剩余积分，积分步进器可用 -->
-            <stepper onChange="callJifenBackFn" step="{{memberConfig.jifennum}}" readOnly="{{memberConfig.jifennum > userAccount.account_integral}}" showNumber value="{{account_integral}}" min="{{0}}" max="{{jifenmax}}" />
+            <!-- <stepper onChange="callJifenBackFn" step="{{memberConfig.jifennum}}" readOnly="{{memberConfig.jifennum > userAccount.account_integral}}" showNumber value="{{account_integral}}" min="{{0}}" max="{{jifenmax}}" />
           </view>
-        </list-item>
+        </list-item> -->
         <!-- 优惠券 -->
         <list-item onClick="selectCoupon" arrow="{{true}}">优惠券                          
           <text class="user-account">{{couponList.length}}张可用,默认最优                                                  

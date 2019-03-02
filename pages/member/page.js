@@ -52,11 +52,13 @@ Page({
         })
         //开始拉取用户基本数据
         api.getUserAccount(userinfo.openid, function(userAccount) {
+          // console.log("获取用户信息",userAccount)
           if (userAccount) {
             _this.setData({
               options: options,
               userAccount: userAccount
             })
+          // console.log("获取用户信息",_this.data.userAccount)
           }
         })
       } else {

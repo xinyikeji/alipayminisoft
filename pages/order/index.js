@@ -20,7 +20,7 @@ Page({
     },
     onLoad(options) {
         var years = [];
-        for (var i = 2019; i <= this.data.year; i++) {
+        for (var i = 2018; i <= this.data.year; i++) {
             years.push({
                 title: i
             })
@@ -71,7 +71,7 @@ Page({
     },
     handleYearClick(event) {
           // console.log('activeYear',this.data.activeYear)
-          // console.log('index',event.index)
+          console.log('index',event.index)
           // console.log('loading',this.data.loading)
           // console.log(this.data.activeYear == event.index)
         if (this.data.activeYear == event.index || this.data.loading) {

@@ -220,6 +220,9 @@ var settab =
                 type: "fail",
                 content: "请选择必点商品"
                 });
+              this.setData({
+                  scrollTop: 1
+              })
             } else if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
                 my.navigateTo({
                     url: 'bill/bill?id=' + this.data.options.id
