@@ -35,7 +35,9 @@ App({
             key: 'userinfo', // 缓存数据的key
         });
 
-        if (!UserCache.data || UserCache.data.length == 0) {
+        console.log(UserCache,'UserCacheUserCache');
+
+        if (!UserCache.data || UserCache.data.openid.length == 0) {
             my.alert({
                 title: '提示',
                 content: '你还没有登录，请登录~'
@@ -69,7 +71,7 @@ App({
                     alipayappid: extJson.aliappid,
                     method: "alisoft.Login.codeToinfo"
                 }, function (status, rest) {
-                    // console.log(status, rest);
+                    console.log(status, rest,'getUserInfogetUserInfo');
                     if (status && rest.data.code === 1) {
                         my.setStorageSync({
                             key: 'userinfo', // 缓存数据的key

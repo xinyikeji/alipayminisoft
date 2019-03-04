@@ -1,0 +1,57 @@
+<view>
+	<view>
+		<view class="page">
+			<view class="page__bd">
+				<view class="weui-loadmore weui-loadmore_line">
+					<view class="weui-loadmore__tips weui-loadmore__tips_in-line"
+						>可用优惠券({{ couponsCount}})</view
+					>
+				</view>
+
+				<view
+					class="weui-panel weui-panel_access"
+					a:for="{{couponsData}}"
+					
+				>
+					<view
+						class="xy-optcoupons-item"
+						onTap="selectCoupons"
+						data-ccbid="item.ccbid"
+						data-index="index"
+					>
+						<view class="xy-optcoupons-info">
+							<view>
+								<view class="title">{{ item.couponname }}</view> 
+								<view class="type">
+									<text>{{item.type_text}}</text>
+								</view> 
+								<view class="validity">{{item.stime}} -{{item.ttime}}</view>
+							</view>
+							<view class="xy-optcoupons-right"> 
+								<view class="xy-coupons-price">
+									<view class="price">
+										<view class="symbol">￥</view>
+										<view class="amount">{{item.offerPrice_format}}</view>
+									</view>
+								</view> 
+								<view class="full" v-if="item.sprice>0">
+									满{{item.sprice_format}}元可用
+								</view>
+								<view class="full" v-else>满任意金额可用</view>
+							 </view>
+						</view>
+						<view class="xy-optcoupons-explain">
+							{{item.datainfo.discount_note?item.datainfo.discount_note:'暂无说明'}}
+						</view>
+					</view>
+				
+				</view>
+
+				<view class="no-coupons-bth" onTap="selectCoupons" data-ccbid="00" data-index="0"
+					>不使用优惠券</view
+				>
+			</view>
+		</view>
+	</view>
+
+</view>

@@ -86,7 +86,7 @@ Page({
                             })
                             api.getUserAccount(userinfo.openid, function (userAccount) {
                                 if (userAccount) {
-                                  // console.log(userAccount.account_balance)
+                                    // console.log(userAccount.account_balance)
                                     api.getMemberConfigInfo(storeinfo.storeid, function (memberConfig) {
                                         my.hideLoading()
                                         //计算最多可以用多少积分,并且设置积分的步进长度
@@ -182,17 +182,17 @@ Page({
 
     // 步进器余额加减（不含输入）
     callBlanaceBackFn(event) {
-      console.log('设置余额',event)
-      // console.log('原余额',this.data.account_balance)
-      // console.log('？',this.data.userAccount)
+        console.log('设置余额', event)
+        // console.log('原余额',this.data.account_balance)
+        // console.log('？',this.data.userAccount)
         this.setData({
             account_balance: event
         })
     },
     // 步进器积分加减（不含输入）
     callJifenBackFn(event) {
-      console.log('设置积分',event)
-      // console.log('原积分',this.data.account_integral)
+        console.log('设置积分', event)
+        // console.log('原积分',this.data.account_integral)
         // if(event === this.data.account_integral+this.data.memverConfig){
         //   // 当赠加使用20积分，则减少使用1余额
         //   console.log("+积分")
@@ -215,8 +215,49 @@ Page({
         })
     },
     selectCoupon(event) {
-
+        let _this = this;
+        my.navigateTo({
+            url: '/pages/member/coupon/optcoupon?storeid=' + _this.data.options.id + '&ccbid=' +'&price='+_this.data.shopCart.sprice
+        })
     },
+    // /**
+	// 	 * 获取用户订单优惠券
+	// 	 */
+    // getUserOrderCoupons() {
+    //     let _this = this;
+
+    //     /**
+    //      * 获取用户订单优惠券
+    //      */
+    //     api.fnGetUserOrderCoupons({
+    //         storeid: aOptions.storeid,
+    //         xyopenid: _this.$store.state.xyopenid,
+    //         price: libsCommon.fnOperation(
+    //             _this.cartData.STotalPrice,
+    //             _this.orderPackboxSTotalPrice,
+    //             '+'
+    //         ),
+    //         goodsdata: sStore.fnHandleOrderData().goodsdata,
+    //         pagesize: 60,
+    //         success: function (couponsData) {
+    //             console.log(couponsData);
+    //             //判断是否有优惠券
+    //             if (couponsData.data.length == 0) {
+    //                 _this.getPrivilege();
+    //             } else {
+    //                 _this.optCoupons = couponsData.data[0];
+    //                 _this.computeOrder();
+    //             }
+    //         },
+    //         fail: function (err) {
+    //             libsCommon.fnHideLoading();
+    //             libsCommon.fnShowModal({
+    //                 title: '登录失败',
+    //                 content: err.data.msg
+    //             });
+    //         }
+    //     });
+    // },
     setScHeight() {
         var _this = this;
         my.createSelectorQuery().select('#goodslistview').boundingClientRect().exec(function (ret) {

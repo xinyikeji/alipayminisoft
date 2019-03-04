@@ -1,24 +1,26 @@
-import http from './http' 
+import http from './http'
 import php from './php'
+import libsCommon from './common'
+
 export default {
     // 拉取门店停售商品信息
-    getStopList(storeid,callback){
+    getStopList(storeid, callback) {
         http.post({
             method: "goods.Storestopgoods.getStopList",
             storeid: storeid,
         }, function (status, res) {
-          // console.log(res1, '停售信息',res2)
-          callback(status,res)
+            // console.log(res1, '停售信息',res2)
+            callback(status, res)
         })
     },
     // 拉取门店售罄商品信息
-    getCompleteList(storeid,callback){
+    getCompleteList(storeid, callback) {
         http.post({
             method: "goods.Storeclear.getCompleteList",
             storeid: storeid,
         }, function (restatuss3, res) {
-          // console.log(res3, '售罄信息',res4)
-          callback(status,res)
+            // console.log(res3, '售罄信息',res4)
+            callback(status, res)
         })
     },
     /**
@@ -319,18 +321,18 @@ export default {
         })
     },
 
-        //取消理由
+    //取消理由
     getCancelReason(option) {
         if (!option.success) option.success = function (res) { console.log('getOrderDetail success ', res) }
         if (!option.fail) option.fail = function (res) { console.log('getOrderDetail fail ', res) }
-      
+
 
         // const extJson = my.getExtConfigSync();
         var postdata = {
             method: "order.cancelreason.getCancelReason",
         };
 
-    
+
         http.post(postdata, function (status, rest) {
             if (status && rest.data.code === 1) {
                 option.success(rest.data.data)
@@ -605,6 +607,136 @@ export default {
                 callback(false);
             }
         })
+    },
+
+
+    //获取用户订单优惠券
+    fnGetUserOrderCoupons(opt) {
+        let _this = this;
+        if (!opt.success) opt.success = function (res) { console.log('setOrderComplete success ', res) }
+        if (!opt.fail) opt.fail = function (res) { console.log('setOrderComplete fail ', res) }
+
+        //门店ID
+        let storeid = opt.storeid ? opt.storeid : 0;
+        //芯易openid
+        let xyopenid = opt.xyopenid ? opt.xyopenid : 0;
+        //订单应付价格
+        let price = opt.price ? opt.price : 0;
+        //订单商品数据
+        let goodsdata = opt.goodsdata ? opt.goodsdata : [];
+        let page = opt.page ? opt.page : 1;
+        let pagesize = opt.pagesize ? opt.pagesize : 600;
+        const extJson = my.getExtConfigSync();
+
+
+
+        http.post({
+            method: "member.WeixinOrder.getWxUseableCashCoupons",
+            storeid: storeid, //门店ID
+            xyopenid: xyopenid, //芯易openid
+            price: price,
+            type: '1,2,4,5',
+            wxappid: extJson.appid, //微信小程序APPID
+            page: page,
+            pagesize: pagesize
+        }, function (status, rest) {
+            if (status && rest.data.code === 1) {
+                let couponsData =  rest.data.data.data;
+                      console.log(couponsData);
+                for (let i = 0; i < couponsData.length; i++) {
+                    //商品现金券
+                    if (couponsData[i].type == 1) {
+                        for (let g in goodsdata) {
+                            couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
+                            if (goodsdata[g].goodsid == couponsData[i].goodsids) {
+                                let offerPrice = Number(couponsData[i].price);
+                                couponsData[i].offerPrice = Math.round(offerPrice);
+                                couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
+                                couponsData[i].showname = '优惠' + couponsData[i].offerPrice_format + '元,商品现金券';
+                                couponsData[i].goodscode = goodsdata[g].goodscode;
+                                break;
+                            }
+                        }
+
+                    }
+                    //全单现金券
+                    if (couponsData[i].type == 2) {
+                        couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
+                        couponsData[i].sprice = libsCommon.fnPriceFormat(couponsData[i].sprice, 2);
+                        couponsData[i].sprice_format = libsCommon.fnPriceFormat(couponsData[i].sprice);
+                        if (price >= couponsData[i].sprice) {
+                            let offerPrice = Number(couponsData[i].price);
+                            couponsData[i].offerPrice = Math.round(offerPrice);
+                            couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
+                            couponsData[i].showname = '优惠' + couponsData[i].offerPrice_format + '元,全单现金券';
+                        }
+                    }
+                    //兑换券
+                    if (couponsData[i].type == 3) {
+
+                    }
+                    //商品折扣券
+                    if (couponsData[i].type == 4) {
+                        couponsData[i].maxdiscount = libsCommon.fnPriceFormat(couponsData[i].maxdiscount, 2);
+                        for (let g in goodsdata) {
+                            if (goodsdata[g].goodsid == couponsData[i].goodsids) {
+
+                                //计算优惠金额（分）
+                                let offerPrice = libsCommon.fnOperation(goodsdata[g].STotalPrice, libsCommon.fnOperation(libsCommon.fnOperation(
+                                    100,
+                                    couponsData[i].discount, '-'), 100, '/'), '*');
+
+                                if (offerPrice >= couponsData[i].maxdiscount && couponsData[i].maxdiscount !== 0) {
+                                    offerPrice = couponsData[i].maxdiscount;
+                                }
+                                couponsData[i].offerPrice = Math.round(offerPrice);
+                                couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
+                                couponsData[i].goodscode = goodsdata[g].goodscode;
+
+                                couponsData[i].showname = '优惠' + couponsData[i].offerPrice_format + '元,商品折扣券';
+                                break;
+
+                            }
+                        }
+                    }
+                    //全单折扣券
+                    if (couponsData[i].type == 5) {
+                        couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
+                        couponsData[i].sprice = libsCommon.fnPriceFormat(couponsData[i].sprice, 2);
+                        couponsData[i].sprice_format = libsCommon.fnPriceFormat(couponsData[i].sprice);
+                        couponsData[i].maxdiscount = libsCommon.fnPriceFormat(couponsData[i].maxdiscount, 2);
+                        //判断满多少可以使用
+                        if (price >= couponsData[i].sprice) {
+                            couponsData[i].discount = libsCommon.fnOperation(100, couponsData[i].discount, '-');
+
+                            couponsData[i].discount = libsCommon.fnOperation(couponsData[i].discount, 100, '/');
+
+                            //计算优惠金额（分）
+                            let offerPrice = libsCommon.fnOperation(price, couponsData[i].discount, '*');
+
+                            if (offerPrice >= couponsData[i].maxdiscount && couponsData[i].maxdiscount !== 0) {
+                                offerPrice = couponsData[i].maxdiscount;
+                            }
+                            couponsData[i].offerPrice = Math.round(offerPrice);
+                            couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
+                            couponsData[i].showname = '优惠' + couponsData[i].offerPrice_format + '元,全单折扣券';
+                        }
+                    }
+                    Object.assign(couponsData[i], couponsType[couponsData[i].type]);
+                    if (!couponsData[i].offerPrice || couponsData[i].offerPrice == 0) {
+                        couponsData.splice(i--, 1);
+                    }
+                }
+
+          
+
+                opt.success(couponsData);
+            } else {
+                console.log(status, rest)
+                opt.fail(rest);
+            }
+        })
+
     },
     setOrderComplete(option) {
         if (!option.success) option.success = function (res) { console.log('setOrderComplete success ', res) }
