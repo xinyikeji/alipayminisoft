@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "使用券码",
+  "usingComponents": {
+    "list": "mini-antui/es/list/index",
+    "list-item": "mini-antui/es/list/list-item/index",
+    "tabs": "mini-antui/es/tabs/index",
+    "tab-content": "mini-antui/es/tabs/tab-content/index"
+}}

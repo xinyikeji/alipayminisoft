@@ -1,0 +1,42 @@
+.coupon-top {
+  height: 200rpx;
+  background: #df9c33;
+}
+
+.media-box__title {
+  color: #fff;
+  text-align: center;
+  /* text-shadow: 0 2px 2px #000; */
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 2;
+}
+
+.cell__bd {
+  color:#fff;
+  text-align: center;
+  /* text-shadow: 0 2px 2px #000; */
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.loadmore {
+  width: 65%;
+  margin: 1.5em auto;
+  line-height: 1.6em;
+  font-size: 14px;
+  text-align: center;
+}
+.weui-loading {
+  margin: 0 5px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-animation: weuiLoading 1s steps(12, end) infinite;
+  animation: weuiLoading 1s steps(12, end) infinite;
+}
+.loadmore__tips {
+  display: inline-block;
+  vertical-align: middle;
+}

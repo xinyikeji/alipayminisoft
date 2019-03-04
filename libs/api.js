@@ -1,26 +1,37 @@
-import http from './http'
+import http from './http' 
 import php from './php'
-import libsCommon from './common'
-
 export default {
+
+    // 获取会员券码详情
+    getCouponDetail(xyopenid,code,type,callback){
+      http.post({
+        method:"member.OpenUser.getCouponDetail",
+        xyopenid:xyopenid,
+        code:code,
+        type:type
+      },function(status, res){
+        callback(status, res)
+      })
+    },
+
     // 拉取门店停售商品信息
-    getStopList(storeid, callback) {
+    getStopList(storeid,callback){
         http.post({
             method: "goods.Storestopgoods.getStopList",
             storeid: storeid,
         }, function (status, res) {
-            // console.log(res1, '停售信息',res2)
-            callback(status, res)
+          // console.log(res1, '停售信息',res2)
+          callback(status,res)
         })
     },
     // 拉取门店售罄商品信息
-    getCompleteList(storeid, callback) {
+    getCompleteList(storeid,callback){
         http.post({
             method: "goods.Storeclear.getCompleteList",
             storeid: storeid,
         }, function (restatuss3, res) {
-            // console.log(res3, '售罄信息',res4)
-            callback(status, res)
+          // console.log(res3, '售罄信息',res4)
+          callback(status,res)
         })
     },
     /**
@@ -321,18 +332,18 @@ export default {
         })
     },
 
-    //取消理由
+        //取消理由
     getCancelReason(option) {
         if (!option.success) option.success = function (res) { console.log('getOrderDetail success ', res) }
         if (!option.fail) option.fail = function (res) { console.log('getOrderDetail fail ', res) }
-
+      
 
         // const extJson = my.getExtConfigSync();
         var postdata = {
             method: "order.cancelreason.getCancelReason",
         };
 
-
+    
         http.post(postdata, function (status, rest) {
             if (status && rest.data.code === 1) {
                 option.success(rest.data.data)
@@ -608,6 +619,7 @@ export default {
             }
         })
     },
+<<<<<<< HEAD
 
 
     //获取用户订单优惠券
@@ -738,6 +750,8 @@ export default {
         })
 
     },
+=======
+>>>>>>> 582a223b9a30980d0060ef918f2bf073f7481d14
     setOrderComplete(option) {
         if (!option.success) option.success = function (res) { console.log('setOrderComplete success ', res) }
         if (!option.fail) option.fail = function (res) { console.log('setOrderComplete fail ', res) }
