@@ -642,7 +642,7 @@ export default {
         }, function (status, rest) {
             if (status && rest.data.code === 1) {
                 let couponsData =  rest.data.data.data;
-                      console.log(couponsData);
+                      console.log(couponsDatas);
                 for (let i = 0; i < couponsData.length; i++) {
                     //商品现金券
                     if (couponsData[i].type == 1) {

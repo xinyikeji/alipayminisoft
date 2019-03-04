@@ -333,7 +333,7 @@ var settab =
                     content: "该商品不在销售时段内"
                   })
                 }else{
-                  if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
+                  if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks.length == 0) {
                     var goodsTmp = {
                       goodsid: goodsData.goodsid,
                       gtid: goodsData.gtid,
@@ -367,6 +367,8 @@ var settab =
                       }
                     });
                   } else {
+             
+
                     this.setData({
                       showSelect: true,
                       showSelectGoodsData: goodsData
@@ -375,7 +377,7 @@ var settab =
                 }
               } else {
                 // 如果该商品没设置销售时段
-                if (goodsData.suitflag === 0 && goodsData.garnish.length === 0) {
+                if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks.length == 0) {
                   var goodsTmp = {
                     goodsid: goodsData.goodsid,
                     gtid: goodsData.gtid,

@@ -16,8 +16,8 @@
 					<view
 						class="xy-optcoupons-item"
 						onTap="selectCoupons"
-						data-ccbid="item.ccbid"
-						data-index="index"
+						data-ccbid="{{item.ccbid}}"
+						data-index="{{index}}"
 					>
 						<view class="xy-optcoupons-info">
 							<view>
