@@ -122,18 +122,5 @@ Page({
         api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/member/coupon' } });
       }
     }) 
-  },
-  isShowMsg(event){
-    console.log(this)
-    console.log(event)
-    if(this.data.isShow == "none"){
-      this.setData({
-        isShow:"block"
-      })
-    } else {
-      this.setData({
-        isShow:"none"
-      })
-    }
   }
-});
+})

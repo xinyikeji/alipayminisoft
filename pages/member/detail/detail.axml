@@ -1,0 +1,19 @@
+<view class="page">
+  <view class="loadmore" a:if="{{loading}}">
+    <view class="loading"></view>
+    <view class="loadmore__tips">正在加载</view>
+  </view>
+  <block a:else>
+    <view class="coupon-top" style="background: {{background}};padding-top:15px">
+      <view class="media-box__title"> {{title}}</view>
+      <view class="cell__bd">有效期: {{starttime}} 至 {{endtime}}</view>
+      <view class="cell__bd">请将二维码出示给店员</view>
+    </view>
+    <view>
+      <image mode="widthFix" style="width:80%;margin-left:10%;margin-top:40rpx;" src="{{brcode}}"></image>
+    </view>
+    <view>
+      <image mode="widthFix" style="width:60%;margin-left:20%;margin-top:40rpx;" src="{{qrcode}}"></image>
+    </view>
+  </block>
+</view>

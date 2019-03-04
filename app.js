@@ -1,6 +1,12 @@
 import http from '/libs/http'
 import api from '/libs/api'
 App({
+    // 获取远程数据
+    getDataPost(url, data, callback) {
+      data.mothed = url;
+      // data.uid =  this.globalData.userInfo?this.globalData.userInfo.uid:0;
+      http.post(data, callback);
+    },
     onLaunch(options) {
         const extJson = my.getExtConfigSync();
         var version = my.getStorageSync({
@@ -35,9 +41,7 @@ App({
             key: 'userinfo', // 缓存数据的key
         });
 
-        console.log(UserCache,'UserCacheUserCache');
-
-        if (!UserCache.data || UserCache.data.openid.length == 0) {
+        if (!UserCache.data || UserCache.data.length == 0) {
             my.alert({
                 title: '提示',
                 content: '你还没有登录，请登录~'
@@ -47,9 +51,6 @@ App({
             })
             return false;
         }
-
-
-
     },
     getUserInfo(callback) {
         const UserCache = my.getStorageSync({
@@ -71,7 +72,7 @@ App({
                     alipayappid: extJson.aliappid,
                     method: "alisoft.Login.codeToinfo"
                 }, function (status, rest) {
-                    console.log(status, rest,'getUserInfogetUserInfo');
+                    // console.log(status, rest);
                     if (status && rest.data.code === 1) {
                         my.setStorageSync({
                             key: 'userinfo', // 缓存数据的key
