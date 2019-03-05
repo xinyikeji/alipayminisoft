@@ -206,47 +206,78 @@ Component({
     incGarnish(event) {
       var goodsData = this.props.goodsInfo;
       var goodsid = event.currentTarget.dataset.goodsid;
+      var fgoodsid = event.currentTarget.dataset.fgoodsid;
       var index = event.currentTarget.dataset.index;
       var goodsTmp = this.data.goodsTmp;
       var selectGarnish = this.data.selectGarnish;
+      console.log(goodsData)
+      console.log("goodsTmp",goodsTmp)
+      console.log("goodsTmpGarnish",goodsTmp.garnish)
+      console.log("selectGarnish",selectGarnish)
+      console.log("event",event)
+      console.log("fgoodsid", fgoodsid)
 
       //加入菜单
       if (!goodsTmp.garnish) {
         goodsTmp.garnish = [];
       }
       if (!selectGarnish[goodsid]) {
+        
+      console.log("goodsTmpGarnish",goodsTmp.garnish)
+      var tempIndex = 0;
+      goodsData.garnish.forEach((item,i)=>{
+        console.log(item)
+        console.log(fgoodsid,goodsid)
+        if(item.fgoodsid == fgoodsid && item.goodsid == goodsid){
+          console.log(i)
+          tempIndex = i
+        }
+      })
+      console.log(tempIndex)
+
+
         selectGarnish[goodsid] = 1;
         //如果不存在就直接追加
         goodsTmp.garnish.push({
-          goodsid: goodsData.garnish[index].goodsid,
+          goodsid: goodsData.garnish[tempIndex].goodsid,
           goodsno: 1,
           one_goodsno: 1,
-          goodsname: goodsData.garnish[index].goodsname,
-          one_price: goodsData.garnish[index].price,
+          goodsname: goodsData.garnish[tempIndex].goodsname,
+          one_price: goodsData.garnish[tempIndex].price,
           youhuiprice: 0,
           remarks: '',
           is_package: 0,
           is_give: 0,
-          mprice: goodsData.garnish[index].price,
-          sprice: goodsData.garnish[index].price,
-          yprice: goodsData.garnish[index].price
+          mprice: goodsData.garnish[tempIndex].price,
+          sprice: goodsData.garnish[tempIndex].price,
+          yprice: goodsData.garnish[tempIndex].price
         })
-        goodsTmp.tmpprice += goodsData.garnish[index].price;
-        goodsTmp.tmp_oneprice += goodsData.garnish[index].price;
+        goodsTmp.tmpprice += goodsData.garnish[tempIndex].price;
+        console.log(goodsData.garnish[tempIndex])
+        console.log(goodsTmp.tmpprice)
+        goodsTmp.tmp_oneprice += goodsData.garnish[tempIndex].price;
+        console.log(goodsTmp.tmp_oneprice)
 
       } else {
+        console.log("else1")
         selectGarnish[goodsid]++;
+        // console.log(selectGarnish[goodsid])
         //如果存在就找到并且修改
         for (var i in goodsTmp.garnish) {
+          console.log(goodsid,goodsTmp.garnish[i].goodsid)
           if (goodsid == goodsTmp.garnish[i].goodsid) {
+            console.log(2)
             goodsTmp.tmpprice += goodsTmp.garnish[i].one_price;
             goodsTmp.garnish[i].goodsno++;
             goodsTmp.garnish[i].one_goodsno++;
             goodsTmp.garnish[i].sprice = goodsTmp.garnish[i].one_price * goodsTmp.garnish[i].goodsno;
             goodsTmp.garnish[i].yprice = goodsTmp.garnish[i].one_price * goodsTmp.garnish[i].goodsno;
             goodsTmp.tmp_oneprice += goodsTmp.garnish[i].one_price;
+          }else{
+            console.log("else2")
           }
         }
+        console.log(goodsTmp.garnish[i].one_price)
       }
       this.setData({
         goodsTmp,
@@ -291,6 +322,9 @@ Component({
     },
     //修改规格
     setSpecifications(event) {
+      this.setData({
+        selectGarnish:{}
+      })
       // console.log('goodsInfo',this.props.goodsInfo)
       // console.log('child',this.props.goodsInfo.child)
       // console.log('goodsTmp',this.data.goodsTmp)
@@ -316,6 +350,7 @@ Component({
         yprice: goodsData.child[index].price
       }];
       var garnishprice = 0;
+      goodsTmp.garnish = []
       if (goodsTmp.garnish && goodsTmp.garnish.length > 0) {
         for (var ii in goodsTmp.garnish) {
           garnishprice += goodsTmp.garnish[ii].sprice
@@ -332,6 +367,7 @@ Component({
       })
       this.setGarnish()
     },
+
     //修改备注
     setRemarks(event) {
       var grid = event.currentTarget.dataset.grid;

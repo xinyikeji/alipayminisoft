@@ -296,6 +296,7 @@ var settab =
 
 
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
+            console.log(this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid])
             var _this = this;
             if (this.data.stopIdList.indexOf(event.target.dataset.goodsid) !== -1) {
                 my.showToast({

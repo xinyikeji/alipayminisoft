@@ -102,7 +102,7 @@
                   <image onTap="decGarnish" data-goodsid="{{itemName.goodsid}}" data-index="{{garnishIndex}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
                   <text>{{selectGarnish[itemName.goodsid] || 0}}                                                                                                                                      
                   </text>
-                  <image onTap="incGarnish" data-goodsid="{{itemName.goodsid}}" data-index="{{garnishIndex}}" src="/static/icon/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
+                  <image onTap="incGarnish" data-fgoodsid="{{itemName.fgoodsid}}" data-goodsid="{{itemName.goodsid}}" data-index="{{garnishIndex}}" src="/static/icon/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
                 </view>
               </view>
             </view>
