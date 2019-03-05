@@ -1,255 +1,270 @@
 .storeinfo {
-  height: 60px;
-  background-color: #FFF;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  padding: 10px;
+    height: 60px;
+    background-color: #FFF;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 10px;
 }
 
 .replacestore {
-  display: inline;
+    display: inline;
 }
 
 .storename {
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 32px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 32px;
 }
 
 .storeinfo .storename .replace {
-  font-weight: normal;
-  color: #10aeff;
-  margin-right: 6px;
+    font-weight: normal;
+    color: #10aeff;
+    margin-right: 6px;
 }
 
 .storeinfo .storename .long {
-  font-size: 12px;
-  font-weight: normal;
-  color: #ffbe00;
-  margin-left: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    color: #ffbe00;
+    margin-left: 6px;
 }
 
 .storetelphone {
-  font-size: 14px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  line-height: 24px;
+    font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 24px;
 }
 
 .clickgoods {
-  display: flex;
-  position: fixed;
-  top: 80px;
-  left: 0px;
-  right: 0px;
-  background: #ffffff;
+    display: flex;
+    position: fixed;
+    top: 80px;
+    left: 0px;
+    right: 0px;
+    background: #ffffff;
 }
 
 .goodstype {
-  width: 100px;
-  background: #EEEEEE;
-  overflow: hidden;
+    width: 100px;
+    background: #EEEEEE;
+    overflow: hidden;
 }
 
 .typelist-text {
-  width: 100px;
-  padding-right: 4px;
-  height: 52px;
-  line-height: 52px;
-  text-align: center;
-  font-size: 16px;
-  border-left: 4px solid #EEEEEE;
+    width: 100px;
+    padding-right: 4px;
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    font-size: 16px;
+    border-left: 4px solid #EEEEEE;
 }
 
 .typelist-text.active {
-  background: #FFFFFF;
-  border-left: 4px solid #10AEFF;
+    background: #FFFFFF;
+    border-left: 4px solid #10AEFF;
 }
 
 .goodslist {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
 }
 
 .goods {
-  display: inline-flex;
+    display: inline-flex;
 }
 
 .goodspic {
-  padding: 3px;
+    padding: 3px;
 }
 
 .goods .goodsinfo {
-  overflow: hidden;
-  font-size: 16px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.goods .goodsdesc {
+    font-size: 12px;
+    color: #999999;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
 
 .goods .goodsprice {
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 24px;
 }
 
 .goods .yprice {
-  font-size: 10px;
-  text-decoration: line-through;
-  color: #dddddd;
-  padding-left: 6px;
+    font-size: 10px;
+    text-decoration: line-through;
+    color: #dddddd;
+    padding-left: 6px;
 }
 
 .goodsstepper {
-  padding-right: 10px;
+    padding-right: 10px;
 }
 
 .goodsstepper image {
-  float: right;
+    float: right;
 }
 
 .goodsstepper .numbers {
-  float: right;
-  line-height: 24px;
-  width: 40px;
-  text-align: center;
+    float: right;
+    line-height: 24px;
+    width: 40px;
+    text-align: center;
 }
 
 .goodsstepper .am-badge {
-  float: right;
+    float: right;
 }
 
 .goodsstepper .select-suit {
-  border: 1px solid #10AEFF;
-  background-color: #10AEFF;
-  color: #FFFFFF;
-  font-size: 14px;
-  line-height: 24px;
-  border-radius: 5px;
-  width: 60px;
-  text-align: center;
-  float: right;
+    border: 1px solid #10AEFF;
+    background-color: #10AEFF;
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 24px;
+    border-radius: 5px;
+    width: 60px;
+    text-align: center;
+    float: right;
 }
 
 .shoppingcart {
-  height: 60px;
-  background-color: #FFFFFF;
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+    height: 60px;
+    background-color: #FFFFFF;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
 }
 
 .cartbuttons {
-  margin: 10px;
-  height: 40px;
-  border-top-right-radius: 20px 50%;
-  border-top-left-radius: 20px 50%;
-  border-bottom-left-radius: 20px 50%;
-  border-bottom-right-radius: 20px 50%;
-  display: flex;
-  background: #eeeeee;
+    margin: 10px;
+    height: 40px;
+    border-top-right-radius: 20px 50%;
+    border-top-left-radius: 20px 50%;
+    border-bottom-left-radius: 20px 50%;
+    border-bottom-right-radius: 20px 50%;
+    display: flex;
+    background: #eeeeee;
 }
 
 .shoppcar {
-  width: 20px;
-  padding: 8px;
-  border: 2px solid #FFFFFF;
-  border-radius: 50%;
+    width: 20px;
+    padding: 8px;
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
 }
 
 .priceinfo {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  flex: 1;
-  line-height: 40px;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-size: 18px;
-  font-weight: bold;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    line-height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .total_price {
-  text-decoration: line-through;
-  font-size: 12px;
-  color: #909399;
-  padding-left: 8px;
+    text-decoration: line-through;
+    font-size: 12px;
+    color: #909399;
+    padding-left: 8px;
 }
 
 .goShopping {
-  width: 100px;
-  line-height: 40px;
-  background: #10aeff;
-  border-top-right-radius: 20px 50%;
-  border-bottom-right-radius: 20px 50%;
-  text-align: center;
-  color: #FFFFFF;
-  font-weight: bold;
+    width: 100px;
+    line-height: 40px;
+    background: #10aeff;
+    border-top-right-radius: 20px 50%;
+    border-bottom-right-radius: 20px 50%;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
 .am-badge-text {
-  top: 3px;
-  right: 3px;
+    top: 3px;
+    right: 3px;
 }
-.typelist-text .am-badge{
-  width: 80px;
+
+.typelist-text .am-badge {
+    width: 80px;
 }
-.typetext{
-  display: block;
+
+.typetext {
+    display: block;
 }
+
 .am-list-sticky {
-  position: sticky;
-  top: 0px;
-  z-index: 2;
-  background-color: #F7F7F7;
-  font-size: 14px;
-  line-height: 32px;
-  padding-left: 10px;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+    background-color: #F7F7F7;
+    font-size: 14px;
+    line-height: 32px;
+    padding-left: 10px;
 }
-.am-list-sticky.android{
-  position: static;
+
+.am-list-sticky.android {
+    position: static;
 }
+
 .am-list-sticky text {
-  font-size: 12px;
-  padding-left: 10px;
-  color: #ffbe00
+    font-size: 12px;
+    padding-left: 10px;
+    color: #ffbe00
 }
 
 .goodsdetail {
-  background-color: #FFFFFF;
-  overflow: hidden;
-  padding: 10px;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    padding: 10px;
 }
 
 .goodsdetail-image image {
-  border-radius: 5px;
+    border-radius: 5px;
 }
 
 .goodsdetail-name {
-  font-size: 16px;
-  line-height: 32px;
-  font-weight: bold;
+    font-size: 16px;
+    line-height: 32px;
+    font-weight: bold;
 }
 
 .goodsdetail-desc {
-  font-size: 14px;
-  line-height: 32px;
+    font-size: 14px;
+    line-height: 32px;
 }
 
 .goodsdetail-button {
-  overflow: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 
 .goodsdetail-button text {
-  line-height: 32px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #ffbe00;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffbe00;
 }
 
 .goodsdetail-button button {
-  float: right;
+    float: right;
 }

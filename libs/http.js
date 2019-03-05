@@ -27,7 +27,7 @@ const getSign = function (data, secret) {
 const post = function (postdata, callback) {
   var postdataObj = getPostData(postdata);
   const extJson = my.getExtConfigSync();
-  my.httpRequest({
+  my.request({
     url: extJson.apiurl || APIURL,
     data: postdataObj,
     method: 'POST',

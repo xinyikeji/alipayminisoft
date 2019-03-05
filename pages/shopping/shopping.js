@@ -20,8 +20,8 @@ var settab =
             showSelectGoodsData: {},
             showGoodsInfoData: {},
             // 停售和售罄商品信息
-            stopIdList:[],
-            completeIdList:[],
+            stopIdList: [],
+            completeIdList: [],
         },
         onUnload() {
             api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/shopping' } });
@@ -36,37 +36,37 @@ var settab =
             })
             // console.log(this.data.options)
             // 拉取门店停售商品信息
-            api.getStopList(options.id, function(status,res){
-              if(Object.keys(res).length > 0){
-                // console.log('返回停售商品信息',res)
-                let tempList = []
-                let stopList = res.data.data.data
-                // console.log('stopList',stopList)
-                stopList.forEach(function(item,index){
-                  tempList.push(item.goodsid)
-                })
-                _this.setData({
-                  stopIdList:tempList
-                })
-                // console.log('停售商品goodsid数组',_this.data.stopIdList)
-              }
+            api.getStopList(options.id, function (status, res) {
+                if (Object.keys(res).length > 0) {
+                    // console.log('返回停售商品信息',res)
+                    let tempList = []
+                    let stopList = res.data.data.data
+                    // console.log('stopList',stopList)
+                    stopList.forEach(function (item, index) {
+                        tempList.push(item.goodsid)
+                    })
+                    _this.setData({
+                        stopIdList: tempList
+                    })
+                    // console.log('停售商品goodsid数组',_this.data.stopIdList)
+                }
             });
 
             // 拉取门店售罄商品信息
-            api.getCompleteList(options.id,function(status,res){
-              if(Object.keys(res).length > 0){
-                // console.log('返回售罄商品信息',status,res)
-                let tempList = []
-                let completeList = res.data.data.data
-                // console.log('completeList',completeList)
-                completeList.forEach(function(item,index){
-                  tempList.push(item.goodsid)
-                })
-                _this.setData({
-                  completeIdList:tempList
-                })
-                // console.log('售罄商品goodsid数组',_this.data.completeIdList)
-              }
+            api.getCompleteList(options.id, function (status, res) {
+                if (Object.keys(res).length > 0) {
+                    // console.log('返回售罄商品信息',status,res)
+                    let tempList = []
+                    let completeList = res.data.data.data
+                    // console.log('completeList',completeList)
+                    completeList.forEach(function (item, index) {
+                        tempList.push(item.goodsid)
+                    })
+                    _this.setData({
+                        completeIdList: tempList
+                    })
+                    // console.log('售罄商品goodsid数组',_this.data.completeIdList)
+                }
             });
 
             my.getSystemInfo({
@@ -108,91 +108,91 @@ var settab =
                         userInfo: userinfo
                     })
                     api.getGoodsInfo(_this.data.options.id, function (goodsdata) {
-                      if(Object.keys(goodsdata.goodsObj).length !== 0){
-                        // 如果门店有商品信息
-                        // console.log('all goodsdata', goodsdata)
-                        my.hideLoading();
-                        //计算分类下每个商品区域的高度
-                        _this.setData({
-                            goodsData: goodsdata,
-                        })
-                        my.showLoading({
-                            content: "门店数据加载中"
-                        })
-                        api.getStoreInfo(_this.data.options.id, function (storeinfo) {
-                            // console.log("门店信息",storeinfo)
+                        if (Object.keys(goodsdata.goodsObj).length !== 0) {
+                            // 如果门店有商品信息
+                            // console.log('all goodsdata', goodsdata)
                             my.hideLoading();
-                            if (storeinfo) {
-                                _this.setData({
-                                    storeData: storeinfo
-                                })
-                                my.getLocation({
-                                    success(res) {
-                                      // console.log('getLocation',res);
-                                        storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
-                                        storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
-                                        storeinfo.name = storeinfo.storename;
-                                        _this.setData({
-                                            storeData: storeinfo
-                                        })
-                                        userinfo.name = userinfo.nickname;
-                                        clickgoods.setUserInfo({
-                                            storeid: _this.data.options.id,
-                                            user: userinfo,
-                                            success: function (res) {
-                                                clickgoods.setStoreInfo({
-                                                    storeid: _this.data.options.id,
-                                                    store: storeinfo,
-                                                    success: function (res) {
-                                                        my.hideLoading();
-                                                        _this.setData({
-                                                            shopCart: res
-                                                        })
-                                                    }
+                            //计算分类下每个商品区域的高度
+                            _this.setData({
+                                goodsData: goodsdata,
+                            })
+                            my.showLoading({
+                                content: "门店数据加载中"
+                            })
+                            api.getStoreInfo(_this.data.options.id, function (storeinfo) {
+                                // console.log("门店信息",storeinfo)
+                                my.hideLoading();
+                                if (storeinfo) {
+                                    _this.setData({
+                                        storeData: storeinfo
+                                    })
+                                    my.getLocation({
+                                        success(res) {
+                                            // console.log('getLocation',res);
+                                            storeinfo.longvalue = app.getLong(res.latitude, res.longitude, storeinfo.lat, storeinfo.lng);
+                                            storeinfo.longvalueFormat = app.getLongFormat(storeinfo.longvalue);
+                                            storeinfo.name = storeinfo.storename;
+                                            _this.setData({
+                                                storeData: storeinfo
+                                            })
+                                            userinfo.name = userinfo.nickname;
+                                            clickgoods.setUserInfo({
+                                                storeid: _this.data.options.id,
+                                                user: userinfo,
+                                                success: function (res) {
+                                                    clickgoods.setStoreInfo({
+                                                        storeid: _this.data.options.id,
+                                                        store: storeinfo,
+                                                        success: function (res) {
+                                                            my.hideLoading();
+                                                            _this.setData({
+                                                                shopCart: res
+                                                            })
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                            var indexMap = [];
+                                            for (var i in goodsdata.goodstype) {
+                                                my.createSelectorQuery().select('.goodslist-item' + goodsdata.goodstype[i].gtid).boundingClientRect().exec(function (ret) {
+                                                    // console.log(ret)
+                                                    indexMap.push(ret[0]);
                                                 })
                                             }
-                                        })
-                                        var indexMap = [];
-                                        for (var i in goodsdata.goodstype) {
-                                            my.createSelectorQuery().select('.goodslist-item' + goodsdata.goodstype[i].gtid).boundingClientRect().exec(function (ret) {
-                                                // console.log(ret)
-                                                indexMap.push(ret[0]);
+                                            // console.log(indexMap)
+                                            _this.setData({
+                                                indexMap: indexMap
                                             })
-                                        }
-                                        // console.log(indexMap)
-                                        _this.setData({
-                                            indexMap: indexMap
-                                        })
-                                    },
-                                    fail(err) {
-                                        my.hideLoading();
-                                        my.alert({ title: '定位失败', content: '请检查是否授权我们使用您的位置信息' });
-                                        my.reLaunch({
-                                            url: '/pages/index/index'
-                                        });
-                                    },
-                                })
+                                        },
+                                        fail(err) {
+                                            my.hideLoading();
+                                            my.alert({ title: '定位失败', content: '请检查是否授权我们使用您的位置信息' });
+                                            my.reLaunch({
+                                                url: '/pages/index/index'
+                                            });
+                                        },
+                                    })
 
-                            } else {
-                                my.hideLoading();
-                                my.alert({ title: "错误提示", content: '门店数据获取失败，请尝试重新进入' });
-                                // my.reLaunch({
-                                //   url: '/pages/index/index'
-                                // });
-                            }
-                        })
-                      }else{
-                        // 如果门店没有商品信息
-                        my.alert({
-                          title:'错误提示',
-                          content: "该门店暂无商品",
-                          success:function(){
-                            my.redirectTo({
-                              url:'/pages/store/store'
+                                } else {
+                                    my.hideLoading();
+                                    my.alert({ title: "错误提示", content: '门店数据获取失败，请尝试重新进入' });
+                                    // my.reLaunch({
+                                    //   url: '/pages/index/index'
+                                    // });
+                                }
                             })
-                          }
-                        })
-                      }
+                        } else {
+                            // 如果门店没有商品信息
+                            my.alert({
+                                title: '错误提示',
+                                content: "该门店暂无商品",
+                                success: function () {
+                                    my.redirectTo({
+                                        url: '/pages/store/store'
+                                    })
+                                }
+                            })
+                        }
                     })
                 } else {
                     my.hideLoading();
@@ -212,17 +212,17 @@ var settab =
             console.log(this.data.options)
             let goodsArr = this.data.shopCart.goods;
             let goodsIdArr = [];
-            goodsArr.forEach((item)=>{
-              goodsIdArr.push(item.gtid);
+            goodsArr.forEach((item) => {
+                goodsIdArr.push(item.gtid);
             });
-            if ( goodsIdArr.indexOf(999999999) == -1) {
-              my.showToast({
-                type: "fail",
-                content: "请选择必点商品"
+            if (goodsIdArr.indexOf(999999999) == -1) {
+                my.showToast({
+                    type: "fail",
+                    content: "请选择必点商品"
                 });
-              this.setData({
-                  scrollTop: 1
-              })
+                this.setData({
+                    scrollTop: 1
+                })
             } else if (this.data.shopCart.goodsnumber && this.data.shopCart.goodsnumber > 0) {
                 my.navigateTo({
                     url: 'bill/bill?id=' + this.data.options.id
@@ -304,111 +304,117 @@ var settab =
             // console.log('event',event)
             console.log(this.data.goodsData)
             // goodsData.goodsTypeData[typeGoodsItemName.gtid]
+            this.setData({
+                showGoodsInfo: false,
+            });
+
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
             var _this = this;
-            if(this.data.stopIdList.indexOf(event.target.dataset.goodsid) !== -1){
+            if (this.data.stopIdList.indexOf(event.target.dataset.goodsid) !== -1) {
                 my.showToast({
-                  type: "fail",
-                  content: "该商品已停售"
+                    type: "fail",
+                    content: "该商品已停售"
                 })
             } else if (this.data.completeIdList.indexOf(event.target.dataset.goodsid) !== -1) {
                 my.showToast({
-                  type: "fail",
-                  content: "该商品已售罄"
-                })
-            } else{
-              // 如果该商品设置了销售时段
-              if(goodsData.sales.length == !0 ){
-                let timeFlag = this.timeRange(goodsData.sales[0].stime,goodsData.sales[0].ttime)
-                // 如果不在销售时段内
-                if(timeFlag == false){
-                  my.showToast({
                     type: "fail",
-                    content: "该商品不在销售时段内"
-                  })
-                }else{
-                  if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks.length == 0) {
-                    var goodsTmp = {
-                      goodsid: goodsData.goodsid,
-                      gtid: goodsData.gtid,
-                      goodsname: goodsData.goodsname,
-                      shoppic: goodsData.shoppic,
-                      pocket: 1,
-                      goodsno: 1,
-                      mprice: goodsData.price,
-                      discount: 100,
-                      youhuiprice: 0,
-                      suitflag: 0,
-                      is_give: 0,
-                      is_package: 0,
-                      is_default_package: 0,
-                      dabaohe: goodsData.dabaohe,
-                      remarks: "",
-                      yprice: goodsData.price,
-                      sprice: goodsData.price,
-                      one_sprice: goodsData.price,
-                      one_yprice: goodsData.price,
-                      tmp_oneprice: goodsData.price,
-                      tmpprice: goodsData.price
-                    };
-                    clickgoods.addGoodsToShoppingCart({
-                      storeid: this.data.options.id,
-                      goodsdata: goodsTmp,
-                      success: function (res) {
-                        _this.setData({
-                          shopCart: res
+                    content: "该商品已售罄"
+                })
+            } else {
+                // 如果该商品设置了销售时段
+                if (goodsData.sales.length == !0) {
+                    let timeFlag = this.timeRange(goodsData.sales[0].stime, goodsData.sales[0].ttime)
+                    // 如果不在销售时段内
+                    if (timeFlag == false) {
+                        my.showToast({
+                            type: "fail",
+                            content: "该商品不在销售时段内"
                         })
-                      }
-                    });
-                  } else {
-                    this.setData({
-                      showSelect: true,
-                      showSelectGoodsData: goodsData
-                    })
-                  }
-                }
-              } else {
-                // 如果该商品没设置销售时段
-                if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks.length == 0) {
-                  var goodsTmp = {
-                    goodsid: goodsData.goodsid,
-                    gtid: goodsData.gtid,
-                    goodsname: goodsData.goodsname,
-                    shoppic: goodsData.shoppic,
-                    pocket: 1,
-                    goodsno: 1,
-                    mprice: goodsData.price,
-                    discount: 100,
-                    youhuiprice: 0,
-                    suitflag: 0,
-                    is_give: 0,
-                    is_package: 0,
-                    is_default_package: 0,
-                    dabaohe: goodsData.dabaohe,
-                    remarks: "",
-                    yprice: goodsData.price,
-                    sprice: goodsData.price,
-                    one_sprice: goodsData.price,
-                    one_yprice: goodsData.price,
-                    tmp_oneprice: goodsData.price,
-                    tmpprice: goodsData.price
-                  };
-                  clickgoods.addGoodsToShoppingCart({
-                    storeid: this.data.options.id,
-                    goodsdata: goodsTmp,
-                    success: function (res) {
-                      _this.setData({
-                        shopCart: res
-                      })
+                    } else {
+                        if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0) {
+                            var goodsTmp = {
+                                goodsid: goodsData.goodsid,
+                                gtid: goodsData.gtid,
+                                goodsname: goodsData.goodsname,
+                                shoppic: goodsData.shoppic,
+                                pocket: 1,
+                                goodsno: 1,
+                                mprice: goodsData.price,
+                                discount: 100,
+                                youhuiprice: 0,
+                                suitflag: 0,
+                                is_give: 0,
+                                is_package: 0,
+                                is_default_package: 0,
+                                dabaohe: goodsData.dabaohe,
+                                remarks: "",
+                                yprice: goodsData.price,
+                                sprice: goodsData.price,
+                                one_sprice: goodsData.price,
+                                one_yprice: goodsData.price,
+                                tmp_oneprice: goodsData.price,
+                                tmpprice: goodsData.price
+                            };
+                            clickgoods.addGoodsToShoppingCart({
+                                storeid: this.data.options.id,
+                                goodsdata: goodsTmp,
+                                success: function (res) {
+                                    _this.setData({
+                                        shopCart: res
+                                    })
+                                }
+                            });
+                        } else {
+
+
+                            this.setData({
+                                showSelect: true,
+                                showSelectGoodsData: goodsData
+                            })
+                        }
                     }
-                  });
                 } else {
-                  this.setData({
-                    showSelect: true,
-                    showSelectGoodsData: goodsData
-                  })
+                    // 如果该商品没设置销售时段
+                    if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0) {
+                        var goodsTmp = {
+                            goodsid: goodsData.goodsid,
+                            gtid: goodsData.gtid,
+                            goodsname: goodsData.goodsname,
+                            shoppic: goodsData.shoppic,
+                            pocket: 1,
+                            goodsno: 1,
+                            mprice: goodsData.price,
+                            discount: 100,
+                            youhuiprice: 0,
+                            suitflag: 0,
+                            is_give: 0,
+                            is_package: 0,
+                            is_default_package: 0,
+                            dabaohe: goodsData.dabaohe,
+                            remarks: "",
+                            yprice: goodsData.price,
+                            sprice: goodsData.price,
+                            one_sprice: goodsData.price,
+                            one_yprice: goodsData.price,
+                            tmp_oneprice: goodsData.price,
+                            tmpprice: goodsData.price
+                        };
+                        clickgoods.addGoodsToShoppingCart({
+                            storeid: this.data.options.id,
+                            goodsdata: goodsTmp,
+                            success: function (res) {
+                                _this.setData({
+                                    shopCart: res
+                                })
+                            }
+                        });
+                    } else {
+                        this.setData({
+                            showSelect: true,
+                            showSelectGoodsData: goodsData
+                        })
+                    }
                 }
-              }
             }
         },
         AddToShoppingCart(res) {
