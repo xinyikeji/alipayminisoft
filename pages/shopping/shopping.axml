@@ -2,13 +2,13 @@
     <view class="storeinfo">
         <view class="storename">
             <text class="replace">
-                <navigator url="../store/store" class="replacestore" open-type="redirect">[换门店]
+                <navigator url="../store/store" class="replacestore" open-type="redirect">[换门店]                                
                 </navigator>
-            </text>{{storeData.storename}}                     
-            <text class="long">距离{{storeData.longvalueFormat}}                        
+            </text>{{storeData.storename}}                                             
+            <text class="long">距离{{storeData.longvalueFormat}}                                                
             </text>
         </view>
-        <view class="storetelphone">电话：{{storeData.tel_phone}}  地址：{{storeData.address}}     
+        <view class="storetelphone">电话：{{storeData.tel_phone}}  地址：{{storeData.address}}                     
         </view>
     </view>
     <view class="clickgoods" style="height:{{windowHeight-140}}px">
@@ -18,11 +18,11 @@
                     <block a:if="{{typeItemName.image == ''}}">
                         <block a:if="{{shopCart.typenumbers[typeItemName.gtid]}}">
                             <badge text="{{shopCart.typenumbers[typeItemName.gtid]}}">
-                                <view slot="inner" class="typetext"> {{typeItemName.name}}                                                              
+                                <view slot="inner" class="typetext"> {{typeItemName.name}}                                                                                                                              
                                 </view>
                             </badge>
                         </block>
-                        <block a:else>{{typeItemName.name}}                                              
+                        <block a:else>{{typeItemName.name}}                                                                                              
                         </block>
                     </block>
                     <block a:else>
@@ -46,21 +46,22 @@
                     <block a:for="{{goodsData.goodstype}}" a:for-item="typeGoodsItemName">
                         <view class="goodslist-item{{typeGoodsItemName.gtid}}">
                             <list-item class="am-list-sticky {{brand != 'iphone' ? 'android':''}}">
-                                <view data-gtid="{{typeGoodsItemName.gtid}}">                {{typeGoodsItemName.name}}                
-                                    <text a:if="{{typeGoodsItemName.desc != ''}}">                  {{typeGoodsItemName.desc}}                
+                                <view data-gtid="{{typeGoodsItemName.gtid}}">                {{typeGoodsItemName.name}}                                                                                        
+                                    <text a:if="{{typeGoodsItemName.desc != ''}}">                  {{typeGoodsItemName.desc}}                                                                                        
                                     </text>
                                 </view>
                             </list-item>
                             <list-item a:for="{{goodsData.goodsTypeData[typeGoodsItemName.gtid]}}" a:for-item="itemGoods" multipleLine="{{true}}" wrap disabled="{{true}}">
                                 <view class="goods">
-                                    <view class="goodspic" onTap="showGoodsInfo" data-goodsid="{{itemGoods.goodsid}}" a:if="{{itemGoods.shoppic}}">
+                                    <!-- <view class="goodspic" onTap="showGoodsInfo" data-goodsid="{{itemGoods.goodsid}}" a:if="{{itemGoods.shoppic}}"> -->
+                                    <view class="goodspic" data-goodsid="{{itemGoods.goodsid}}" a:if="{{itemGoods.shoppic}}">
                                         <image src="{{itemGoods.shoppic}}_800" style="width:60px;height:45px;" mode="aspectFill" />
                                     </view>
                                     <view>
-                                        <view class="goodsinfo">{{itemGoods.goodsname}}                             
+                                        <view class="goodsinfo">{{itemGoods.goodsname}}                                                                                                             
                                         </view>
-                                        <view class="goodsprice">￥{{itemGoods.priceFormat}} 
-                                            <text class="yprice"> ￥{{itemGoods.priceFormat}} 
+                                        <view class="goodsprice">￥{{itemGoods.priceFormat}}                                                                                         
+                                            <text class="yprice"> ￥{{itemGoods.priceFormat}}                                                                                                 
                                                 <text>
                                                     </view>
                                                     </view>
@@ -70,13 +71,13 @@
                                                             <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
                                                                 <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
                                                                     <view slot="inner">
-                                                                        <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}
+                                                                        <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}                                                                                                                                                
                                                                         </view>
                                                                     </view>
                                                                 </badge>
                                                             </block>
                                                             <block a:else>
-                                                                <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}
+                                                                <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">{{itemGoods.suitflagtype == 3?'选规格':'选套餐'}}                                                                                                                                
                                                                 </view>
                                                             </block>
                                                         </block>
@@ -85,41 +86,23 @@
                                                                 <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
                                                                     <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
                                                                         <view slot="inner">
-                                                                            <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜
+                                                                            <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜                                                                                                                                                        
                                                                             </view>
                                                                         </view>
                                                                     </badge>
                                                                 </block>
                                                                 <block a:else>
-                                                                    <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜
+                                                                    <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选配菜                                                                                                                                        
                                                                     </view>
                                                                 </block>
                                                             </block>
                                                             <block a:else>
-                                                                 <block a:if="{{itemGoods.remarks.length>0}}">
-                                                                    <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                                                                    <badge text="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                                                                        <view slot="inner">
-                                                                            <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选备注
-                                                                            </view>
-                                                                        </view>
-                                                                    </badge>
-                                                                </block>
-                                                                <block a:else>
-                                                                    <view class="select-suit" onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" size="mini">选备注
-                                                                    </view>
-                                                                </block>
-                                                                </block>
-                                                                <block a:else>
-                                                                     <image onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
+                                                                <image onTap="plusGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
                                                                 <block a:if="{{shopCart.goodsnumbers[itemGoods.goodsid]}}">
-                                                                    <text class="numbers">                        {{shopCart.goodsnumbers[itemGoods.goodsid]}}                                     
+                                                                    <text class="numbers">                        {{shopCart.goodsnumbers[itemGoods.goodsid]}}                                                                                                                                                                                 
                                                                     </text>
                                                                     <image onTap="decGoods" data-goodsid="{{itemGoods.goodsid}}" src="/static/icon/jjian-.png" style="width:24px;height:24px;" mode="aspectFit" />
                                                                 </block>
-                                                                </block>
-
-                                                               
                                                             </block>
                                                         </block>
                                                         </list-item>
@@ -150,11 +133,11 @@
                                                                         </badge>
                                                                     </block>
                                                                 </view>
-                                                                <view class="priceinfo">  ￥{{((shopCart.sprice||0)/100).toFixed(2)}} 
-                                                                    <text class="total_price">￥{{((shopCart.total_price||0)/100).toFixed(2)}}
+                                                                <view class="priceinfo">  ￥{{((shopCart.sprice||0)/100).toFixed(2)}}                                                                                                                                         
+                                                                    <text class="total_price">￥{{((shopCart.total_price||0)/100).toFixed(2)}}                                                                                                                                        
                                                                     </text>
                                                                 </view>
-                                                                <view onTap="goShopping" class="goShopping">            去结算        
+                                                                <view onTap="goShopping" class="goShopping">            去结算                                                                                                                                        
                                                                 </view>
                                                             </view>
                                                         </view>
@@ -168,15 +151,31 @@
                                                             <view class="goodsdetail-image">
                                                                 <image src="{{showGoodsInfoData.shoppic}}" style="width:100%;" mode="aspectFill" />
                                                             </view>
-                                                            <view class="goodsdetail-name">        {{showGoodsInfoData.goodsname}}      
+                                                            <view class="goodsdetail-name">        {{showGoodsInfoData.goodsname}}                                                                                                                              
                                                             </view>
-                                                            <view class="goodsdetail-desc">        {{showGoodsInfoData.desc}}      
+                                                            <view class="goodsdetail-desc">        {{showGoodsInfoData.desc}}                                                                                                                              
                                                             </view>
                                                             <view class="goodsdetail-button">
-                                                                <text>￥ {{showGoodsInfoData.priceFormat}}
-                                                                </text>
-                                                                <button type="primary" onTap="defaultTap" size="mini">选套餐
-                                                                </button>
+                                                                <view>
+                                                                    <text>￥ {{showGoodsInfoData.priceFormat}}                                                                    
+                                                                    </text>
+                                                                </view>
+                                                                <block a:if="{{shopCart.goodsnumbers[showGoodsInfoData.goodsid]}}">
+                                                                    <view>
+                                                                        <badge text="{{shopCart.goodsnumbers[showGoodsInfoData.goodsid]}}">
+                                                                            <view slot="inner">
+                                                                                <button type="primary"onTap="plusGoods" data-goodsid="{{showGoodsInfoData.goodsid}}" size="mini">{{showGoodsInfoData.suitflagtype == 3?'选规格':'选套餐'}}                                                                                                                                                
+                                                                                </button>
+                                                                            </view>
+                                                                        </badge>
+                                                                    </view>
+                                                                </block>
+                                                                <block a:else>
+                                                                    <view>
+                                                                        <button type="primary"onTap="plusGoods" data-goodsid="{{showGoodsInfoData.goodsid}}" size="mini">{{showGoodsInfoData.suitflagtype == 3?'选规格':'选套餐'}}                                                                                                                                        
+                                                                        </button>
+                                                                    </view>
+                                                                </block>
                                                             </view>
                                                         </view>
                                                     </popup>

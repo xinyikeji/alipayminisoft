@@ -240,7 +240,9 @@
 }
 
 .goodsdetail-button {
-  overflow: hidden;
+
+  display: flex;
+    justify-content: space-between;
 }
 
 .goodsdetail-button text {
