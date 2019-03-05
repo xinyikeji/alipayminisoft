@@ -619,7 +619,6 @@ export default {
             }
         })
     },
-<<<<<<< HEAD
 
 
     //获取用户订单优惠券
@@ -750,8 +749,6 @@ export default {
         })
 
     },
-=======
->>>>>>> 582a223b9a30980d0060ef918f2bf073f7481d14
     setOrderComplete(option) {
         if (!option.success) option.success = function (res) { console.log('setOrderComplete success ', res) }
         if (!option.fail) option.fail = function (res) { console.log('setOrderComplete fail ', res) }

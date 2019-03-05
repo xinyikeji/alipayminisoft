@@ -216,16 +216,16 @@ Page({
     },
     selectCoupon(event) {
         let _this = this;
-        if(couponList.length>0){
-  my.navigateTo({
-            url: '/pages/member/coupon/optcoupon?storeid=' + _this.data.options.id + '&ccbid=' +'&price='+_this.data.shopCart.sprice
-        })
+        if (couponList.length > 0) {
+            my.navigateTo({
+                url: '/pages/member/coupon/optcoupon?storeid=' + _this.data.options.id + '&ccbid=' + '&price=' + _this.data.shopCart.sprice
+            })
         }
-      
+
     },
     // /**
-	// 	 * 获取用户订单优惠券
-	// 	 */
+    // 	 * 获取用户订单优惠券
+    // 	 */
     // getUserOrderCoupons() {
     //     let _this = this;
 
