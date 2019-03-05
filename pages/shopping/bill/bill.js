@@ -152,8 +152,9 @@ Page({
 
                         //开始计算最优券码
                         var goodCoupon, couponList = [], userAccount = _this.data.userAccount;
+                        console.log(_this.data.userAccount,res)
                         for (var c in userAccount.usercoupon) {
-                            if (userAccount.usercoupon[c].type == 2 && (userAccount.usercoupon[c].minprice * 100) < res.sprice) {
+                            if (userAccount.usercoupon[c].type == 2 && (userAccount.usercoupon[c].minprice) < res.sprice) {
                                 couponList.push(userAccount.usercoupon[c]);
                             }
                         }
@@ -167,6 +168,7 @@ Page({
                             couponData: couponList[0] || {}
                         })
                         _this.setScHeight();
+                        // console.log(_this.data.couponlist)
                     },
                     fail: function (res) { }
                 })
@@ -216,7 +218,9 @@ Page({
     },
     selectCoupon(event) {
         let _this = this;
-        if (couponList.length > 0) {
+        if (this.data.couponList.length > 0) {
+          console.log(_this.data.options.id),
+          console.log(_this.data.shopCart.sprice)
             my.navigateTo({
                 url: '/pages/member/coupon/optcoupon?storeid=' + _this.data.options.id + '&ccbid=' + '&price=' + _this.data.shopCart.sprice
             })

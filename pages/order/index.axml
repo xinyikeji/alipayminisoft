@@ -44,7 +44,14 @@
             </navigator>
             <view class="goodslist">
               <block a:for="{{item.goods_data}}" a:for-item="goodsItem">
+                <!-- 图片 -->
                 <image src="{{goodsItem.shoppic}}" style="width:60px;height:45px;" mode="aspectFill" />
+                <!-- 详情 -->
+                <!-- <view class="goodsname">
+                  {{goodsItem.goodsname}} x {{goodsItem.goodsno}}                                                                                                              
+                  <text class="price">￥{{goodsItem.sprice}}                                                                                                          
+                  </text>
+                </view> -->
               </block>
             </view>
             <view class="padding10">

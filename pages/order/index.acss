@@ -213,3 +213,13 @@
 .order-item{
   padding: 10px;
 }
+
+/* .goodsname{
+  font-size: 14px;
+  line-height: 32px;
+  margin:0 7px;
+}
+.price{
+  float: right;
+  color: #F76260;
+} */

@@ -1,7 +1,7 @@
 .storeinfo {
-    height: 60px;
+    /* height: 60px; */
     background-color: #FFF;
-    position: fixed;
+    /* position: fixed; */
     top: 0px;
     left: 0px;
     right: 0px;
@@ -41,7 +41,7 @@
 
 .clickgoods {
     display: flex;
-    position: fixed;
+    /* position: fixed; */
     top: 80px;
     left: 0px;
     right: 0px;
@@ -73,6 +73,7 @@
     -webkit-box-flex: 1;
     -webkit-flex: 1;
     flex: 1;
+    width:750rpx;
 }
 
 .goods {

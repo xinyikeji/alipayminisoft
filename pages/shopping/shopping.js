@@ -90,6 +90,7 @@ var settab =
                             my.showLoading({
                                 content: "门店数据加载中"
                             })
+                    console.log(_this.data.goodsData.goodsTypeData)
                             api.getStoreInfo(_this.data.options.id, function (storeinfo) {
                                 // console.log("门店信息",storeinfo)
                                 my.hideLoading();
@@ -250,36 +251,30 @@ var settab =
             })
         },
         // 函数:当前时间是否在两个时间点之间
-        timeRange(beginTime, endTime) {
-            var strb = beginTime.split(":");
-            // if(strb.length != 2) {
-            //   return false;
-            // };
-            var stre = endTime.split(":");
-            // if (stre.length != 2) {
-            //   return false;
-            // }
-            var b = new Date();
-            var e = new Date();
-            var n = new Date();
-            b.setHours(strb[0]);
-            b.setMinutes(strb[1]);
-            e.setHours(stre[0]);
-            e.setMinutes(stre[1]);
-            if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
-                // 如果当前时间在开始时间和结束时间之间,返回true
-                return true;
-            } else {
-                // 如果不在,返回false
-                return false;
-            }
+        timeRange(beginTime, endTime){
+          var strb = beginTime.split (":");
+          var stre = endTime.split (":");
+          var b = new Date ();
+          var e = new Date ();
+          var n = new Date ();
+          b.setHours (strb[0]);
+          b.setMinutes (strb[1]);
+          e.setHours (stre[0]);
+          e.setMinutes (stre[1]);
+          if (n.getTime () - b.getTime () > 0 && n.getTime () - e.getTime () < 0) {
+            // 如果当前时间在开始时间和结束时间之间,返回true
+            return true;
+          } else {
+            // 如果不在,返回false
+            return false;
+          }
         },
         // 在商品列表界面增加商品
         plusGoods(event) {
             // console.log('停售商品goodsid数组',this.data.stopIdList)
             // console.log('售罄商品goodsid数组',this.data.completeIdList)
             // console.log('event',event)
-            // console.log(this.data.goodsData)
+            console.log(this.data.goodsData)
             // goodsData.goodsTypeData[typeGoodsItemName.gtid]
             this.setData({
                 showGoodsInfo: false,

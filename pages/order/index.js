@@ -114,11 +114,11 @@ Page({
             openid: _this.data.userInfo.openid,
             year: _this.data.year,
             success: (res) => {
-
                 _this.setData({
                     loading: false,
                     orderList: res
                 })
+                console.log(res)
                 if (_this.data.orderList.length > 0) {
                     var order = _this.data.orderList[0]
                     api.getOrderDetail({
@@ -127,7 +127,6 @@ Page({
                         success: function (res) {
                             var orderDetail = _this.data.orderDetail;
                             orderDetail[order.orderno] = res;
-                            // console.log(res);
                             _this.setData({
                                 orderDetail: orderDetail
                             })
