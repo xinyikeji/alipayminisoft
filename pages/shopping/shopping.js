@@ -45,7 +45,7 @@ var settab =
                 },
             });
             api.fnGetUpdataCacheData({
-                complete() {
+                complete(rest) {
                     _this.loadData();
                 }
             });

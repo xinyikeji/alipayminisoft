@@ -13,6 +13,7 @@ Page({
   },
   onReady(e) {
     this.mapCtx = my.createMapContext('storemap');
+ 
     this.getStoreList();
   },
   getStoreList() {

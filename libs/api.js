@@ -1149,11 +1149,33 @@ export default {
             ptype: 2, //平台类型（1微信，2支付宝，3积分商城）
         }, function (status, rest) {
             if (status && rest.data.code === 1) {
+
+                for (let c in rest.data.data) {
+                    if (rest.data.data[c].updatetime >= php.date('Y-m-d H:i:s')) {
+                        let cacheAllInfo = my.getStorageInfoSync();
+                        console.log(cacheAllInfo);
+                        for (let i in cacheAllInfo.keys) {
+                            
+                            if (cacheAllInfo.keys[i].indexOf('store') >= 0) {
+                                my.removeStorageSync({
+                                    key: cacheAllInfo.keys[i],
+                                });
+                            }
+
+                        }
+                        break;
+                    }
+                }
+
                 opt.success(rest.data.data);
+                opt.complete(rest.data);
+
+
             } else {
-                opt.fail(false);
+
+                opt.complete(rest.data);
             }
-            opt.complete(rest.data);
+
         });
 
     }
