@@ -1,37 +1,38 @@
-import http from './http' 
+import http from './http'
 import php from './php'
+import libsCommon from './common'
 export default {
 
     // 获取会员券码详情
-    getCouponDetail(xyopenid,code,type,callback){
-      http.post({
-        method:"member.OpenUser.getCouponDetail",
-        xyopenid:xyopenid,
-        code:code,
-        type:type
-      },function(status, res){
-        callback(status, res)
-      })
+    getCouponDetail(xyopenid, code, type, callback) {
+        http.post({
+            method: "member.OpenUser.getCouponDetail",
+            xyopenid: xyopenid,
+            code: code,
+            type: type
+        }, function (status, res) {
+            callback(status, res)
+        })
     },
 
     // 拉取门店停售商品信息
-    getStopList(storeid,callback){
+    getStopList(storeid, callback) {
         http.post({
             method: "goods.Storestopgoods.getStopList",
             storeid: storeid,
         }, function (status, res) {
-          // console.log(res1, '停售信息',res2)
-          callback(status,res)
+            // console.log(res1, '停售信息',res2)
+            callback(status, res)
         })
     },
     // 拉取门店售罄商品信息
-    getCompleteList(storeid,callback){
+    getCompleteList(storeid, callback) {
         http.post({
             method: "goods.Storeclear.getCompleteList",
             storeid: storeid,
         }, function (restatuss3, res) {
-          // console.log(res3, '售罄信息',res4)
-          callback(status,res)
+            // console.log(res3, '售罄信息',res4)
+            callback(status, res)
         })
     },
     /**
@@ -332,18 +333,18 @@ export default {
         })
     },
 
-        //取消理由
+    //取消理由
     getCancelReason(option) {
         if (!option.success) option.success = function (res) { console.log('getOrderDetail success ', res) }
         if (!option.fail) option.fail = function (res) { console.log('getOrderDetail fail ', res) }
-      
+
 
         // const extJson = my.getExtConfigSync();
         var postdata = {
             method: "order.cancelreason.getCancelReason",
         };
 
-    
+
         http.post(postdata, function (status, rest) {
             if (status && rest.data.code === 1) {
                 option.success(rest.data.data)
@@ -652,8 +653,8 @@ export default {
             pagesize: pagesize
         }, function (status, rest) {
             if (status && rest.data.code === 1) {
-                let couponsData =  rest.data.data.data;
-                      console.log(couponsDatas);
+                let couponsData = rest.data.data.data;
+                console.log(couponsDatas);
                 for (let i = 0; i < couponsData.length; i++) {
                     //商品现金券
                     if (couponsData[i].type == 1) {
@@ -739,7 +740,7 @@ export default {
                     }
                 }
 
-          
+
 
                 opt.success(couponsData);
             } else {
@@ -819,7 +820,7 @@ export default {
         const extJson = my.getExtConfigSync();
         http.post({
             method: "member.MemberInfo.memberAccount",
-            storeid: storeid,
+            storeid: storeid.toString(),
         }, function (status, rest) {
             if (status && rest.data.code === 1) {
                 my.setStorageSync({
@@ -833,6 +834,43 @@ export default {
             }
         })
     },
+    /**
+     * 获取 商品售罄 、停售
+     * @param callback
+     */
+    fnGetGoodsSales(opt = {}) {
+        let _this = this;
+        if (!opt.success) {
+            opt.success = function () { }
+        };
+        if (!opt.fail) {
+            opt.fail = function () { }
+        };
+        if (!opt.complete) {
+            opt.complete = function () { }
+        };
+
+        let type = opt.type ? opt.type : 1; //查询类型 1自助 2外卖
+        let storeid = opt.storeid ? opt.storeid : 1; //查询类型 1自助 2外卖
+        let saletype = opt.saletype ? opt.saletype : '1,2'; //1售罄 、2停售
+
+        //请求获取 
+        http.post({
+            method: 'member.WeixinGoods.getGoodsClear',
+            storeid: storeid, //门店ID
+            type: type,
+            saletype: saletype
+        }, function (status, rest) {
+            if (status && rest.data.code === 1) {
+                opt.success(rest.data.data);
+            } else {
+                console.log(status, rest)
+                _this.postError({ postdata: data, restback: rest })
+                opt.fail(false);
+            }
+        });
+    },
+
     uploadOrder(data, callback) {
         data.method = "order.xinyiorder.uploadOrder";
         var _this = this;
@@ -875,83 +913,205 @@ export default {
         var dataTypeobjinfo = my.getStorageSync({
             key: 'store-goods-type-obj-' + storeid, // 缓存数据的key
         });
-        if (datainfo.data && dataobjinfo.data && dataTypeobjinfo.data) {
-            callback({
-                goodstype: datainfo.data.goodstype,
-                goodsdata: datainfo.data.goodsdata,
-                goodsObj: dataobjinfo.data.goodsObj,
-                goodsTypeData: dataTypeobjinfo.data.goodsTypeData
-            });
-            return;
-        }
-        const extJson = my.getExtConfigSync();
-        http.post({
-            method: "miniapp.GoodsInfo.getGoodsTypeList",
-            third_appid: extJson.aliappid,
-            type: 1,
-            ptype: 2,
-            storeid: storeid
-        }, function (status, rest) {
-            if (status && rest.data.code === 1) {
+
+        this.fnGetGoodsSales({
+            storeid: storeid,
+            success(salesData) {
+                console.log(salesData, 'salesData');
+                if (datainfo.data && dataobjinfo.data && dataTypeobjinfo.data) {
+                    //处理数据
+                    var goodsObj = {}, goodsTypeData = {};
+                    for (var i in datainfo.data.goodsdata) {
+
+
+                        let goods = datainfo.data.goodsdata[i];
+                        //检测商品是否在可售时间范围
+                        goods.issales = false;
+                        if (goods.sales.length > 0) {
+
+                            for (let i in goods.sales) {
+                                let sales = libsCommon.fnCheckTimeScope(goods.sales[i].stime, goods.sales[i].ttime);
+
+                                if (sales == true) {
+                                    goods.issales = false;
+                                    break;
+                                }
+                                if (sales == false) {
+                                    goods.issales = true;
+                                }
+                            }
+                        }
+
+
+
+                        for (let j in salesData[goods.goodsid]) {
+                            let sales = libsCommon.fnCheckTimeScope(
+                                salesData[goods.goodsid][j].stime,
+                                salesData[goods.goodsid][j].ttime,
+                                2
+                            );
+
+                            if (
+                                salesData[goods.goodsid][j].type == 1 &&
+                                sales
+                                // &&
+                                // storeGoods[salesData[i][j].goodsid]
+                            ) {
+                                goods.sellout = sales;
+                            }
+
+                            if (
+                                salesData[goods.goodsid][j].type == 2 &&
+                                sales
+                                // &&
+                                // storeGoods[salesData[i][j].goodsid]
+                            ) {
+                                goods.haltsales = sales;
+                            }
+                        }
+
+                        datainfo.data.goodsdata[i] = goods;
+
+
+
+
+
+                        goodsObj[datainfo.data.goodsdata[i]['goodsid']] = datainfo.data.goodsdata[i];
+                        if (!goodsTypeData[datainfo.data.goodsdata[i]['gtid']]) goodsTypeData[datainfo.data.goodsdata[i]['gtid']] = [];
+                        goodsTypeData[datainfo.data.goodsdata[i]['gtid']].push(datainfo.data.goodsdata[i]);
+                    }
+
+                    callback({
+                        goodstype: datainfo.data.goodstype,
+                        goodsdata: datainfo.data.goodsdata,
+                        goodsObj: goodsObj,
+                        goodsTypeData: goodsTypeData
+                    });
+                    return;
+                }
+                const extJson = my.getExtConfigSync();
                 http.post({
-                    method: "miniapp.GoodsInfo.getGoodsInfo",
+                    method: "miniapp.GoodsInfo.getGoodsTypeList",
                     third_appid: extJson.aliappid,
                     type: 1,
                     ptype: 2,
                     storeid: storeid
-                }, function (status, restgoods) {
-                    if (status && restgoods.data.code === 1) {
-                        //处理数据
-                        var goodsObj = {}, goodsTypeData = {};
-                        for (var i in restgoods.data.data) {
-                            restgoods.data.data[i].priceFormat = (restgoods.data.data[i].price / 100).toFixed(2)
-                            goodsObj[restgoods.data.data[i]['goodsid']] = restgoods.data.data[i];
-                            if (!goodsTypeData[restgoods.data.data[i]['gtid']]) goodsTypeData[restgoods.data.data[i]['gtid']] = [];
-                            goodsTypeData[restgoods.data.data[i]['gtid']].push(restgoods.data.data[i]);
-                        }
-                        my.setStorage({
-                            key: "store-goods-all-" + storeid,
-                            data: {
-                                goodstype: rest.data.data,
-                                goodsdata: restgoods.data.data,
-                            },
-                            fail: function (res) {
-                                my.alert({ content: '1' + res.errorMessage });
+                }, function (status, rest) {
+                    if (status && rest.data.code === 1) {
+                        http.post({
+                            method: "miniapp.GoodsInfo.getGoodsInfo",
+                            third_appid: extJson.aliappid,
+                            type: 1,
+                            ptype: 2,
+                            storeid: storeid
+                        }, function (status, restgoods) {
+                            if (status && restgoods.data.code === 1) {
+                                //处理数据
+                                var goodsObj = {}, goodsTypeData = {};
+                                for (var i in restgoods.data.data) {
+                                    restgoods.data.data[i].priceFormat = (restgoods.data.data[i].price / 100).toFixed(2)
+
+
+                                    let goods = restgoods.data.data[i];
+                                    //检测商品是否在可售时间范围
+                                    goods.issales = false;
+                                    if (goods.sales.length > 0) {
+
+                                        for (let i in goods.sales) {
+                                            let sales = libsCommon.fnCheckTimeScope(goods.sales[i].stime, goods.sales[i].ttime);
+
+                                            if (sales == true) {
+                                                goods.issales = false;
+                                                break;
+                                            }
+                                            if (sales == false) {
+                                                goods.issales = true;
+                                            }
+                                        }
+                                    }
+
+                                    for (let j in salesData[goods.goodsid]) {
+                                        let sales = libsCommon.fnCheckTimeScope(
+                                            salesData[goods.goodsid][j].stime,
+                                            salesData[goods.goodsid][j].ttime,
+                                            2
+                                        );
+
+                                        if (
+                                            salesData[goods.goodsid][j].type == 1 &&
+                                            sales
+                                            // &&
+                                            // storeGoods[salesData[i][j].goodsid]
+                                        ) {
+                                            goods.sellout = sales;
+                                        }
+
+                                        if (
+                                            salesData[goods.goodsid][j].type == 2 &&
+                                            sales
+                                            // &&
+                                            // storeGoods[salesData[i][j].goodsid]
+                                        ) {
+                                            goods.haltsales = sales;
+                                        }
+                                    }
+
+
+                                    restgoods.data.data[i] = goods;
+
+
+
+
+
+                                    goodsObj[restgoods.data.data[i]['goodsid']] = restgoods.data.data[i];
+                                    if (!goodsTypeData[restgoods.data.data[i]['gtid']]) goodsTypeData[restgoods.data.data[i]['gtid']] = [];
+                                    goodsTypeData[restgoods.data.data[i]['gtid']].push(restgoods.data.data[i]);
+                                }
+                                my.setStorage({
+                                    key: "store-goods-all-" + storeid,
+                                    data: {
+                                        goodstype: rest.data.data,
+                                        goodsdata: restgoods.data.data,
+                                    },
+                                    fail: function (res) {
+                                        my.alert({ content: '1' + res.errorMessage });
+                                    }
+                                })
+                                my.setStorage({
+                                    key: "store-goods-goods-obj-" + storeid,
+                                    data: {
+                                        goodsObj: goodsObj,
+                                    },
+                                    fail: function (res) {
+                                        my.alert({ content: '2' + res.errorMessage });
+                                    }
+                                })
+                                my.setStorage({
+                                    key: "store-goods-type-obj-" + storeid,
+                                    data: {
+                                        goodsTypeData: goodsTypeData,
+                                    },
+                                    fail: function (res) {
+                                        my.alert({ content: '3' + res.errorMessage });
+                                    }
+                                })
+                                callback({
+                                    goodstype: rest.data.data,
+                                    goodsdata: restgoods.data.data,
+                                    goodsObj: goodsObj,
+                                    goodsTypeData: goodsTypeData
+                                });
+                            } else {
+                                console.log(status, restgoods)
+                                callback(false);
                             }
                         })
-                        my.setStorage({
-                            key: "store-goods-goods-obj-" + storeid,
-                            data: {
-                                goodsObj: goodsObj,
-                            },
-                            fail: function (res) {
-                                my.alert({ content: '2' + res.errorMessage });
-                            }
-                        })
-                        my.setStorage({
-                            key: "store-goods-type-obj-" + storeid,
-                            data: {
-                                goodsTypeData: goodsTypeData,
-                            },
-                            fail: function (res) {
-                                my.alert({ content: '3' + res.errorMessage });
-                            }
-                        })
-                        callback({
-                            goodstype: rest.data.data,
-                            goodsdata: restgoods.data.data,
-                            goodsObj: goodsObj,
-                            goodsTypeData: goodsTypeData
-                        });
                     } else {
-                        console.log(status, restgoods)
                         callback(false);
                     }
                 })
-            } else {
-                callback(false);
             }
-        })
+        });
     },
     getUserAccount(openid, callback) {
         http.post({
@@ -966,4 +1126,35 @@ export default {
             }
         })
     },
+    /**
+ * 获取小程序缓存数据更新
+ */
+    fnGetUpdataCacheData(opt = {}) {
+
+        if (!opt.success) {
+            opt.success = function () { }
+        }
+        if (!opt.fail) {
+            opt.fail = function () { }
+        }
+        if (!opt.complete) {
+            opt.complete = function () { }
+        }
+
+        let ptype = opt.ptype ? opt.ptype : 2; //平台类型（1微信，2支付宝，3积分商城）
+
+        http.post({
+            method: 'openapi.UpdateCache.getUpdateCacheData',
+            // third_appid: CONFIG.appid, //微信小程序APPID 第三方应用appid（如：支付宝小程序appid）
+            ptype: 2, //平台类型（1微信，2支付宝，3积分商城）
+        }, function (status, rest) {
+            if (status && rest.data.code === 1) {
+                opt.success(rest.data.data);
+            } else {
+                opt.fail(false);
+            }
+            opt.complete(rest.data);
+        });
+
+    }
 }
