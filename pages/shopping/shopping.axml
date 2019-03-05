@@ -60,6 +60,7 @@
                                     <view>
                                         <view class="goodsinfo">{{itemGoods.goodsname}}                                                                                                             
                                         </view>
+                                        <view class="goodsdesc">{{itemGoods.desc}}</view>
                                         <view class="goodsprice">￥{{itemGoods.priceFormat}}                                                                                         
                                             <text class="yprice"> ￥{{itemGoods.priceFormat}}                                                                                                 
                                                 <text>
