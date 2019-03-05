@@ -99,6 +99,12 @@
     overflow: hidden;
 }
 
+
+.goodsstepper  .goodstimesales{
+    font-size: 14px;
+    color:#999999;
+}
+
 .goods .goodsprice {
     font-size: 14px;
     font-weight: bold;
@@ -114,6 +120,8 @@
 
 .goodsstepper {
     padding-right: 10px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .goodsstepper image {

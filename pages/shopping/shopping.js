@@ -34,41 +34,7 @@ var settab =
             this.setData({
                 options: options
             })
-            // console.log(this.data.options)
-            // 拉取门店停售商品信息
-            api.getStopList(options.id, function (status, res) {
-                if (Object.keys(res).length > 0) {
-                    // console.log('返回停售商品信息',res)
-                    let tempList = []
-                    let stopList = res.data.data.data
-                    // console.log('stopList',stopList)
-                    stopList.forEach(function (item, index) {
-                        tempList.push(item.goodsid)
-                    })
-                    _this.setData({
-                        stopIdList: tempList
-                    })
-                    // console.log('停售商品goodsid数组',_this.data.stopIdList)
-                }
-            });
-
-            // 拉取门店售罄商品信息
-            api.getCompleteList(options.id, function (status, res) {
-                if (Object.keys(res).length > 0) {
-                    // console.log('返回售罄商品信息',status,res)
-                    let tempList = []
-                    let completeList = res.data.data.data
-                    // console.log('completeList',completeList)
-                    completeList.forEach(function (item, index) {
-                        tempList.push(item.goodsid)
-                    })
-                    _this.setData({
-                        completeIdList: tempList
-                    })
-                    // console.log('售罄商品goodsid数组',_this.data.completeIdList)
-                }
-            });
-
+   
             my.getSystemInfo({
                 success: (res) => {
                     this.setData({

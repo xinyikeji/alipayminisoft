@@ -44,11 +44,14 @@ App({
         if (!UserCache.data || UserCache.data.length == 0) {
             my.alert({
                 title: '提示',
-                content: '你还没有登录，请登录~'
+                content: '你还没有登录，请登录~',
+				success(){
+					  my.navigateTo({
+					    url: '/pages/login/login'
+					})
+				}
             })
-            my.navigateTo({
-                url: '/pages/login/login'
-            })
+          
             return false;
         }
     },
