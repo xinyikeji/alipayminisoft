@@ -34,7 +34,7 @@ var settab =
             this.setData({
                 options: options
             })
-   
+
             my.getSystemInfo({
                 success: (res) => {
                     this.setData({
@@ -44,7 +44,12 @@ var settab =
                     })
                 },
             });
-            this.loadData();
+            api.fnGetUpdataCacheData({
+                complete() {
+                    _this.loadData();
+                }
+            });
+
             // console.log('goodsData',this.data.goodsData)
         },
         onShow() {

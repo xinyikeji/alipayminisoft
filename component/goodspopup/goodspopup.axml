@@ -10,8 +10,8 @@
             <!-- 普通套餐 -->
             <view class="goodsinfo-groupsuit">
               <view class="suititle">套餐项                                                                                        
-                <text class="selectnumber">点击可更换                                                                                        
-                </text>
+                <!-- <text class="selectnumber">提示:选择套餐项，点击替换项可替换对应商品                                                                                        
+                </text> -->
               </view>
               <view class="suitview">
                 <block a:for="{{goodsInfo.child}}" a:for-item="childitem" a:for-index="idxName">
@@ -27,7 +27,8 @@
               </view>
             </view>
             <view a:if="{{showSuitSelect}}" class="suitdata">
-              <view class="suititle">请选择替换项                                                                              
+              <view class="suititle">请选择替换项  
+                   <text class="selectdesc">  提示:点击替换项可替换对应商品  </text>                                                                            
               </view>
               <view class="suitview">
                 <view onTap="replaceSuit" class="suit-item {{selectSuitData[suitIndex] == item.goodsid ? 'active':''}}" data-index="{{idxName}}" a:for-index="idxName" style="width:{{((windowWidth-70)/4)}}px" a:for="{{suitData}}">

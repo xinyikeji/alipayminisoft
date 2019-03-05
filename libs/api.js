@@ -1126,4 +1126,35 @@ export default {
             }
         })
     },
+    /**
+ * 获取小程序缓存数据更新
+ */
+    fnGetUpdataCacheData(opt = {}) {
+
+        if (!opt.success) {
+            opt.success = function () { }
+        }
+        if (!opt.fail) {
+            opt.fail = function () { }
+        }
+        if (!opt.complete) {
+            opt.complete = function () { }
+        }
+
+        let ptype = opt.ptype ? opt.ptype : 2; //平台类型（1微信，2支付宝，3积分商城）
+
+        http.post({
+            method: 'openapi.UpdateCache.getUpdateCacheData',
+            // third_appid: CONFIG.appid, //微信小程序APPID 第三方应用appid（如：支付宝小程序appid）
+            ptype: 2, //平台类型（1微信，2支付宝，3积分商城）
+        }, function (status, rest) {
+            if (status && rest.data.code === 1) {
+                opt.success(rest.data.data);
+            } else {
+                opt.fail(false);
+            }
+            opt.complete(rest.data);
+        });
+
+    }
 }

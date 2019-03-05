@@ -50,7 +50,7 @@
                         </view>
                     </view>
                 </view>
-                <checkbox-group onTap="bindAgreeChange">
+                <!-- <checkbox-group onTap="bindAgreeChange">
                     <label class="checkbox-text">
                         <checkbox value="1" checked="checked" />
                         <text>阅读并同意</text>
@@ -59,7 +59,7 @@
                             </navigator>
                         </text>
                     </label>
-                </checkbox-group>
+                </checkbox-group> -->
                 <button class="weui-btn" type="primary" form-type="submit">登录                                                                                                
                 </button>
             </view>
