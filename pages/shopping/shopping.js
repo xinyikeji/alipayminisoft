@@ -51,7 +51,6 @@ var settab =
                     // console.log('停售商品goodsid数组',_this.data.stopIdList)
                 }
             });
-
             // 拉取门店售罄商品信息
             api.getCompleteList(options.id, function (status, res) {
                 if (Object.keys(res).length > 0) {
@@ -119,6 +118,7 @@ var settab =
                             my.showLoading({
                                 content: "门店数据加载中"
                             })
+                    console.log(_this.data.goodsData.goodsTypeData)
                             api.getStoreInfo(_this.data.options.id, function (storeinfo) {
                                 // console.log("门店信息",storeinfo)
                                 my.hideLoading();
