@@ -281,13 +281,7 @@ var settab =
         // 函数:当前时间是否在两个时间点之间
         timeRange(beginTime, endTime){
           var strb = beginTime.split (":");
-          // if(strb.length != 2) {
-          //   return false;
-          // };
           var stre = endTime.split (":");
-          // if (stre.length != 2) {
-          //   return false;
-          // }
           var b = new Date ();
           var e = new Date ();
           var n = new Date ();
@@ -308,7 +302,7 @@ var settab =
             // console.log('停售商品goodsid数组',this.data.stopIdList)
             // console.log('售罄商品goodsid数组',this.data.completeIdList)
             // console.log('event',event)
-            // console.log(this.data.goodsData)
+            console.log(this.data.goodsData)
             // goodsData.goodsTypeData[typeGoodsItemName.gtid]
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
             var _this = this;
@@ -367,8 +361,6 @@ var settab =
                       }
                     });
                   } else {
-             
-
                     this.setData({
                       showSelect: true,
                       showSelectGoodsData: goodsData

@@ -87,7 +87,6 @@ Page({
             success: (res) => {
                 my.hideLoading();
                 _this.reloadData(true);
-
                 // console.log(res)
             }
         })
@@ -165,6 +164,7 @@ Page({
                         order: res,
                         remarks: remarks
                     })
+                    console.log(res)
                 }
             })
         })
