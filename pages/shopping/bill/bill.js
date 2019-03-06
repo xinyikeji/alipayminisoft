@@ -140,6 +140,7 @@ Page({
                         isonline: 1
                     }],
                     success: function (res) {
+                        console.log(res,'clearPaylistclearPaylist');
                         // console.log('function', res)
                         var jifenmax = _this.data.jifenmax_default;
                         if (res.sprice / 100 < 1) {
@@ -162,8 +163,8 @@ Page({
                             storeid: _this.data.options.id,
                             xyopenid: _this.data.userInfo.openid,
                             price: res.sprice,
-                            goodsdata: [],
-                            pagesize: 60,
+                            goodsdata:res.goods,
+                            pagesize: 600,
                             success(couponsrest) {
 
                                 console.log(couponsrest);
