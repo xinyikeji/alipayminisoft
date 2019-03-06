@@ -1,6 +1,21 @@
 import http from './http'
 import php from './php'
 import libsCommon from './common'
+let couponsType = {
+	1: {
+		type_text: '商品现金券'
+	},
+	2: {
+		type_text: '全单现金券'
+	},
+	4: {
+		type_text: '商品折扣券'
+	},
+	5: {
+		type_text: '全单折扣券'
+	},
+
+}
 export default {
 
     // 获取会员券码详情
@@ -379,7 +394,7 @@ export default {
             orderno: option.orderno
         };
         if (option.storeid) {
-            postdata.storeid = option.storeid
+            postdata.storeid = option.storeid.toString()
         }
         http.post(postdata, function (status, rest) {
             if (status && rest.data.code === 1) {
@@ -625,8 +640,16 @@ export default {
     //获取用户订单优惠券
     fnGetUserOrderCoupons(opt) {
         let _this = this;
-        if (!opt.success) opt.success = function (res) { console.log('setOrderComplete success ', res) }
-        if (!opt.fail) opt.fail = function (res) { console.log('setOrderComplete fail ', res) }
+        console.log(opt, 'fnGetUserOrderCouponsfnGetUserOrderCoupons');
+        if (!opt.success) {
+            opt.success = function () { }
+        }
+        if (!opt.fail) {
+            opt.fail = function () { }
+        }
+        if (!opt.complete) {
+            opt.complete = function () { }
+        }
 
         //门店ID
         let storeid = opt.storeid ? opt.storeid : 0;
@@ -640,21 +663,22 @@ export default {
         let pagesize = opt.pagesize ? opt.pagesize : 600;
         const extJson = my.getExtConfigSync();
 
-
-
-        http.post({
+        let postdata = {
             method: "member.WeixinOrder.getWxUseableCashCoupons",
             storeid: storeid, //门店ID
             xyopenid: xyopenid, //芯易openid
-            price: price,
+            price: 200,
             type: '1,2,4,5',
             wxappid: extJson.appid, //微信小程序APPID
             page: page,
             pagesize: pagesize
-        }, function (status, rest) {
+        };
+     
+        http.post(postdata, function (status, rest) {
+             console.log(status, rest)
             if (status && rest.data.code === 1) {
                 let couponsData = rest.data.data.data;
-                console.log(couponsDatas);
+                console.log(couponsData);
                 for (let i = 0; i < couponsData.length; i++) {
                     //商品现金券
                     if (couponsData[i].type == 1) {
@@ -736,7 +760,7 @@ export default {
                     }
                     Object.assign(couponsData[i], couponsType[couponsData[i].type]);
                     if (!couponsData[i].offerPrice || couponsData[i].offerPrice == 0) {
-                        couponsData.splice(i--, 1);
+                        // couponsData.splice(i--, 1);
                     }
                 }
 
@@ -744,7 +768,7 @@ export default {
 
                 opt.success(couponsData);
             } else {
-                console.log(status, rest)
+               
                 opt.fail(rest);
             }
         })
@@ -1057,6 +1081,57 @@ export default {
                                     }
 
 
+                                    goods.isbuy = true;
+
+                                    //判断是否是 组合套餐
+                                    if (goods.suitflag == 1 && goods.suitflagtype == 2 && goods.info.length > 0) {
+                                        for (let i = 0; i < goods.info.length; i++) {
+                                            goods.info[i].list = Object.values(goods.info[i].list);
+                                            if (goods.info[i].list.length > 0) {
+                                                for (let j in goods.info[i].list) {
+
+
+                                                }
+                                            }
+
+                                            if ((goods.info[i].list.length < goods.info[i].selectnum || goods.info[i].list.length == 0) && goods.info[i].isselect !== 0) {
+                                                goods.isbuy = false;
+                                            }
+
+
+                                        }
+
+                                        if (goods.info.length == 0) {
+                                            goods.isbuy = false;
+                                        }
+
+                                        // goods.goodstype = 5; //商品类型 1 单品 2 非单品 3 规格  4套餐小项 5 组合套餐
+                                    }
+
+
+                                    //判断是否是 套餐小项
+                                    if (goods.suitflag == 1 && goods.suitflagtype == 1) {
+                                        for (let i = 0; i < goods.child.length; i++) {
+
+                                            //判断数据是否为空
+                                            if (goods.child[i].length == 0) {
+                                                goods.child.splice(i--, 1);
+                                                continue;
+                                            }
+
+                                        }
+
+                                        /**
+                                         * 判断商品是否配置完善
+                                         */
+                                        if (goods.child.length == 0) {
+                                            goods.isbuy = false;
+                                        }
+                                        // delete goods.child;
+                                        // goods.goodstype = 4; //商品类型 1 单品 2 非单品 3 规格  4套餐小项 5 组合套餐
+                                    }
+
+
                                     restgoods.data.data[i] = goods;
 
 
@@ -1155,7 +1230,7 @@ export default {
                         let cacheAllInfo = my.getStorageInfoSync();
                         console.log(cacheAllInfo);
                         for (let i in cacheAllInfo.keys) {
-                            
+
                             if (cacheAllInfo.keys[i].indexOf('store') >= 0) {
                                 my.removeStorageSync({
                                     key: cacheAllInfo.keys[i],

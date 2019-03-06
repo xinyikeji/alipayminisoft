@@ -90,7 +90,7 @@ var settab =
                             my.showLoading({
                                 content: "门店数据加载中"
                             })
-                    console.log(_this.data.goodsData.goodsTypeData)
+                            console.log(_this.data.goodsData.goodsTypeData)
                             api.getStoreInfo(_this.data.options.id, function (storeinfo) {
                                 // console.log("门店信息",storeinfo)
                                 my.hideLoading();
@@ -251,23 +251,23 @@ var settab =
             })
         },
         // 函数:当前时间是否在两个时间点之间
-        timeRange(beginTime, endTime){
-          var strb = beginTime.split (":");
-          var stre = endTime.split (":");
-          var b = new Date ();
-          var e = new Date ();
-          var n = new Date ();
-          b.setHours (strb[0]);
-          b.setMinutes (strb[1]);
-          e.setHours (stre[0]);
-          e.setMinutes (stre[1]);
-          if (n.getTime () - b.getTime () > 0 && n.getTime () - e.getTime () < 0) {
-            // 如果当前时间在开始时间和结束时间之间,返回true
-            return true;
-          } else {
-            // 如果不在,返回false
-            return false;
-          }
+        timeRange(beginTime, endTime) {
+            var strb = beginTime.split(":");
+            var stre = endTime.split(":");
+            var b = new Date();
+            var e = new Date();
+            var n = new Date();
+            b.setHours(strb[0]);
+            b.setMinutes(strb[1]);
+            e.setHours(stre[0]);
+            e.setMinutes(stre[1]);
+            if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
+                // 如果当前时间在开始时间和结束时间之间,返回true
+                return true;
+            } else {
+                // 如果不在,返回false
+                return false;
+            }
         },
         // 在商品列表界面增加商品
         plusGoods(event) {
@@ -282,111 +282,44 @@ var settab =
 
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
             var _this = this;
-            if (this.data.stopIdList.indexOf(event.target.dataset.goodsid) !== -1) {
-                my.showToast({
-                    type: "fail",
-                    content: "该商品已停售"
-                })
-            } else if (this.data.completeIdList.indexOf(event.target.dataset.goodsid) !== -1) {
-                my.showToast({
-                    type: "fail",
-                    content: "该商品已售罄"
-                })
+            if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0) {
+                var goodsTmp = {
+                    goodsid: goodsData.goodsid,
+                    gtid: goodsData.gtid,
+                    goodsname: goodsData.goodsname,
+                    shoppic: goodsData.shoppic,
+                    pocket: 1,
+                    goodsno: 1,
+                    mprice: goodsData.price,
+                    discount: 100,
+                    youhuiprice: 0,
+                    suitflag: 0,
+                    is_give: 0,
+                    is_package: 0,
+                    is_default_package: 0,
+                    dabaohe: goodsData.dabaohe,
+                    remarks: "",
+                    yprice: goodsData.price,
+                    sprice: goodsData.price,
+                    one_sprice: goodsData.price,
+                    one_yprice: goodsData.price,
+                    tmp_oneprice: goodsData.price,
+                    tmpprice: goodsData.price
+                };
+                clickgoods.addGoodsToShoppingCart({
+                    storeid: this.data.options.id,
+                    goodsdata: goodsTmp,
+                    success: function (res) {
+                        _this.setData({
+                            shopCart: res
+                        })
+                    }
+                });
             } else {
-                // 如果该商品设置了销售时段
-                if (goodsData.sales.length == !0) {
-                    let timeFlag = this.timeRange(goodsData.sales[0].stime, goodsData.sales[0].ttime)
-                    // 如果不在销售时段内
-                    if (timeFlag == false) {
-                        my.showToast({
-                            type: "fail",
-                            content: "该商品不在销售时段内"
-                        })
-                    } else {
-                        if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0) {
-                            var goodsTmp = {
-                                goodsid: goodsData.goodsid,
-                                gtid: goodsData.gtid,
-                                goodsname: goodsData.goodsname,
-                                shoppic: goodsData.shoppic,
-                                pocket: 1,
-                                goodsno: 1,
-                                mprice: goodsData.price,
-                                discount: 100,
-                                youhuiprice: 0,
-                                suitflag: 0,
-                                is_give: 0,
-                                is_package: 0,
-                                is_default_package: 0,
-                                dabaohe: goodsData.dabaohe,
-                                remarks: "",
-                                yprice: goodsData.price,
-                                sprice: goodsData.price,
-                                one_sprice: goodsData.price,
-                                one_yprice: goodsData.price,
-                                tmp_oneprice: goodsData.price,
-                                tmpprice: goodsData.price
-                            };
-                            clickgoods.addGoodsToShoppingCart({
-                                storeid: this.data.options.id,
-                                goodsdata: goodsTmp,
-                                success: function (res) {
-                                    _this.setData({
-                                        shopCart: res
-                                    })
-                                }
-                            });
-                        } else {
-
-
-                            this.setData({
-                                showSelect: true,
-                                showSelectGoodsData: goodsData
-                            })
-                        }
-                    }
-                } else {
-                    // 如果该商品没设置销售时段
-                    if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0) {
-                        var goodsTmp = {
-                            goodsid: goodsData.goodsid,
-                            gtid: goodsData.gtid,
-                            goodsname: goodsData.goodsname,
-                            shoppic: goodsData.shoppic,
-                            pocket: 1,
-                            goodsno: 1,
-                            mprice: goodsData.price,
-                            discount: 100,
-                            youhuiprice: 0,
-                            suitflag: 0,
-                            is_give: 0,
-                            is_package: 0,
-                            is_default_package: 0,
-                            dabaohe: goodsData.dabaohe,
-                            remarks: "",
-                            yprice: goodsData.price,
-                            sprice: goodsData.price,
-                            one_sprice: goodsData.price,
-                            one_yprice: goodsData.price,
-                            tmp_oneprice: goodsData.price,
-                            tmpprice: goodsData.price
-                        };
-                        clickgoods.addGoodsToShoppingCart({
-                            storeid: this.data.options.id,
-                            goodsdata: goodsTmp,
-                            success: function (res) {
-                                _this.setData({
-                                    shopCart: res
-                                })
-                            }
-                        });
-                    } else {
-                        this.setData({
-                            showSelect: true,
-                            showSelectGoodsData: goodsData
-                        })
-                    }
-                }
+                this.setData({
+                    showSelect: true,
+                    showSelectGoodsData: goodsData
+                })
             }
         },
         AddToShoppingCart(res) {

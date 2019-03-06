@@ -82,7 +82,7 @@
         <list-item onClick="selectCoupon" arrow="{{true}}">优惠券                          
           <text class="user-account">{{couponList.length}}张可用,默认最优                                                  
           </text>
-          <view slot="extra">{{couponData.couponname}}                                                                   
+          <view slot="extra">{{couponData.showname}}                                                                   
           </view>
         </list-item>
       </list>

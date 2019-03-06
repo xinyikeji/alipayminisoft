@@ -27,17 +27,19 @@ const getSign = function (data, secret) {
 const post = function (postdata, callback) {
   var postdataObj = getPostData(postdata);
   const extJson = my.getExtConfigSync();
+  console.log(postdataObj);
   my.request({
     url: extJson.apiurl || APIURL,
     data: postdataObj,
     method: 'POST',
-    header: {
-      'custom-header': 'Alipaysoft/application' //自定义请求头信息
-    },
+    // header: {
+    //   'custom-header': 'Alipaysoft/application' //自定义请求头信息
+    // },
     success(res) {
       callback(true, res)
     },
     fail(res) {
+        console.log('request',res);
       callback(false, res)
     }
   });

@@ -119,20 +119,20 @@ Page({
                     orderList: res
                 })
                 console.log(res)
-                if (_this.data.orderList.length > 0) {
-                    var order = _this.data.orderList[0]
-                    api.getOrderDetail({
-                        storeid: order.storeid,
-                        orderno: order.orderno,
-                        success: function (res) {
-                            var orderDetail = _this.data.orderDetail;
-                            orderDetail[order.orderno] = res;
-                            _this.setData({
-                                orderDetail: orderDetail
-                            })
-                        }
-                    })
-                }
+                // if (_this.data.orderList.length > 0) {
+                //     var order = _this.data.orderList[0]
+                //     api.getOrderDetail({
+                //         storeid: order.storeid,
+                //         orderno: order.orderno,
+                //         success: function (res) {
+                //             var orderDetail = _this.data.orderDetail;
+                //             orderDetail[order.orderno] = res;
+                //             _this.setData({
+                //                 orderDetail: orderDetail
+                //             })
+                //         }
+                //     })
+                // }
 
             },
             fail(err) {

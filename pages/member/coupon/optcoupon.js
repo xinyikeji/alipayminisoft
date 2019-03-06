@@ -10,6 +10,9 @@ Page({
     onLoad(options) {
         let _this = this;
         aOptions = options;
+        this.setData({
+            ccbid:options.ccbid
+        });
         this.getUserOrderCoupons();
     },
     //获取用户可用优惠券

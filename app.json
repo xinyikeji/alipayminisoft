@@ -5,6 +5,7 @@
     "pages/order/index",
     "pages/member/info/info",
     "pages/member/coupon/coupon",
+    "pages/member/coupon/optcoupon",
     "pages/member/integral/integral",
     "pages/store/store",
     "pages/member/address/address",

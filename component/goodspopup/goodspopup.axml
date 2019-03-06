@@ -48,12 +48,12 @@
               <view class="suititle">{{groupSuitItem.gziname}}                                                                           
                 <text class="selectnumber" a:if="{{groupSuitItem.isselect == 2}}">任选                                                    
                 </text>
-                <text a:else>
-                  <text class="mustselect" a:if="{{groupSuitItem.isselect == 1}}">（必选）                                                        
+                   <text class="mustselect" a:if="{{groupSuitItem.isselect == 1}}">（必选）                                                        
+                  </text>
+                       <text class="mustselect" a:if="{{groupSuitItem.isselect == 0}}">（非必选）                                                        
                   </text>
                   <text class="selectnumber">{{groupSuitItem.zuhenum}}选{{groupSuitItem.selectnum}}                                                                                              
                   </text>
-                </text>
               </view>
               <view class="suitview">
                 <block a:for="{{groupSuitItem.list}}" a:for-item="childitem" a:for-index="childidxName">
@@ -127,7 +127,9 @@
     <view class="goodsinfo-button">
       <text>￥ {{(goodsTmp.tmpprice/100).toFixed(2)}}                                      
       </text>
-      <button type="primary" onTap="plusGoods" size="mini">加入购物车                                      
+      <button type="primary" onTap="plusGoods" size="mini" a:if="{{goodsInfo.isbuy}}">加入购物车                                      
+      </button>
+      <button type="primary"  size="mini" a:else>商品不全,禁止购买                                      
       </button>
     </view>
   </view>

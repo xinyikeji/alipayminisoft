@@ -1,5 +1,5 @@
 
-import api from '/libs/api'
+import api from '../../../libs/api'
 import php from '/libs/php'
 import clickgoods from '/libs/clickgoods'
 const app = getApp();
@@ -88,7 +88,7 @@ Page({
                                 if (userAccount) {
                                     // console.log(userAccount.account_balance)
                                     api.getMemberConfigInfo(storeinfo.storeid, function (memberConfig) {
-                                        my.hideLoading()
+                                       
                                         //计算最多可以用多少积分,并且设置积分的步进长度
                                         var jifenmax = parseInt(userAccount.account_integral / memberConfig.jifennum) * memberConfig.jifennum;
                                         _this.setData({
@@ -148,26 +148,40 @@ Page({
                             if ((res.sprice / 100 * 20) < jifenmax) {
                                 jifenmax = (res.sprice / 100 * 20);
                             }
-                        }
+                        }  my.hideLoading();
+                       
+                        api.fnGetUserOrderCoupons({
+                            storeid: _this.data.options.id,
+                            xyopenid: _this.data.userInfo.openid,
+                            price: res.sprice,
+                            goodsdata: [],
+                            pagesize: 60,
+                            success(couponsrest) {
+                               
+                                console.log(couponsrest);
 
-                        //开始计算最优券码
-                        var goodCoupon, couponList = [], userAccount = _this.data.userAccount;
-                        console.log(_this.data.userAccount,res)
-                        for (var c in userAccount.usercoupon) {
-                            if (userAccount.usercoupon[c].type == 2 && (userAccount.usercoupon[c].minprice) < res.sprice) {
-                                couponList.push(userAccount.usercoupon[c]);
+
+                                // //开始计算最优券码
+                                var goodCoupon, couponList = couponsrest, userAccount = _this.data.userAccount;
+                                console.log(_this.data.userAccount, res)
+                                // for (var c in userAccount.usercoupon) {
+                                //     if (userAccount.usercoupon[c].type == 2 && (userAccount.usercoupon[c].minprice) < res.sprice) {
+                                //         couponList.push(userAccount.usercoupon[c]);
+                                //     }
+                                // }
+                                couponList = couponList.sort(function (x, y) {
+                                    return y.price - x.price
+                                })
+                                _this.setData({
+                                    jifenmax: jifenmax.toFixed(2),
+                                    shopCart: res,
+                                    couponList: couponList,
+                                    couponData: couponList[0] || {}
+                                })
+                                _this.setScHeight();
+
                             }
-                        }
-                        couponList = couponList.sort(function (x, y) {
-                            return y.price - x.price
-                        })
-                        _this.setData({
-                            jifenmax: jifenmax.toFixed(2),
-                            shopCart: res,
-                            couponList: couponList,
-                            couponData: couponList[0] || {}
-                        })
-                        _this.setScHeight();
+                        });
                         // console.log(_this.data.couponlist)
                     },
                     fail: function (res) { }
@@ -219,52 +233,15 @@ Page({
     selectCoupon(event) {
         let _this = this;
         if (this.data.couponList.length > 0) {
-          console.log(_this.data.options.id),
-          console.log(_this.data.shopCart.sprice)
+            console.log(_this.data.options.id),
+                console.log(_this.data.shopCart.sprice)
             my.navigateTo({
-                url: '/pages/member/coupon/optcoupon?storeid=' + _this.data.options.id + '&ccbid=' + '&price=' + _this.data.shopCart.sprice
+                url: '/pages/member/coupon/optcoupon?storeid=' + _this.data.options.id + '&ccbid='+_this.data.couponData.ccbid + '&price=' + _this.data.shopCart.sprice
             })
         }
 
     },
-    // /**
-    // 	 * 获取用户订单优惠券
-    // 	 */
-    // getUserOrderCoupons() {
-    //     let _this = this;
 
-    //     /**
-    //      * 获取用户订单优惠券
-    //      */
-    //     api.fnGetUserOrderCoupons({
-    //         storeid: aOptions.storeid,
-    //         xyopenid: _this.$store.state.xyopenid,
-    //         price: libsCommon.fnOperation(
-    //             _this.cartData.STotalPrice,
-    //             _this.orderPackboxSTotalPrice,
-    //             '+'
-    //         ),
-    //         goodsdata: sStore.fnHandleOrderData().goodsdata,
-    //         pagesize: 60,
-    //         success: function (couponsData) {
-    //             console.log(couponsData);
-    //             //判断是否有优惠券
-    //             if (couponsData.data.length == 0) {
-    //                 _this.getPrivilege();
-    //             } else {
-    //                 _this.optCoupons = couponsData.data[0];
-    //                 _this.computeOrder();
-    //             }
-    //         },
-    //         fail: function (err) {
-    //             libsCommon.fnHideLoading();
-    //             libsCommon.fnShowModal({
-    //                 title: '登录失败',
-    //                 content: err.data.msg
-    //             });
-    //         }
-    //     });
-    // },
     setScHeight() {
         var _this = this;
         my.createSelectorQuery().select('#goodslistview').boundingClientRect().exec(function (ret) {
