@@ -12,22 +12,22 @@
         <view style="display:flex;background-color:white">
           <!-- 左侧 -->
           <view class="coupons-wrapLeft">
-            <view>￥<text style="font-size:80rpx; font-family:Arial">{{(item.price/100).toFixed(2)}}</text></view>
+            <view>￥<text style="font-size:80rpx; font-weight:bold; font-family:Arial">{{(item.price/100)}}</text></view>
             <view a:if="{{item.minprice>0}}">满{{item.minprice/2}}元可用</view>
           </view>
           <!-- 右侧 -->
           <view class="coupons-wrapRight">
             <view style="font-weight:800">{{item.couponname}}</view>
-            <view style="margin:28rpx 0 12rpx 0;">
+            <view style="margin:28rpx 0 28rpx 0;">
               <text style="font-size:20rpx">{{item.startdate}}-{{item.enddate}}</text>
               <button a:if="{{activeTab == 0}}" class="useCoupon" type="default" plain>
                 <navigator url="../detail/detail?id={{item.code}}&type={{item.type}}">立即使用</navigator>
               </button>
             </view>
-            <view class="detail" a:if="{{item.discount_note}}"><text>详细信息{{item.discount_note}}</text><view class="triangle" data-index="{{item.code}}" onTap="isShowMsg"></view></view>
+            <view class="detail" a:if="{{item.discount_note}}"><text>{{item.discount_note}}</text><view class="triangle" data-index="{{item.code}}" onTap="isShowMsg"></view></view>
           </view>
         </view>
-        <view class="hiddenMsg" style="display:{{isShow}}">
+        <view class="hiddenMsg" a:if="{{isShow}}">
           <text>特价商品不可使用本券码</text>
         </view>
       </view>

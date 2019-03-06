@@ -24,11 +24,13 @@
   box-sizing: border-box;
   display:flex;
   flex-direction:column;
+  box-shadow:0 5rpx 10rpx -5rpx #666666;
 }
 
 .coupons-wrapLeft{
   width:245rpx;
-  height:195rpx;
+  /* height:195rpx; */
+  border-left: 2rpx dashed #f7f7f7;
   background-color:#1bbc9b;
   color:white;
   display: flex;

@@ -21,7 +21,8 @@ Page({
     coupons2:[],
     activeTab: 0,
     userAccount: {},
-    showUserCoupon:[]
+    showUserCoupon:[],
+    isShow:false
   },
   // 切换优惠券状态
   handleTabClick({ index }) {
@@ -35,54 +36,46 @@ Page({
       activeTab: index,
     });
   },
-  onUnload() {
-    api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/member/coupon' } });
-  },
   onLoad(options) {
     var _this = this;
     app.getUserInfo(function(userinfo) {
-      // if (userinfo) {
-        api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/member/coupon' } });
-        _this.setData({
-          userInfo: userinfo
-        })
+      if (userinfo) {
         //开始拉取用户基本数据
         api.getUserAccount(userinfo.openid, function(userAccount) {
           if (userAccount) {
             _this.setData({
               userAccount: userAccount
             })
-          }
-          // console.log(_this.data.userAccount)
-          let usercoupon = _this.data.userAccount.usercoupon;
-          let currentdate = new Date()
-          let coupons0 = []
-          let coupons1 = []
-          let coupons2 = []
-          usercoupon.forEach((item,index)=>{
-            let enddate = new Date(Date.parse(item.enddate.replace("-","/")));
-            if(item.status == 1 && enddate - currentdate > 0){
-              // 如果未使用
-              coupons0.push(item);
-            } else if (enddate - currentdate < 0) {
-              // 如果已过期
-              coupons1.push(item);
-            }else if (item.status == 2){
-              // 如果已使用
-              coupons2.push(item);
+            // console.log(_this.data.userAccount)
+            let usercoupon = _this.data.userAccount.usercoupon;
+            let coupons0 = []
+            let coupons1 = []
+            let coupons2 = []
+            for(let i = 0; i < usercoupon.length; i++){
+              let currentdate = new Date()
+              let enddate = new Date(Date.parse(usercoupon[i].enddate.replace(/-/g,"/")));
+              if(usercoupon[i].status == 1 && enddate - currentdate > 0){
+                // 如果未使用
+                coupons0.push(usercoupon[i]);
+              } else if (enddate - currentdate < 0) {
+                // 如果已过期
+                coupons1.push(usercoupon[i]);
+              }else if (usercoupon[i].status == 2){
+                // 如果已使用
+                coupons2.push(usercoupon[i]);
+              } else {
+                console.log("不属于三种类型")
+              }
             }
-          })
-          _this.setData({
-            showUserCoupon:coupons0,
-            coupons0,
-            coupons1,
-            coupons2,
-          })
-          // console.log(_this.data.coupons0,_this.data.coupons1,_this.data.coupons2)
+            _this.setData({
+              showUserCoupon:coupons0,
+              coupons0:coupons0,
+              coupons1,
+              coupons2,
+            })
+          }
         })
-      // } else {
-      //   api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/member/coupon' } });
-      // }
+      }
     }) 
   }
 })
