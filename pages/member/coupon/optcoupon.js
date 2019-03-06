@@ -29,7 +29,7 @@ Page({
                     xyopenid: userinfo.openid,
                     price: aOptions.price,
                     goodsdata: orderData.goods,
-                    pagesize: 60,
+                    pagesize: 600,
                     success(rest) {
                         console.log(rest);
                         _this.setData({

@@ -2,18 +2,18 @@ import http from './http'
 import php from './php'
 import libsCommon from './common'
 let couponsType = {
-	1: {
-		type_text: '商品现金券'
-	},
-	2: {
-		type_text: '全单现金券'
-	},
-	4: {
-		type_text: '商品折扣券'
-	},
-	5: {
-		type_text: '全单折扣券'
-	},
+    1: {
+        type_text: '商品现金券'
+    },
+    2: {
+        type_text: '全单现金券'
+    },
+    4: {
+        type_text: '商品折扣券'
+    },
+    5: {
+        type_text: '全单折扣券'
+    },
 
 }
 export default {
@@ -673,19 +673,21 @@ export default {
             page: page,
             pagesize: pagesize
         };
-     
+
         http.post(postdata, function (status, rest) {
-             console.log(status, rest)
+            console.log(status, rest)
             if (status && rest.data.code === 1) {
                 let couponsData = rest.data.data.data;
-      
+
                 for (let i = 0; i < couponsData.length; i++) {
-                            
+
                     //商品现金券
                     if (couponsData[i].type == 1) {
                         for (let g in goodsdata) {
-                            couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
+
                             if (goodsdata[g].goodsid == couponsData[i].goodsids) {
+                                console.log(couponsData[i].price, 'couponsData[i].price', couponsData[i]);
+                                couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
                                 let offerPrice = Number(couponsData[i].price);
                                 couponsData[i].offerPrice = Math.round(offerPrice);
                                 couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
@@ -706,7 +708,7 @@ export default {
                             couponsData[i].offerPrice = Math.round(offerPrice);
                             couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
                             couponsData[i].showname = '优惠' + couponsData[i].offerPrice_format + '元,全单现金券';
-                            //   console.log(couponsData,'fnGetUserOrderCoupons');
+                           
                         }
                     }
                     //兑换券
@@ -739,7 +741,9 @@ export default {
                     }
                     //全单折扣券
                     if (couponsData[i].type == 5) {
+                           console.log( couponsData[i].price,'全单折扣券');
                         couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
+                          console.log( couponsData[i].price,'全单折扣券');
                         couponsData[i].sprice = libsCommon.fnPriceFormat(couponsData[i].sprice, 2);
                         couponsData[i].sprice_format = libsCommon.fnPriceFormat(couponsData[i].sprice);
                         couponsData[i].maxdiscount = libsCommon.fnPriceFormat(couponsData[i].maxdiscount, 2);
@@ -751,7 +755,7 @@ export default {
 
                             //计算优惠金额（分）
                             let offerPrice = libsCommon.fnOperation(price, couponsData[i].discount, '*');
-
+                          
                             if (offerPrice >= couponsData[i].maxdiscount && couponsData[i].maxdiscount !== 0) {
                                 offerPrice = couponsData[i].maxdiscount;
                             }
@@ -770,7 +774,7 @@ export default {
 
                 opt.success(couponsData);
             } else {
-               
+
                 opt.fail(rest);
             }
         })

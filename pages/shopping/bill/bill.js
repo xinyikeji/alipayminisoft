@@ -1,6 +1,7 @@
 
 import api from '../../../libs/api'
 import php from '/libs/php'
+import libscommon from '/libs/common'
 import clickgoods from '/libs/clickgoods'
 const app = getApp();
 var giveGoodsDataLog = [];
@@ -152,7 +153,7 @@ Page({
                         } my.hideLoading();
                         if (_this.data.couponData.ccbid) {
                             if ( _this.data.couponData.offerPrice > 0) {
-                                res.sprice -= Number(_this.data.couponData.offerPrice);
+                                res.sprice = libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-');
                             }
                             _this.setData({
                                 shopCart: res,
@@ -182,7 +183,7 @@ Page({
                                     return y.price - x.price
                                 })
                                 if (couponList.length > 0 && couponList[0].offerPrice > 0) {
-                                    res.sprice -= Number(couponList[0].offerPrice);
+                                   res.sprice = libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-');
                                 }
 
                                 _this.setData({
