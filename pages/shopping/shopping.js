@@ -288,7 +288,7 @@ var settab =
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
             console.log(this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid])
             var _this = this;
-            if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0) {
+            if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0 && _this.data.storeData.is_packageboxopen == 0) {
                 var goodsTmp = {
                     goodsid: goodsData.goodsid,
                     gtid: goodsData.gtid,

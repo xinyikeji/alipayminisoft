@@ -21,13 +21,14 @@ Component({
         windowHeight: 0,
         scrollHeight: 0,
         suitData: [],
+        is_packageboxopen:0,//是否选项
         onAddToShoppingCart: (data) => {
 
         }
     },
 
     didMount() {
-        console.log('goodsInfo',this.props.goodsInfo)
+        console.log('goodsInfo', this.props.goodsInfo)
         var _this = this;
         my.createSelectorQuery().select('.datainfoview').boundingClientRect().exec(function (ret) {
             var height = (ret[0].height > (_this.props.windowHeight - 200)) ? (_this.props.windowHeight - 200) : ret[0].height;
@@ -325,6 +326,21 @@ Component({
                 // console.log('decGarnish', goodsTmp);
             }
         },
+        // 设置打包
+        setPackage(e) {
+          
+            var goodsData = this.props.goodsInfo;
+            var is_package = e.currentTarget.dataset.is_package;
+            var goodsTmp = this.data.goodsTmp;
+            goodsTmp.is_package = is_package;
+            goodsData.is_package = is_package;
+        
+            this.setData({
+                goodsData: goodsData,
+                goodsTmp: goodsTmp
+            })
+
+        },
         //修改规格
         setSpecifications(event) {
             this.setData({
@@ -370,7 +386,7 @@ Component({
                 goodsInfo: goodsData,
                 goodsTmp: goodsTmp
             })
-            console.log(goodsTmp,goodsData,'setSpecifications');
+            console.log(goodsTmp, goodsData, 'setSpecifications');
             this.setGarnish()
         },
 
@@ -396,7 +412,7 @@ Component({
                 selectRemarksItem: selectRemarksItem,
                 goodsTmp: goodsTmp
             })
-            console.log(goodsTmp,selectRemarksItem);
+            console.log(goodsTmp, selectRemarksItem);
         },
         plusGoods() {
             var _this = this;

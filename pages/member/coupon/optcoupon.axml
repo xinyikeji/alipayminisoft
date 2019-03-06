@@ -34,10 +34,10 @@
 										<view class="amount">{{item.offerPrice_format}}</view>
 									</view>
 								</view> 
-								<view class="full" v-if="item.sprice>0">
+								<view class="full" a:if="item.sprice>0">
 									满{{item.sprice_format}}元可用
 								</view>
-								<view class="full" v-else>满任意金额可用</view>
+								<view class="full" a:else>满任意金额可用</view>
 							 </view>
 						</view>
 						<view class="xy-optcoupons-explain">
