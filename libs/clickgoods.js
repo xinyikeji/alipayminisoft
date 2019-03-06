@@ -65,7 +65,7 @@ export default {
       if (shoppingInfo.goods[i].have_package) {
         shoppingInfo.goods.splice(i, 1);
       } else {
-        if (shoppingInfo.goods[i].is_package === 1) {
+        if (shoppingInfo.goods[i].is_package == 1) {
           packageNumber += shoppingInfo.goods[i].dabaohe * shoppingInfo.goods[i].goodsno;
         }
       }

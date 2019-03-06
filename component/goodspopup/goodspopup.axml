@@ -122,6 +122,20 @@
             </view>
           </view>
         </view>
+         <view class="goodsinfo-remarks" a:if="is_packageboxopen == 1">
+          <view >
+            <view class="remarkstitle">打包                                                                 
+            </view>
+            <view>
+              
+                <text class="remarks {{ goodsTmp.is_package==1?'active':''}}" onTap="setPackage" data-is_package="1">是                                 
+                </text>
+                <text class="remarks {{ goodsTmp.is_package==0?'active':''}}" onTap="setPackage" data-is_package="0">否                                                                                   
+                </text>
+              </block>
+            </view>
+          </view>
+        </view>
       </view>
     </scroll-view>
     <view class="goodsinfo-button">
