@@ -187,7 +187,7 @@ var settab =
             goodsArr.forEach((item) => {
                 goodsIdArr.push(item.gtid);
             });
-            if (goodsIdArr.indexOf(999999999) == -1) {
+            if (goodsIdArr.indexOf(999999999) == -1 && this.data.goodsData.goodsTypeData['999999999']) {
                 my.showToast({
                     type: "fail",
                     content: "请选择必点商品"
