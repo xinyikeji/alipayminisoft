@@ -29,7 +29,7 @@ Page({
           for (var i in storelist) {
             storelist[i].longvalue = parseInt(app.getLong(res.latitude, res.longitude, storelist[i].lat, storelist[i].lng));
             storelist[i].longvalueFormat = app.getLongFormat(storelist[i].longvalue);
-            console.log(storelist[i].longvalue,storelist[i].longvalueFormat)
+            // console.log(storelist[i].longvalue,storelist[i].longvalueFormat)
           }
           storelist.sort(function (x, y) {
             return x.longvalue > y.longvalue;

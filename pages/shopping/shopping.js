@@ -273,14 +273,30 @@ var settab =
         plusGoods(event) {
             // console.log('停售商品goodsid数组',this.data.stopIdList)
             // console.log('售罄商品goodsid数组',this.data.completeIdList)
-            // console.log('event',event)
+            console.log('event',event)
             console.log(this.data.goodsData)
             // goodsData.goodsTypeData[typeGoodsItemName.gtid]
             this.setData({
                 showGoodsInfo: false,
             });
+            let currentId = event.currentTarget.dataset.goodsid;
+            this.data.goodsData.goodsdata.forEach((item,index)=>{
+              if(item.goodsid == currentId){
+                if(item.dabaohe != 0){
+                  my.alert({
+                    title: '提示',
+                    content: "该商品需打包",
+                    buttonText: '我知道了'
+                  });
+                }
+              }
+            })
+
+
+
 
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
+            console.log(this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid])
             var _this = this;
             if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0) {
                 var goodsTmp = {
