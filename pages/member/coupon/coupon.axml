@@ -6,19 +6,102 @@
       </tab-content>
     </block>
   </tabs>
-  <view class="tab-content">
-      <!-- 每张优惠券 -->
-      <view class="coupons-wrap" a:for="{{showUserCoupon}}">
+  <view class="tab-content"  a:for="{{showUserCoupon}}">
+      <!-- 商品现金券 -->
+      <view class="coupons-wrap"  a:if="{{item.type == 1}}">
         <view style="display:flex;background-color:white">
           <!-- 左侧 -->
           <view class="coupons-wrapLeft">
-            <view>￥<text style="font-size:80rpx; font-weight:bold; font-family:Arial">{{(item.price/100)}}</text></view>
-            <view a:if="{{item.minprice>0}}">满{{item.minprice/2}}元可用</view>
+            <view><text a:if="{{item.price}}">￥<text style="font-size:80rpx; font-weight:bold; font-family:Arial">{{(item.price/100)}}</text></text></view>
+            <view class="leftLine2" a:if="{{item.minprice>0}}">满{{item.minprice/2}}元可用</view>
+            <view a:if="{{item.maxdiscount}}">（最高抵用{{item.maxdiscount/100}}元）</view> 
+            <view a:else>无满额限制</view>
           </view>
           <!-- 右侧 -->
           <view class="coupons-wrapRight">
             <view style="font-weight:800">{{item.couponname}}</view>
-            <view style="margin:28rpx 0 28rpx 0;">
+            <view class="rightLine2">
+              <text style="font-size:20rpx">{{item.startdate}}-{{item.enddate}}</text>
+              <button a:if="{{activeTab == 0}}" class="useCoupon" type="default" plain>
+                <navigator url="../detail/detail?id={{item.code}}&type={{item.type}}">立即使用</navigator>
+              </button>
+            </view>
+            <view class="detail"><text a:if="{{item.instructions_for_use}}">详细信息</text><view a:if="{{item.instructions_for_use}}" class="triangle" data-index="{{item.index}}" onTap="showMsg"></view></view>
+          </view>
+        </view>
+        <view class="hiddenMsg" a:if="{{item.isShow && item.instructions_for_use}}">
+          <text>{{item.instructions_for_use}}</text>
+        </view>
+      </view>
+
+      <!-- 全单现金券 -->
+      <view class="coupons-wrap"  a:if="{{item.type == 2}}">
+        <view style="display:flex;background-color:white">
+          <!-- 左侧 -->
+          <view class="coupons-wrapLeft">
+            <view><text a:if="{{item.price}}">￥<text style="font-size:80rpx; font-weight:bold; font-family:Arial">{{(item.price/100)}}</text></text></view>
+            <view class="leftLine2" a:if="{{item.minprice>0}}">满{{item.minprice/2}}元可用</view>
+            <view a:if="{{item.maxdiscount}}">（最高抵用{{item.maxdiscount/100}}元）</view> 
+            <view a:else>无满额限制</view>
+          </view>
+          <!-- 右侧 -->
+          <view class="coupons-wrapRight">
+            <view style="font-weight:800">{{item.couponname}}</view>
+            <view class="rightLine2">
+              <text style="font-size:20rpx">{{item.startdate}}-{{item.enddate}}</text>
+              <button a:if="{{activeTab == 0}}" class="useCoupon" type="default" plain>
+                <navigator url="../detail/detail?id={{item.code}}&type={{item.type}}">立即使用</navigator>
+              </button>
+            </view>
+            <view class="detail"><text a:if="{{item.instructions_for_use}}">详细信息</text><view a:if="{{item.instructions_for_use}}" class="triangle" data-index="{{item.index}}" onTap="showMsg"></view></view>
+          </view>
+        </view>
+        <view class="hiddenMsg" a:if="{{item.isShow && item.instructions_for_use}}">
+          <text>{{item.instructions_for_use}}</text>
+        </view>
+      </view>
+
+      <!-- 商品折扣券 -->
+      <view class="coupons-wrap"  a:if="{{item.type == 4}}">
+        <view style="display:flex;background-color:white">
+          <!-- 左侧 -->
+          <view class="coupons-wrapLeft">
+            <view><text style="font-size:80rpx; font-weight:bold; font-family:Arial">{{item.discount / 10}}</text>折</view>
+            <view class="leftLine2" a:if="{{item.minprice>0}}">满{{item.minprice/100}}元可用</view>
+            <view a:if="{{item.maxdiscount}}">（最高抵用{{item.maxdiscount/100}}元）</view> 
+            <view a:else>无满额限制</view>
+          </view>
+          <!-- 右侧 -->
+          <view class="coupons-wrapRight">
+            <view style="font-weight:800">{{item.couponname}}</view>
+            <view class="rightLine2">
+              <text style="font-size:20rpx">{{item.startdate}}-{{item.enddate}}</text>
+              <button a:if="{{activeTab == 0}}" class="useCoupon" type="default" plain>
+                <navigator url="../detail/detail?id={{item.code}}&type={{item.type}}">立即使用</navigator>
+              </button>
+            </view>
+            <view class="detail"><text a:if="{{item.instructions_for_use}}">详细信息</text><view a:if="{{item.instructions_for_use}}" class="triangle" data-index="{{item.index}}" onTap="showMsg"></view></view>
+          </view>
+        </view>
+        <view class="hiddenMsg" a:if="{{item.isShow && item.instructions_for_use}}">
+          <text>{{item.instructions_for_use}}</text>
+        </view>
+      </view>
+   
+      <!-- 全单折扣券 -->
+      <view class="coupons-wrap"  a:if="{{item.type == 5}}">
+        <view style="display:flex;background-color:white">
+          <!-- 左侧 -->
+          <view class="coupons-wrapLeft">
+            <view><text style="font-size:80rpx; font-weight:bold; font-family:Arial">{{item.discount / 10}}</text>折</view>
+            <view class="leftLine2" a:if="{{item.minprice>0}}">满{{item.minprice/100}}元可用</view>
+            <view a:if="{{item.maxdiscount}}">（最高抵用{{item.maxdiscount/100}}元）</view> 
+            <view a:else>无满额限制</view>
+          </view>
+          <!-- 右侧 -->
+          <view class="coupons-wrapRight">
+            <view style="font-weight:800">{{item.couponname}}</view>
+            <view class="rightLine2">
               <text style="font-size:20rpx">{{item.startdate}}-{{item.enddate}}</text>
               <button a:if="{{activeTab == 0}}" class="useCoupon" type="default" plain>
                 <navigator url="../detail/detail?id={{item.code}}&type={{item.type}}">立即使用</navigator>

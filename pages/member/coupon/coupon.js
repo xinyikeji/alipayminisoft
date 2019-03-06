@@ -53,7 +53,7 @@ Page({
             _this.setData({
               userAccount: userAccount
             })
-            console.log(_this.data.userAccount)
+            console.log(_this.data.userAccount.usercoupon)
             let usercoupon = _this.data.userAccount.usercoupon;
             let coupons0 = []
             let coupons1 = []
