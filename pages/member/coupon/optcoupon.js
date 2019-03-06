@@ -1,5 +1,6 @@
 const app = getApp();
 import api from '/libs/api'
+import clickgoods from '/libs/clickgoods'
 let aOptions = {};
 Page({
     data: {
@@ -21,11 +22,13 @@ Page({
 
         app.getUserInfo(function (userinfo) {
             if (userinfo) {
+                 var orderData = clickgoods.getShoppingCart(aOptions.storeid);
+             
                 api.fnGetUserOrderCoupons({
                     storeid: aOptions.storeid,
                     xyopenid: userinfo.openid,
                     price: aOptions.price,
-                    goodsdata: [],
+                    goodsdata: orderData.goods,
                     pagesize: 60,
                     success(rest) {
                         console.log(rest);

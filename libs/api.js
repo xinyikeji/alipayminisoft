@@ -706,7 +706,7 @@ export default {
                             couponsData[i].offerPrice = Math.round(offerPrice);
                             couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
                             couponsData[i].showname = '优惠' + couponsData[i].offerPrice_format + '元,全单现金券';
-                              console.log(couponsData,'fnGetUserOrderCoupons');
+                            //   console.log(couponsData,'fnGetUserOrderCoupons');
                         }
                     }
                     //兑换券
