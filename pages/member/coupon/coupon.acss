@@ -64,7 +64,7 @@
 .detail{
   color:#666666; 
   font-size: 20rpx;
-  border-top:1rpx dashed #999999;
+  border-top:1rpx dashed #dddddd;
   padding-top:10rpx;
   display: flex;
   justify-content: space-between;
@@ -84,7 +84,8 @@
   color:#666666;
   font-size: 20rpx;
   padding:20rpx;
+  margin-top:1rpx;
   background-color:white;
-  box-shadow:0 5rpx 10rpx -5rpx #666666;
+  box-shadow:2rpx 0 10rpx -5rpx #666666;
   /* display:none; */
 }

@@ -1,4 +1,14 @@
 .diancanbutton{
   border: 0px;
-  font-size: 16px;
+  font-size: 14px;
+  width:70px;
+  height:30px;
+  line-height: 30px;
+  color:white;
+  font-weight: 400;
+  background: #10aeff;
+  border-radius: 10px;
+}
+.am-list-extra{
+  flex-basis:25%;
 }

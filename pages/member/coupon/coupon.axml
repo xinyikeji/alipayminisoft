@@ -24,11 +24,11 @@
                 <navigator url="../detail/detail?id={{item.code}}&type={{item.type}}">立即使用</navigator>
               </button>
             </view>
-            <view class="detail" a:if="{{item.discount_note}}"><text>{{item.discount_note}}</text><view class="triangle" data-index="{{item.code}}" onTap="isShowMsg"></view></view>
+            <view class="detail"><text a:if="{{item.instructions_for_use}}">详细信息</text><view a:if="{{item.instructions_for_use}}" class="triangle" data-index="{{item.index}}" onTap="showMsg"></view></view>
           </view>
         </view>
-        <view class="hiddenMsg" a:if="{{isShow}}">
-          <text>特价商品不可使用本券码</text>
+        <view class="hiddenMsg" a:if="{{item.isShow && item.instructions_for_use}}">
+          <text>{{item.instructions_for_use}}</text>
         </view>
       </view>
     </view>

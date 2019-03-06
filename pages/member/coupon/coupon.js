@@ -3,9 +3,6 @@ import api from '/libs/api'
 
 Page({
   data: {
-    windowHeight: 0,
-    windowWidth: 0,
-    userInfo: {},
     tabs: [
       {
         title: '未使用',
@@ -22,7 +19,17 @@ Page({
     activeTab: 0,
     userAccount: {},
     showUserCoupon:[],
-    isShow:false
+  },
+  // 显示隐藏
+  showMsg(event){
+    this.data.showUserCoupon.forEach((item,index)=>{
+      if(item.index === event.currentTarget.dataset.index){
+        item.isShow = !item.isShow;
+        this.setData({
+          showUserCoupon:this.data.showUserCoupon
+        })
+      }
+    })
   },
   // 切换优惠券状态
   handleTabClick({ index }) {
@@ -46,11 +53,18 @@ Page({
             _this.setData({
               userAccount: userAccount
             })
-            // console.log(_this.data.userAccount)
+            console.log(_this.data.userAccount)
             let usercoupon = _this.data.userAccount.usercoupon;
             let coupons0 = []
             let coupons1 = []
             let coupons2 = []
+
+            // 给每个券码添加唯一标识符index
+            usercoupon.forEach((item,index)=>{
+              item.index = index
+              item.isShow = false
+            })
+
             for(let i = 0; i < usercoupon.length; i++){
               let currentdate = new Date()
               let enddate = new Date(Date.parse(usercoupon[i].enddate.replace(/-/g,"/")));
@@ -76,6 +90,6 @@ Page({
           }
         })
       }
-    }) 
+    })
   }
 })
