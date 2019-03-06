@@ -667,7 +667,7 @@ export default {
             method: "member.WeixinOrder.getWxUseableCashCoupons",
             storeid: storeid, //门店ID
             xyopenid: xyopenid, //芯易openid
-            price: 200,
+            price: price,
             type: '1,2,4,5',
             wxappid: extJson.appid, //微信小程序APPID
             page: page,
@@ -678,8 +678,9 @@ export default {
              console.log(status, rest)
             if (status && rest.data.code === 1) {
                 let couponsData = rest.data.data.data;
-                console.log(couponsData);
+      
                 for (let i = 0; i < couponsData.length; i++) {
+                            
                     //商品现金券
                     if (couponsData[i].type == 1) {
                         for (let g in goodsdata) {
@@ -705,6 +706,7 @@ export default {
                             couponsData[i].offerPrice = Math.round(offerPrice);
                             couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
                             couponsData[i].showname = '优惠' + couponsData[i].offerPrice_format + '元,全单现金券';
+                              console.log(couponsData,'fnGetUserOrderCoupons');
                         }
                     }
                     //兑换券
@@ -760,7 +762,7 @@ export default {
                     }
                     Object.assign(couponsData[i], couponsType[couponsData[i].type]);
                     if (!couponsData[i].offerPrice || couponsData[i].offerPrice == 0) {
-                        // couponsData.splice(i--, 1);
+                        couponsData.splice(i--, 1);
                     }
                 }
 

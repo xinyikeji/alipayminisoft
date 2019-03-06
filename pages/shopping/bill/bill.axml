@@ -104,7 +104,7 @@
             </block>
           </view>
           <view class="shopping-caert-priceinfo">
-            <text a:if="{{shopCart.sprice}}">￥{{(shopCart.sprice/100).toFixed(2)}}</text>                                                                                                                                  
+            <text a:if="{{shopCart.sprice}}">￥{{((shopCart.sprice)/100).toFixed(2)}}</text>                                                                                                                                  
           </view>
           <form onSubmit="sendOrderToServer" report-submit="true">
             <button class="shopping-caert-goShopping" formType="submit">确认下单                                                                                                                                                                                             

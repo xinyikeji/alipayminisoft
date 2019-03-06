@@ -88,7 +88,7 @@ Page({
                                 if (userAccount) {
                                     // console.log(userAccount.account_balance)
                                     api.getMemberConfigInfo(storeinfo.storeid, function (memberConfig) {
-                                       
+
                                         //计算最多可以用多少积分,并且设置积分的步进长度
                                         var jifenmax = parseInt(userAccount.account_integral / memberConfig.jifennum) * memberConfig.jifennum;
                                         _this.setData({
@@ -148,8 +148,16 @@ Page({
                             if ((res.sprice / 100 * 20) < jifenmax) {
                                 jifenmax = (res.sprice / 100 * 20);
                             }
-                        }  my.hideLoading();
-                       
+                        } my.hideLoading();
+                        if (_this.data.couponData.ccbid) {
+                            if ( _this.data.couponData.offerPrice > 0) {
+                                res.sprice -= Number(_this.data.couponData.offerPrice);
+                            }
+                            _this.setData({
+                                shopCart: res,
+                            })
+                            return false;
+                        }
                         api.fnGetUserOrderCoupons({
                             storeid: _this.data.options.id,
                             xyopenid: _this.data.userInfo.openid,
@@ -157,7 +165,7 @@ Page({
                             goodsdata: [],
                             pagesize: 60,
                             success(couponsrest) {
-                               
+
                                 console.log(couponsrest);
 
 
@@ -172,6 +180,10 @@ Page({
                                 couponList = couponList.sort(function (x, y) {
                                     return y.price - x.price
                                 })
+                                if (couponList.length > 0 && couponList[0].offerPrice > 0) {
+                                    res.sprice -= Number(couponList[0].offerPrice);
+                                }
+
                                 _this.setData({
                                     jifenmax: jifenmax.toFixed(2),
                                     shopCart: res,
@@ -236,7 +248,7 @@ Page({
             console.log(_this.data.options.id),
                 console.log(_this.data.shopCart.sprice)
             my.navigateTo({
-                url: '/pages/member/coupon/optcoupon?storeid=' + _this.data.options.id + '&ccbid='+_this.data.couponData.ccbid + '&price=' + _this.data.shopCart.sprice
+                url: '/pages/member/coupon/optcoupon?storeid=' + _this.data.options.id + '&ccbid=' + _this.data.couponData.ccbid + '&price=' + _this.data.shopCart.total_price
             })
         }
 
@@ -405,6 +417,8 @@ Page({
             content: "处理中..."
         })
         var orderData = clickgoods.getShoppingCart(this.data.storeInfo.storeid);
+        // console.log(orderData,'setOrder');
+        // return false;
         clickgoods.getOrderId({
             storeid: this.data.options.id,
             storecode: this.data.storeInfo.storecode,

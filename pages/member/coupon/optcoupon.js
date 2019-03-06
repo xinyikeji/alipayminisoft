@@ -75,6 +75,7 @@ Page({
             // prevPages.$vm.optCoupons = this.couponsData[index];
             // prevPages.$vm.balanceprice = 0;
         }
+        prevPages.relaodData();
         // prevPages.$vm.computeOrder();
         my.navigateBack({ delta: 1 }); //返回上一页
     },

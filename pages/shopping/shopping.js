@@ -280,17 +280,7 @@ var settab =
                 showGoodsInfo: false,
             });
             let currentId = event.currentTarget.dataset.goodsid;
-            this.data.goodsData.goodsdata.forEach((item,index)=>{
-              if(item.goodsid == currentId){
-                if(item.dabaohe != 0){
-                  my.alert({
-                    title: '提示',
-                    content: "该商品需打包",
-                    buttonText: '我知道了'
-                  });
-                }
-              }
-            })
+            
 
 
 
