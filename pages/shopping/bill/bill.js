@@ -154,6 +154,7 @@ Page({
                         if (_this.data.couponData.ccbid) {
                             if ( _this.data.couponData.offerPrice > 0) {
                                 res.sprice = libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-');
+                                // console.log( res.sprice,'=====1=',_this.data.couponData,libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-'));
                             }
                             _this.setData({
                                 shopCart: res,
@@ -183,7 +184,7 @@ Page({
                                     return y.price - x.price
                                 })
                                 if (couponList.length > 0 && couponList[0].offerPrice > 0) {
-                                   res.sprice = libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-');
+                                   res.sprice = libscommon.fnOperation( res.sprice,couponList[0].offerPrice,'-');
                                 }
 
                                 _this.setData({

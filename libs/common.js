@@ -284,7 +284,9 @@ let fnOperation = function fnOperation(num1, num2, symbol) {
 	if (symbol == '/') {
 		result = (Math.round(num1 * m) / Math.round(num2 * m)) / m * m;
 	}
-
+    if(result <= 0){
+        result = 0;
+    }
 	return Number(result.toFixed(2));
 }
 
