@@ -22,13 +22,11 @@ Page({
   },
   // 显示隐藏
   showMsg(event){
-    this.data.showUserCoupon.forEach((item,index)=>{
-      if(item.index === event.currentTarget.dataset.index){
-        item.isShow = !item.isShow;
-        this.setData({
-          showUserCoupon:this.data.showUserCoupon
-        })
-      }
+    let index = event.currentTarget.dataset.index;
+    let isShow = this.data.showUserCoupon[index].isShow;
+    this.data.showUserCoupon[index].isShow = !isShow;
+    this.setData({
+      showUserCoupon:this.data.showUserCoupon
     })
   },
   // 切换优惠券状态
