@@ -63,7 +63,8 @@
                                         <view class="goodsdesc">{{itemGoods.desc}}                                                                                                                                                                
                                         </view>
                                         <view class="goodsprice">￥{{itemGoods.priceFormat}}                                                                                                                                                                                                                                                                                                                     
-                                            <text class="yprice"> ￥{{itemGoods.priceFormat}}                                                                                                                                                                                                                                                                                                                                                 
+                                            <text class="yprice"> 
+                                                <!-- ￥{{itemGoods.priceFormat}}                                                                                                                                                                                                                                                                                                                                                  -->
                                                 <text>
                                                     </view>
                                                     </view>
