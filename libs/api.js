@@ -668,7 +668,8 @@ export default {
             storeid: storeid, //门店ID
             xyopenid: xyopenid, //芯易openid
             price: price,
-            type: '1,2,4,5',
+            type: '2,5',
+            // type: '1,2,4,5',
             wxappid: extJson.appid, //微信小程序APPID
             page: page,
             pagesize: pagesize
@@ -708,7 +709,7 @@ export default {
                             couponsData[i].offerPrice = Math.round(offerPrice);
                             couponsData[i].offerPrice_format = libsCommon.fnPriceFormat(offerPrice);
                             couponsData[i].showname = '优惠' + couponsData[i].offerPrice_format + '元,全单现金券';
-                           
+
                         }
                     }
                     //兑换券
@@ -741,9 +742,9 @@ export default {
                     }
                     //全单折扣券
                     if (couponsData[i].type == 5) {
-                           console.log( couponsData[i].price,'全单折扣券');
+                        console.log(couponsData[i].price, '全单折扣券');
                         couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
-                          console.log( couponsData[i].price,'全单折扣券');
+                        console.log(couponsData[i].price, '全单折扣券');
                         couponsData[i].sprice = libsCommon.fnPriceFormat(couponsData[i].sprice, 2);
                         couponsData[i].sprice_format = libsCommon.fnPriceFormat(couponsData[i].sprice);
                         couponsData[i].maxdiscount = libsCommon.fnPriceFormat(couponsData[i].maxdiscount, 2);
@@ -755,7 +756,7 @@ export default {
 
                             //计算优惠金额（分）
                             let offerPrice = libsCommon.fnOperation(price, couponsData[i].discount, '*');
-                          
+
                             if (offerPrice >= couponsData[i].maxdiscount && couponsData[i].maxdiscount !== 0) {
                                 offerPrice = couponsData[i].maxdiscount;
                             }
