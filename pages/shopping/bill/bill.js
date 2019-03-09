@@ -588,9 +588,9 @@ Page({
                                                 success: function (resdata) {
 
                                                     Object.assign(payData, {
-                                                        openid: this.data.userInfo.openid,
+                                                        openid: _this.data.userInfo.openid,
                                                         mode: "orderFinish",
-                                                        query: this.data.options,
+                                                        query: _this.data.options,
                                                         path: '/pages/shopping/bill/bill'
 
                                                     });
@@ -621,9 +621,9 @@ Page({
                                 storeid: _this.data.storeInfo.storeid,
                                 success: function () {
                                     Object.assign(payData, {
-                                        openid: this.data.userInfo.openid,
+                                        openid: _this.data.userInfo.openid,
                                         mode: "orderFinish",
-                                        query: this.data.options,
+                                        query: _this.data.options,
                                         path: '/pages/shopping/bill/bill'
 
                                     });
