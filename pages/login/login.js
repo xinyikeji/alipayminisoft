@@ -11,6 +11,9 @@ Page({
         vcode_text: '获取验证码',
         isAgree: true
     },
+    onUnload(){
+        
+    },
     onLoad() {
         this.getLoginCode();
     },

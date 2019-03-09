@@ -141,7 +141,7 @@ Page({
                         isonline: 1
                     }],
                     success: function (res) {
-                        console.log(res,'clearPaylistclearPaylist');
+                        console.log(res, 'clearPaylistclearPaylist');
                         // console.log('function', res)
                         var jifenmax = _this.data.jifenmax_default;
                         if (res.sprice / 100 < 1) {
@@ -152,8 +152,8 @@ Page({
                             }
                         } my.hideLoading();
                         if (_this.data.couponData.ccbid) {
-                            if ( _this.data.couponData.offerPrice > 0) {
-                                res.sprice = libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-');
+                            if (_this.data.couponData.offerPrice > 0) {
+                                res.sprice = libscommon.fnOperation(res.sprice, _this.data.couponData.offerPrice, '-');
                                 // console.log( res.sprice,'=====1=',_this.data.couponData,libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-'));
                             }
                             _this.setData({
@@ -165,7 +165,7 @@ Page({
                             storeid: _this.data.options.id,
                             xyopenid: _this.data.userInfo.openid,
                             price: res.sprice,
-                            goodsdata:res.goods,
+                            goodsdata: res.goods,
                             pagesize: 600,
                             success(couponsrest) {
 
@@ -184,7 +184,7 @@ Page({
                                     return y.price - x.price
                                 })
                                 if (couponList.length > 0 && couponList[0].offerPrice > 0) {
-                                   res.sprice = libscommon.fnOperation( res.sprice,couponList[0].offerPrice,'-');
+                                    res.sprice = libscommon.fnOperation(res.sprice, couponList[0].offerPrice, '-');
                                 }
 
                                 _this.setData({
@@ -285,6 +285,13 @@ Page({
                                 isonline: 1,
                             }],
                             success: function (resdata) {
+                                if (_this.data.couponData.ccbid) {
+                                    if (_this.data.couponData.offerPrice > 0) {
+                                        resdata.sprice = libscommon.fnOperation(resdata.sprice, _this.data.couponData.offerPrice, '-');
+                                        // console.log( res.sprice,'=====1=',_this.data.couponData,libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-'));
+                                    }
+                                }
+
                                 _this.setData({
                                     shopCart: resdata
                                 })
@@ -301,6 +308,12 @@ Page({
                                 isonline: 1,
                             }],
                             success: function (resdata) {
+                                if (_this.data.couponData.ccbid) {
+                                    if (_this.data.couponData.offerPrice > 0) {
+                                        resdata.sprice = libscommon.fnOperation(resdata.sprice, _this.data.couponData.offerPrice, '-');
+                                        // console.log( res.sprice,'=====1=',_this.data.couponData,libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-'));
+                                    }
+                                }
                                 _this.setData({
                                     shopCart: resdata
                                 })
@@ -332,6 +345,12 @@ Page({
                                 isonline: 1,
                             }],
                             success: (resdata) => {
+                                if (_this.data.couponData.ccbid) {
+                                    if (_this.data.couponData.offerPrice > 0) {
+                                        resdata.sprice = libscommon.fnOperation(resdata.sprice, _this.data.couponData.offerPrice, '-');
+                                        // console.log( res.sprice,'=====1=',_this.data.couponData,libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-'));
+                                    }
+                                }
                                 _this.setData({
                                     shopCart: resdata
                                 })
@@ -348,6 +367,12 @@ Page({
                                 isonline: 1,
                             }],
                             success: (resdata) => {
+                                if (_this.data.couponData.ccbid) {
+                                    if (_this.data.couponData.offerPrice > 0) {
+                                        resdata.sprice = libscommon.fnOperation(resdata.sprice, _this.data.couponData.offerPrice, '-');
+                                        // console.log( res.sprice,'=====1=',_this.data.couponData,libscommon.fnOperation( res.sprice,_this.data.couponData.offerPrice,'-'));
+                                    }
+                                }
                                 _this.setData({
                                     shopCart: resdata
                                 })
@@ -429,6 +454,7 @@ Page({
 
                 //提交赠品日志数据
                 api.uploadBehavior({
+                    storeid: _this.data.storeInfo.storeid,
                     data: {
                         openid: _this.data.userInfo.openid,
                         mode: "activity_give_goods",
@@ -537,6 +563,15 @@ Page({
                         if (typeof res.waiting_payment == 'undefined') {
                             res.waiting_payment = orderData.sprice;
                         }
+                        let payData = {
+                            orderno: res.order_no,
+                            third_appid: extJson.aliappid,
+                            openid: _this.data.userInfo.openid,
+                            storeid: _this.data.storeInfo.storeid,
+                            ptid: _this.data.storeInfo.ptid,
+                            type: 1,
+                            price: res.waiting_payment / 100,
+                        };
                         if (res.waiting_payment > 0) {
                             my.showLoading({
                                 content: "正在提交支付",
@@ -544,20 +579,27 @@ Page({
                             clickgoods.clearShoppingCart({
                                 storeid: _this.data.storeInfo.storeid,
                                 success: function () {
-                                    api.createAlipay({
-                                        orderno: res.order_no,
-                                        third_appid: extJson.aliappid,
-                                        openid: _this.data.userInfo.openid,
-                                        storeid: _this.data.storeInfo.storeid,
-                                        ptid: _this.data.storeInfo.ptid,
-                                        type: 1,
-                                        price: res.waiting_payment / 100,
-                                    }, function (respay) {
+
+                                    api.createAlipay(payData, function (respay) {
                                         my.hideLoading();
                                         if (respay) {
                                             my.tradePay({
                                                 tradeNO: respay.trade_no,
                                                 success: function (resdata) {
+
+                                                    Object.assign(payData, {
+                                                        openid: this.data.userInfo.openid,
+                                                        mode: "orderFinish",
+                                                        query: this.data.options,
+                                                        path: '/pages/shopping/bill/bill'
+
+                                                    });
+                                                    api.uploadBehavior({
+                                                        storeid: _this.data.storeInfo.storeid,
+                                                        data: payData
+                                                    });
+
+
                                                     my.redirectTo({
                                                         url: '/pages/orderinfo/orderinfo?orderno=' + res.order_no
                                                     });
@@ -578,6 +620,17 @@ Page({
                             clickgoods.clearShoppingCart({
                                 storeid: _this.data.storeInfo.storeid,
                                 success: function () {
+                                    Object.assign(payData, {
+                                        openid: this.data.userInfo.openid,
+                                        mode: "orderFinish",
+                                        query: this.data.options,
+                                        path: '/pages/shopping/bill/bill'
+
+                                    });
+                                    api.uploadBehavior({
+                                        storeid: _this.data.storeInfo.storeid,
+                                        data: payData
+                                    });
                                     my.redirectTo({
                                         url: '/pages/orderinfo/orderinfo?orderno=' + res.order_no
                                     });

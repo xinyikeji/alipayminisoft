@@ -271,7 +271,7 @@ export default {
         var appkey = my.getStorageSync({
             key: 'appkey'
         });
-
+        let storeid = option.storeid ? option.storeid  : 0;//门店Id
         option.data.key = appkey.data;
         option.data.time = php.time();
         option.data.version = extJson.version;
@@ -280,6 +280,7 @@ export default {
             method: "miniapp.Activity.uploadUserAction",
             third_appid: extJson.aliappid,
             source: 2,
+            storeid:storeid,
             data: JSON.stringify(option.data)
         };
         // console.log(postdata)
