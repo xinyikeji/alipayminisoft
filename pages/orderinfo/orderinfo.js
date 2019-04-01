@@ -111,7 +111,7 @@ Page({
             success(reason) {
                 let items = [];
                 for (let r in reason) {
-                    items[r] = reason[r].name;
+                    items[r] = reason[r].text;
                 }
                 // console.log('reason', reason);
                 my.showActionSheet({
@@ -120,6 +120,7 @@ Page({
                     cancelButtonText: '取消好了',
                     success: (res) => {
                         if (res.index >= 0) {
+                            
                             api.cancelOrder({
                                 storeid: _this.data.order.order.storeid,//	是	int	2.0	门店ID
                                 orderno: _this.data.order.order.orderno,//string	是	2.0	订单编号
