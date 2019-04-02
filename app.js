@@ -1,12 +1,15 @@
 import http from '/libs/http'
 import api from '/libs/api'
 App({
+    options:{},
   // 获取远程数据
   getDataPost(url, data, callback) {
     data.mothed = url;
     http.post(data, callback);
   },
   onLaunch(options) {
+      this.options = options.query;
+
     const extJson = my.getExtConfigSync();
     var version = my.getStorageSync({
       key: "version"
