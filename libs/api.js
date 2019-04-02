@@ -271,7 +271,7 @@ export default {
         var appkey = my.getStorageSync({
             key: 'appkey'
         });
-        let storeid = option.storeid ? option.storeid  : 0;//门店Id
+        let storeid = option.storeid ? option.storeid : 0;//门店Id
         option.data.key = appkey.data;
         option.data.time = php.time();
         option.data.version = extJson.version;
@@ -280,7 +280,7 @@ export default {
             method: "miniapp.Activity.uploadUserAction",
             third_appid: extJson.aliappid,
             source: 2,
-            storeid:storeid,
+            storeid: storeid,
             data: JSON.stringify(option.data)
         };
         // console.log(postdata)
@@ -323,16 +323,13 @@ export default {
     cancelOrder(option) {
         if (!option.success) option.success = function (res) { console.log('getOrderDetail success ', res) }
         if (!option.fail) option.fail = function (res) { console.log('getOrderDetail fail ', res) }
-        if (!option.orderno) {
-            option.fail({ error: true, message: "没有设置orderno" })
-            return;
-        }
+
 
 
         // const extJson = my.getExtConfigSync();
         var postdata = {
             method: "order.ordercancel.setOrderCancel",
-            orderno: option.orderno
+            // orderno: option.orderno
         };
 
         postdata.storeid = option.storeid;//	门店ID
@@ -357,7 +354,8 @@ export default {
 
         // const extJson = my.getExtConfigSync();
         var postdata = {
-            method: "order.cancelreason.getCancelReason",
+            method: "bussiness.Sysconfig.getDictionariesItems",
+            type: '-32'
         };
 
 
@@ -1232,22 +1230,39 @@ export default {
             ptype: 2, //平台类型（1微信，2支付宝，3积分商城）
         }, function (status, rest) {
             if (status && rest.data.code === 1) {
-
+                let updatetimeCache = my.getStorageSync({ key: 'updatetimeCache' });
+                if(!updatetimeCache || !updatetimeCache.time){
+                    updatetimeCache.time = 0;
+                }
+                let ddate = php.date('Y-m-d H:i:s');
+                let dtime =  php.strtotime(ddate);
                 for (let c in rest.data.data) {
-                    if (rest.data.data[c].updatetime >= php.date('Y-m-d H:i:s')) {
+                    console.log(rest.data.data[c].updatetime,php.strtotime(rest.data.data[c].updatetime),ddate,dtime,updatetimeCache.time,php.strtotime(rest.data.data[c].updatetime) >= dtime, php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time);
+                    if (php.strtotime(rest.data.data[c].updatetime) >= dtime || php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time) {
                         let cacheAllInfo = my.getStorageInfoSync();
                         console.log(cacheAllInfo);
                         for (let i in cacheAllInfo.keys) {
 
-                            if (cacheAllInfo.keys[i].indexOf('store') >= 0) {
+                            if (cacheAllInfo.keys[i].indexOf('store') >= -1) {
                                 my.removeStorageSync({
                                     key: cacheAllInfo.keys[i],
                                 });
                             }
 
                         }
+                        my.setStorageSync({
+                            key: 'updatetimeCache',
+                            data: {
+                                time: dtime,
+                                date: ddate,
+
+                            }
+                        });
                         break;
+
                     }
+
+
                 }
 
                 opt.success(rest.data.data);

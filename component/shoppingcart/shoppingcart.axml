@@ -10,18 +10,19 @@
                 <view class="shopping-cart-goodslist-view">
                     <list>
                         <block a:for="{{shopCart.goods}}">
-                            <list-item arrow="{{false}}" index="{{item.key}}" disabled="{{true}}" key="items-{{item.key}}" wrap="{{true}}" last="{{index === (shopCart.goods - 1)}}">              {{item.goodsname}}                                                                
-                                <text class="shopping-caert-goodsprice">￥{{(item.tmpprice/100).toFixed(2)}}                                                
+                            <list-item arrow="{{false}}" index="{{item.key}}" disabled="{{true}}" key="items-{{item.key}}" wrap="{{true}}" last="{{index === (shopCart.goods - 1)}}">
+                                <text class="shopping-cart-goodsname">{{item.goodsname}}</text>                                                              
+                                <text class="shopping-cart-goodsprice">￥{{(item.tmpprice/100).toFixed(2)}}                                                
                                 </text>
                                 <view a:if="{{item.garnish && item.garnish.length > 0}}">
                                     <text class="shopping-cart-garnish" a:for="{{item.garnish}}" a:for-index="garnishindex" a:for-item="garnishitem">
-{{garnishitem.goodsname}} x {{garnishitem.goodsno}} ￥{{(garnishitem.sprice/100).toFixed(2)}}                                                                        
+                                        <text class="shopping-cart-garnish-goodsname">{{garnishitem.goodsname}}</text> x {{garnishitem.goodsno}} ￥{{(garnishitem.sprice/100).toFixed(2)}}                                                                        
                                     </text>
                                 </view>
                                 <view a:if="{{item.suitflag == 1}}" class="shopping-cart-garnish-flex">
                                     <view  a:for="{{item.child}}" a:for-index="suitindex" a:for-item="suititem">
                                         <text class="shopping-cart-garnish">
-{{suititem.goodsname}} x {{suititem.goodsno}} +￥{{(suititem.addprice/100).toFixed(2)}}                                                                        
+                                          <text class="shopping-cart-garnish-goodsname">{{suititem.goodsname}}</text> x {{suititem.goodsno}} +￥{{(suititem.addprice/100).toFixed(2)}}                                                                        
                                         </text>
                                     </view>
                                 </view>
@@ -31,7 +32,7 @@
                                     </text>
                                 </view>
                                 <view slot="extra">
-                                    <view class="shopping-caert-plusbutton">
+                                    <view class="shopping-cart-plusbutton">
                                         <image onTap="incGoods" data-key="{{item.key}}" src="/static/icon/active/plus.png" style="width:24px;height:24px;" mode="aspectFit" />
                                         <text class="numbers">                      {{item.goodsno}}                                                                                               
                                         </text>
@@ -44,10 +45,10 @@
                 </view>
             </scroll-view>
         </view>
-        <view class="shopping-caert-shoppingcart">
-            <view class="shopping-caert-cartinfo">
-                <view class="shopping-caert-cartbuttons">
-                    <view class="shopping-caert-shoppcar">
+        <view class="shopping-cart-shoppingcart">
+            <view class="shopping-cart-cartinfo">
+                <view class="shopping-cart-cartbuttons">
+                    <view class="shopping-cart-shoppcart">
                         <block a:if="{{shopCart.goodsnumber && shopCart.goodsnumber > 0}}">
                             <badge text="{{shopCart.goodsnumber}}">
                                 <view slot="inner" style="height: 26px; width: 26px;">
@@ -59,11 +60,11 @@
                             <image src="/static/icon/Shapecopy.png" style="width:24px;height:24px;" mode="aspectFit" />
                         </block>
                     </view>
-                    <view class="shopping-caert-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}                                                           
-                        <text class="shopping-caert-total_price">￥{{(shopCart.total_price/100).toFixed(2)}}                                                          
+                    <view class="shopping-cart-priceinfo">￥{{(shopCart.sprice/100).toFixed(2)}}                                                           
+                        <text class="shopping-cart-total_price">￥{{(shopCart.total_price/100).toFixed(2)}}                                                          
                         </text>
                     </view>
-                    <view onTap="cartGoShopping" class="shopping-caert-goShopping">            去结算                  
+                    <view onTap="cartGoShopping" class="shopping-cart-goShopping">            去结算                  
                     </view>
                 </view>
             </view>

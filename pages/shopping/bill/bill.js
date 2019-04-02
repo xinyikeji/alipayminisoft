@@ -412,6 +412,12 @@ Page({
                 giveGoodsDataIndex: event.currentTarget.dataset.index,
                 giveGoodsDataSelected: this.data.giveGoodsData[event.currentTarget.dataset.index]
             })
+            console.log({
+                            ptid: _this.data.memberConfig.youhui_paytype,
+                            price: _this.data.giveGoodsDataSelected.price * 1,
+                            paytype: 1,
+                            isonline: 1
+                        },'ikkkkkkkkk');
             clickgoods.removePaylist({
                 storeid: _this.data.options.id,
                 ptid: _this.data.memberConfig.youhui_paytype,

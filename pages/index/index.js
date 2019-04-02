@@ -9,6 +9,8 @@ Page({
         clickNum: 0,
     },
     onLoad(options) {
+     
+
         const extJson = my.getExtConfigSync();
         var _this = this;
         //获取首页广告

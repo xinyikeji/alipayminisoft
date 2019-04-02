@@ -27,12 +27,14 @@ var settab =
       api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/shopping' } });
     },
     onLoad(options) {
+
       var _this = this
       if (!options.id) {
         var querycache = my.getStorageSync({
           key: 'query-info', // 缓存数据的key
         });
         options = querycache.data;
+		
       }
       if (!options.id) {
         my.alert({
@@ -59,7 +61,7 @@ var settab =
         });
 
         api.fnGetUpdataCacheData({
-          complete(rest) {
+          success(rest) {
             _this.loadData();
           }
         });
@@ -200,7 +202,7 @@ var settab =
       goodsArr.forEach((item) => {
         goodsIdArr.push(item.gtid);
       });
-      if (goodsIdArr.indexOf(999999999) == -1 && this.data.goodsData.goodsTypeData['999999999']) {
+      if ( this.data.goodsData.goodsTypeData['999999999'] && goodsIdArr.indexOf(999999999) == -1  ) {
         my.showToast({
           type: "fail",
           content: "请选择必点商品"

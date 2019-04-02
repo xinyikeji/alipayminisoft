@@ -11,7 +11,8 @@
         <view id="goodslistview" class="shopping-cart-goodslist-view goodslistview">
           <list>
             <block a:for="{{shopCart.goods}}">
-              <list-item arrow="{{false}}" thumb="{{item.is_package === 1?'/static/package.png':''}}" index="{{item.key}}" disabled="{{true}}" key="items-{{item.key}}" wrap="{{true}}">                {{item.goodsname}} x{{item.goodsno}}                                                                                                                                                                                                                                                                              
+              <list-item arrow="{{false}}" thumb="{{item.is_package === 1?'/static/package.png':''}}" index="{{item.key}}" disabled="{{true}}" key="items-{{item.key}}" wrap="{{true}}">
+              <text class="itemGoodsname">{{item.goodsname}}</text> x{{item.goodsno}}                                                                                                                                                                                                                                                                              
                 <view a:if="{{item.garnish && item.garnish.length > 0}}">
                   <text class="shopping-cart-garnish" a:for="{{item.garnish}}" a:for-index="garnishindex" a:for-item="garnishitem">
 {{garnishitem.goodsname}} x {{garnishitem.goodsno}} ￥{{(garnishitem.sprice/100).toFixed(2)}}                                                                                                                                                                                                                                                                                                                                    

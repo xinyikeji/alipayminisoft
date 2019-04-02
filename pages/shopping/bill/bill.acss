@@ -1,3 +1,11 @@
+.itemGoodsname{
+    max-width: 2rem;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+
 .shopping-cart {
   overflow: hidden;
 }

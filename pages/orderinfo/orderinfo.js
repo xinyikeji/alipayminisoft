@@ -104,14 +104,14 @@ Page({
 
   //取消订单
   cancelOrder(e) {
-    // console.log(this.data.order)
-    // console.log(e)
+    console.log(this.data.order)
+    console.log(e)
     let _this = this;
     api.getCancelReason({
       success(reason) {
         let items = [];
         for (let r in reason) {
-          items[r] = reason[r].name;
+          items[r] = reason[r].text;
         }
         // console.log('reason', reason);
         my.showActionSheet({
@@ -120,6 +120,7 @@ Page({
           cancelButtonText: '取消好了',
           success: (res) => {
             if (res.index >= 0) {
+
               api.cancelOrder({
                 storeid: _this.data.order.order.storeid,//	是	int	2.0	门店ID
                 orderno: _this.data.order.order.orderno,//string	是	2.0	订单编号
@@ -128,14 +129,12 @@ Page({
                 success(rest) {
                   my.alert({
                     title: '取消成功',
-                    success: () => {
-                      console.log("取消成功并确认")
+                    success() {
                       _this.reloadData(true);
                     }
                   });
                 },
                 fail(err) {
-                  console.log(err)
                   my.alert({
                     title: err.msg
                   });

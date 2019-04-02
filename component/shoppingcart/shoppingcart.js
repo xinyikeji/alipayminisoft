@@ -11,6 +11,7 @@ Component({
     billPath: '',
     windowWidth: 0,
     windowHeight: 0,
+    goodsTypeData:[],
     onChang: function(res) { },
     onClearShoppingCart: function() { },
   },
@@ -32,7 +33,7 @@ Component({
         goodsArr.forEach((item)=>{
           goodsIdArr.push(item.gtid);
         });
-        if ( goodsIdArr.indexOf(999999999) == -1) {
+        if (this.props.goodsTypeData['999999999'] &&  goodsIdArr.indexOf(999999999) == -1) {
           my.showToast({
             type: "fail",
             content: "请选择必点商品"

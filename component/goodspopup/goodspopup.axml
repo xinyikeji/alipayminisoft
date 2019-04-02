@@ -1,7 +1,7 @@
 <view>
   <view class="goodsinfodetail" style="height:{{scrollHeight+61}}px">
     <view class="goodsinfo-name">
-      <image src="{{goodsInfo.shoppic}}" style="width:24px;height:18px;margin-right:5px;" mode="aspectFill" />      {{goodsInfo.goodsname}}
+      <image src="{{goodsInfo.shoppic}}" mode="aspectFill" /><view>{{goodsInfo.goodsname}}</view>
     </view>
     <scroll-view style="height:{{scrollHeight+1}}px" scroll-y="{{true}}">
       <view class="datainfoview">
@@ -76,9 +76,11 @@
               </view>
               <view class="guigeview">
                 <block a:for="{{goodsInfo.child}}" a:for-index="suitIndex" a:for-item="suitItemName">
-                  <text class="remarks active" a:if="{{suitItemName.isdefault === 1}}">{{suitItemName.goodsname}} ￥{{suitItemName.priceFormat}}                           
+                  <text class="remarks active" a:if="{{suitItemName.isdefault === 1}}">
+                    <text class="remarkGoodsName">{{suitItemName.goodsname}}</text><text class="remarkGoodsPrice">￥{{suitItemName.priceFormat}}</text>                        
                   </text>
-                  <text class="remarks" data-index="{{suitIndex}}" onTap="setSpecifications" a:else>{{suitItemName.goodsname}} ￥{{suitItemName.priceFormat}}
+                  <text class="remarks" data-index="{{suitIndex}}" onTap="setSpecifications" a:else> 
+                    <text class="remarkGoodsName">{{suitItemName.goodsname}}</text><text class="remarkGoodsPrice">￥{{suitItemName.priceFormat}}</text>
                   </text>
                 </block>
               </view>
