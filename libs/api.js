@@ -1238,7 +1238,7 @@ export default {
                 let dtime =  php.strtotime(ddate);
                 for (let c in rest.data.data) {
                     console.log(rest.data.data[c].updatetime,php.strtotime(rest.data.data[c].updatetime),ddate,dtime,updatetimeCache.time,php.strtotime(rest.data.data[c].updatetime) >= dtime, php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time);
-                    if (php.strtotime(rest.data.data[c].updatetime) >= dtime || php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time) {
+                    if ( php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time) {
                         let cacheAllInfo = my.getStorageInfoSync();
                         console.log(cacheAllInfo);
                         for (let i in cacheAllInfo.keys) {
@@ -1248,8 +1248,13 @@ export default {
                                     key: cacheAllInfo.keys[i],
                                 });
                             }
-
                         }
+
+                        if(rest.data.data[c].method == 'openapi.UpdateCache.getUpdateCacheData'){
+                           my.clearStorageSync(); 
+                        }
+
+
                         my.setStorageSync({
                             key: 'updatetimeCache',
                             data: {
