@@ -268,16 +268,6 @@ export default {
     }
 
     const extJson = my.getExtConfigSync();
-    // console.log(extJson, 'extJson')
-    // extJson = {
-    //   aliappid: "2018121162524384",
-    //   apiurl: "http://api.yunshouyin.org",
-    //   appid: "100068",
-    //   secret: "553c050a6f9b636832c62c40",
-    //   version: "1.0.7",
-    //   xinyitoken: "87bfe246d5642277b008f8b346a9230d18dbf850"
-    // }
-
     var appkey = my.getStorageSync({
       key: 'appkey'
     });
@@ -445,7 +435,6 @@ export default {
       }
     })
   },
-  // 收集微信小程序或者支付宝小程序的formid用与后续主动推送信息给消费者使用
   sendFormid(option) {
     if (!option.success) option.success = function (res) { console.log('sendFormid success ', res) }
     if (!option.fail) option.fail = function (res) { console.log('sendFormid fail ', res) }
@@ -511,14 +500,12 @@ export default {
       return;
     }
     const extJson = my.getExtConfigSync();
-    console.log('extJson',extJson)
     http.post({
       method: "miniapp.StoreInfo.getStoreList",
       third_appid: extJson.aliappid,
       ptype: 2,
       type: 1
     }, function (status, rest) {
-      console.log('status,rest',status,rest)
       if (status && rest.data.code === 1) {
         my.setStorageSync({
           key: "storeinfo-all",
@@ -1221,8 +1208,8 @@ export default {
     })
   },
   /**
-* 获取小程序缓存数据更新
-*/
+   * 获取小程序缓存数据更新
+   */
   fnGetUpdataCacheData(opt = {}) {
 
     if (!opt.success) {
@@ -1245,38 +1232,44 @@ export default {
       if (status && rest.data.code === 1) {
         let updatetimeCache = my.getStorageSync({ key: 'updatetimeCache' });
         if (!updatetimeCache || !updatetimeCache.time) {
-          updatetimeCache.time = php.time();
+          updatetimeCache.time = 0;
         }
-
+        let ddate = php.date('Y-m-d H:i:s');
+        let dtime = php.strtotime(ddate);
         for (let c in rest.data.data) {
-          // console.log(rest.data.data[c].updatetime,php.strtotime(rest.data.data[c].updatetime),ddate,dtime,updatetimeCache.time,php.strtotime(rest.data.data[c].updatetime) >= dtime, php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time);
-          if (php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time || php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time) {
+          console.log(rest.data.data[c].updatetime, php.strtotime(rest.data.data[c].updatetime), ddate, dtime, updatetimeCache.time, php.strtotime(rest.data.data[c].updatetime) >= dtime, php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time);
+          if (php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time) {
             let cacheAllInfo = my.getStorageInfoSync();
-
+            console.log(cacheAllInfo);
             for (let i in cacheAllInfo.keys) {
 
-              if (cacheAllInfo.keys[i].indexOf('store') > -1) {
-                console.log(cacheAllInfo.keys[i].indexOf('store'), cacheAllInfo.keys[i], 'keyhunnnnnnn');
+              if (cacheAllInfo.keys[i].indexOf('store') >= -1) {
                 my.removeStorageSync({
                   key: cacheAllInfo.keys[i],
                 });
               }
+            }
 
+            if (rest.data.data[c].method == 'openapi.UpdateCache.getUpdateCacheData') {
+              my.clearStorageSync();
             }
 
 
+            my.setStorageSync({
+              key: 'updatetimeCache',
+              data: {
+                time: dtime,
+                date: ddate,
+
+              }
+            });
+            break;
 
           }
 
 
         }
-        my.setStorageSync({
-          key: 'updatetimeCache',
-          data: {
-            time: php.time(),
 
-          }
-        });
         opt.success(rest.data.data);
         opt.complete(rest.data);
 
