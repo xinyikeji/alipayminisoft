@@ -1248,8 +1248,13 @@ export default {
                                     key: cacheAllInfo.keys[i],
                                 });
                             }
-
                         }
+
+                        if(rest.data.data[c].method == 'openapi.UpdateCache.getUpdateCacheData'){
+                           my.clearStorageSync(); 
+                        }
+
+
                         my.setStorageSync({
                             key: 'updatetimeCache',
                             data: {
