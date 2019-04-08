@@ -13,14 +13,15 @@ Page({
   },
   onReady(e) {
     this.mapCtx = my.createMapContext('storemap');
- 
+
     this.getStoreList();
   },
   getStoreList() {
     var _this = this;
     api.getStoreList(function (storelist) {
-      // console.log(storelist)
+      console.log('获取门店列表',storelist)
       if (!storelist) {
+        console.log('!storelist')
         return;
       }
 

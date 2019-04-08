@@ -1,14 +1,50 @@
 import http from '/libs/http'
 import api from '/libs/api'
 App({
-    options:{},
+  query: {},
   // 获取远程数据
   getDataPost(url, data, callback) {
     data.mothed = url;
     http.post(data, callback);
   },
   onLaunch(options) {
-      this.options = options.query;
+    // let test = {
+    //   "query": {
+    //     "qrCode": "http://wx26ceb94a8cf0bc41.wx.qcywx.com/goodsinfo?id=1&token=066e858cb404a230d3df0b4fa59faa98&type=test"
+    //   }
+    // }
+    this.query = options.query
+
+    console.warn("启动时的options", options)
+    console.warn("启动时的this.query", this.query)
+
+    if (this.query) {
+      console.log('条件一：有options.query')
+      // 如果有query
+      if (!this.query.id || this.query.id == '') {
+        console.log("条件二：没有options.query.id或者options.query.id是''")
+
+        console.log("this.query.qrCode",this.query.qrCode)
+        // if (this.query.qrCode) {
+          // console("条件三：有options.query.qrCode")
+          // 如果存在qrCode（则不存在id），把wrong.query.qrCode里的id取出来
+          let qrCode = this.query.qrCode
+          let idStr = qrCode.slice(qrCode.indexOf('id='))
+          this.query.id = idStr.split('&')[0].split('=')[1]
+
+          console.warn("处理后的id", this.query.id)
+          console.log("我是分割线111-----------------------------------------------")
+          console.warn("处理后的query", this.query)
+          console.log("我是分割线222-----------------------------------------------")
+          console.warn('生成url', `../shopping/shopping?id=${this.query.id}`)
+
+          // my.navigateTo({
+          //   url: `../shopping/shopping?id=${this.query.id}`
+          // })
+        // }
+      }
+    }
+
 
     const extJson = my.getExtConfigSync();
     var version = my.getStorageSync({
@@ -42,25 +78,26 @@ App({
     options.systemInfo = systemInfo;
     api.uploadBehavior({ data: options });
 
-    const UserCache = my.getStorageSync({
-      key: 'userinfo', // 缓存数据的key
-    });
+    // const UserCache = my.getStorageSync({
+    //   key: 'userinfo', // 缓存数据的key
+    // });
+    // console.log("app.js启动的userinfo",UserCache)
+    // if (!UserCache.data || UserCache.data.length == 0) {
+    //   my.alert({
+    //     title: '提示',
+    //     content: '你还没有登录，请登录~',
+    //     success() {
+    //       my.navigateTo({
+    //         url: '/pages/login/login'
+    //       })
+    //     }
+    //   })
 
-    if (!UserCache.data || UserCache.data.length == 0) {
-      my.alert({
-        title: '提示',
-        content: '你还没有登录，请登录~',
-        success() {
-          my.navigateTo({
-            url: '/pages/login/login'
-          })
-        }
-      })
-
-      return false;
-    }
+    //   return false;
+    // }
   },
-  getUserInfo(callback) {
+  // 登录
+  loginGetUserInfo(callback) {
     const UserCache = my.getStorageSync({
       key: 'userinfo', // 缓存数据的key
     });
@@ -97,6 +134,14 @@ App({
         })
       }
     });
+  },
+  // 获取用户信息
+  getUserInfo(callback) {
+    const UserCache = my.getStorageSync({
+      key: 'userinfo', // 缓存数据的key
+    });
+    callback(UserCache.data);
+    return UserCache.data;
   },
 
   getUUID: function () {

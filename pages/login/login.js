@@ -242,7 +242,7 @@ Page({
 
     toBack() {
         let _this = this;
-        app.getUserInfo(function (res) {
+        app.loginGetUserInfo(function (res) {
             console.log(res);
             my.hideLoading();
             my.showToast({

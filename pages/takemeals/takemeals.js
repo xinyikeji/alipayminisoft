@@ -7,13 +7,34 @@ Page({
     onshow: false,
     loading: true,
     brand: 'iphone',
-    orderList: []
+    orderList: [],
+    userInfo: '',
+    options: ''
   },
   onUnload() {
     api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/takemeals/takemeals' } });
   },
   onLoad(options) {
-    var _this = this;
+    let _this = this;
+    this.options = options
+    // // 判断是否登录
+    // const UserCache = my.getStorageSync({
+    //   key: 'userinfo', // 缓存数据的key
+    // });
+    // console.log("取餐列表的userinfo-onLoad时", UserCache)
+    // if (UserCache.data === null) {
+    //   my.alert({
+    //     title: '提示',
+    //     content: '你还没有登录，请登录~',
+    //     success() {
+    //       my.navigateTo({
+    //         url: '/pages/login/login'
+    //       })
+    //     }
+    //   })
+    //   return false;
+    // }
+
     my.showLoading({
       content: "加载中.."
     });
@@ -24,7 +45,7 @@ Page({
         })
       },
     });
-    app.getUserInfo(function(userinfo) {
+    app.getUserInfo(function (userinfo) {
       if (userinfo) {
         api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/takemeals/takemeals' } });
         _this.setData({
@@ -39,9 +60,39 @@ Page({
     })
   },
   onShow() {
-    if (this.data.onshow) {
-      this.reloadData();
+    let _this = this;
+    let options = this.options
+    // 判断是否登录
+    const UserCache = my.getStorageSync({
+      key: 'userinfo', // 缓存数据的key
+    });
+    console.log("取餐列表的userinfo-onShow时", UserCache)
+    if (UserCache.data === null) {
+      my.alert({
+        title: '提示',
+        content: '你还没有登录，请登录~',
+        success() {
+          my.navigateTo({
+            url: '/pages/login/login'
+          })
+        }
+      })
+      return false;
     }
+
+    app.getUserInfo(function (userinfo) {
+      if (userinfo) {
+        api.uploadBehavior({ data: { openid: userinfo.openid, mode: "instpage", query: options, path: '/pages/takemeals/takemeals' } });
+        _this.setData({
+          onshow: true,
+          options: options,
+          userInfo: userinfo
+        })
+        _this.reloadData();
+      } else {
+        api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/takemeals/takemeals' } });
+      }
+    })
   },
   onPullDownRefresh() {
     this.reloadData();

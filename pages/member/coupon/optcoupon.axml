@@ -4,7 +4,7 @@
 			<view class="page__bd">
 				<view class="weui-loadmore weui-loadmore_line">
 					<view class="weui-loadmore__tips weui-loadmore__tips_in-line"
-						>可用优惠券({{ couponsCount}})</view
+						>可用优惠券({{ couponsData.length}})</view
 					>
 				</view>
 

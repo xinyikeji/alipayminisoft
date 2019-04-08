@@ -28,7 +28,11 @@ Page({
     onUnload() {
         api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/shopping/bill/bill' } });
     },
+    onShow(){
+      console.log("订单结算界面启动时的options-onShow",this.data.options)
+    },
     onLoad(options) {
+      console.log("订单结算界面启动时的options-onLoad",options)
         var _this = this;
         this.setData({
             options: options
@@ -650,6 +654,7 @@ Page({
         })
     },
     sendOrderToServer(event) {
+      console.log("确认下单上传的参数",event)
         var _this = this;
         api.sendFormid({
             openid: this.data.userInfo.openid,
@@ -669,6 +674,9 @@ Page({
                             _this.setOrder()
                         }
                     },
+                    fail(err){
+                      console.log(err)
+                    }
                 });
                 return;
             }
