@@ -30,8 +30,8 @@ Component({
       const UserCache = my.getStorageSync({
         key: 'userinfo', // 缓存数据的key
       });
-      console.log("购物车结算时的userinfo", UserCache)
-      if (!UserCache.data === null) {
+      console.log("从商品列表去结算的userinfo", UserCache)
+      if (UserCache.data === null) {
         my.alert({
           title: '提示',
           content: '你还没有登录，请登录~',
