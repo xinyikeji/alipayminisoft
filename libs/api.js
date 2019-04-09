@@ -1243,7 +1243,7 @@ export default {
             console.log(cacheAllInfo);
             for (let i in cacheAllInfo.keys) {
 
-              if (cacheAllInfo.keys[i].indexOf('store') >= -1) {
+              if (cacheAllInfo.keys[i].indexOf('store') > -1) {
                 my.removeStorageSync({
                   key: cacheAllInfo.keys[i],
                 });

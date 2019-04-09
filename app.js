@@ -115,7 +115,7 @@ App({
           alipayappid: extJson.aliappid,
           method: "alisoft.Login.codeToinfo"
         }, function (status, rest) {
-          // console.log(status, rest);
+          console.log(status, rest,'alisoft.Login.codeToinfo');
           if (status && rest.data.code === 1) {
             my.setStorageSync({
               key: 'userinfo', // 缓存数据的key
