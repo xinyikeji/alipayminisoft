@@ -19,7 +19,7 @@ Page({
   getStoreList() {
     var _this = this;
     api.getStoreList(function (storelist) {
-      console.log('获取门店列表',storelist)
+      console.log('获取门店列表', storelist)
       if (!storelist) {
         console.log('!storelist')
         return;
@@ -44,9 +44,13 @@ Page({
         },
         fail() {
           my.hideLoading();
-          my.alert({ title: '定位失败' });
-          my.reLaunch({
-            url: '/pages/index/index'
+          my.alert({
+            title: '定位失败',
+            success() {
+              my.reLaunch({
+                url: '/pages/index/index'
+              });
+            }
           });
         },
       })

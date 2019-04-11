@@ -513,7 +513,6 @@ export default {
         })
         callback(rest.data.data);
       } else {
-        console.log(status, rest)
         callback(false);
       }
     })
@@ -529,7 +528,6 @@ export default {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
-        console.log(status, rest)
         callback(false);
       }
     })
@@ -544,7 +542,6 @@ export default {
       if (status && rest.data.code === 1) {
         callback(rest.data.data.rowdata);
       } else {
-        console.log(status, rest)
         callback(false);
       }
     })
@@ -561,13 +558,11 @@ export default {
       if (status && rest.data.code === 1) {
         callback(rest.data.data);
       } else {
-        console.log(status, rest)
         callback(false);
       }
     })
   },
   getIndexAds(openid, callback) {
-    // console.log(this)
     var datainfo = my.getStorageSync({
       key: 'indexads-all', // 缓存数据的key
     });
@@ -591,7 +586,6 @@ export default {
         })
         callback(rest.data.data);
       } else {
-        console.log(status, rest)
         callback(false);
       }
     })
@@ -629,7 +623,6 @@ export default {
         })
         callback(backdata);
       } else {
-        console.log(status, rest)
         callback(false);
       }
     })
@@ -639,7 +632,7 @@ export default {
   //获取用户订单优惠券
   fnGetUserOrderCoupons(opt) {
     let _this = this;
-    console.log(opt, 'fnGetUserOrderCouponsfnGetUserOrderCoupons');
+    // console.log(opt, 'fnGetUserOrderCouponsfnGetUserOrderCoupons');
     if (!opt.success) {
       opt.success = function () { }
     }
@@ -675,7 +668,7 @@ export default {
     };
 
     http.post(postdata, function (status, rest) {
-      console.log(status, rest)
+      // console.log(status, rest)
       if (status && rest.data.code === 1) {
         let couponsData = rest.data.data.data;
 
@@ -686,7 +679,7 @@ export default {
             for (let g in goodsdata) {
 
               if (goodsdata[g].goodsid == couponsData[i].goodsids) {
-                console.log(couponsData[i].price, 'couponsData[i].price', couponsData[i]);
+                // console.log(couponsData[i].price, 'couponsData[i].price', couponsData[i]);
                 couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
                 let offerPrice = Number(couponsData[i].price);
                 couponsData[i].offerPrice = Math.round(offerPrice);
@@ -741,9 +734,9 @@ export default {
           }
           //全单折扣券
           if (couponsData[i].type == 5) {
-            console.log(couponsData[i].price, '全单折扣券');
+            // console.log(couponsData[i].price, '全单折扣券');
             couponsData[i].price = libsCommon.fnPriceFormat(couponsData[i].price, 2);
-            console.log(couponsData[i].price, '全单折扣券');
+            // console.log(couponsData[i].price, '全单折扣券');
             couponsData[i].sprice = libsCommon.fnPriceFormat(couponsData[i].sprice, 2);
             couponsData[i].sprice_format = libsCommon.fnPriceFormat(couponsData[i].sprice);
             couponsData[i].maxdiscount = libsCommon.fnPriceFormat(couponsData[i].maxdiscount, 2);
@@ -807,7 +800,6 @@ export default {
       if (status && rest.data.code === 1) {
         option.success(rest.data.data);
       } else {
-        console.log(status, rest)
         option.fail(rest);
       }
     })
@@ -834,7 +826,6 @@ export default {
         })
         callback(rest.data.data);
       } else {
-        console.log(status, rest)
         callback(false);
       }
     })
@@ -859,7 +850,6 @@ export default {
         })
         callback(rest.data.data);
       } else {
-        console.log(status, rest)
         callback(false);
       }
     })
@@ -894,7 +884,6 @@ export default {
       if (status && rest.data.code === 1) {
         opt.success(rest.data.data);
       } else {
-        console.log(status, rest)
         _this.postError({ postdata: data, restback: rest })
         opt.fail(false);
       }
@@ -906,11 +895,12 @@ export default {
     var _this = this;
     http.post(data, function (status, rest) {
       if (status && rest.data.code === 1) {
+        console.log('status && rest.data.code === 1')
         callback(rest.data.data);
       } else {
-        console.log(status, rest)
+        console.log('status && rest.data.code !== 1')
         _this.postError({ postdata: data, restback: rest })
-        callback(false);
+        callback(false,rest);
       }
     })
   },
@@ -928,7 +918,6 @@ export default {
         callback(rest.data.data);
       } else {
         _this.postError({ postdata: data, restback: rest })
-        console.log(status, rest)
         callback(false);
       }
     })
@@ -947,7 +936,6 @@ export default {
     this.fnGetGoodsSales({
       storeid: storeid,
       success(salesData) {
-        console.log(salesData, 'salesData');
         if (datainfo.data && dataobjinfo.data && dataTypeobjinfo.data) {
           //处理数据
           var goodsObj = {}, goodsTypeData = {};
@@ -1183,7 +1171,6 @@ export default {
                   goodsTypeData: goodsTypeData
                 });
               } else {
-                console.log(status, restgoods)
                 callback(false);
               }
             })
@@ -1237,10 +1224,9 @@ export default {
         let ddate = php.date('Y-m-d H:i:s');
         let dtime = php.strtotime(ddate);
         for (let c in rest.data.data) {
-          console.log(rest.data.data[c].updatetime, php.strtotime(rest.data.data[c].updatetime), ddate, dtime, updatetimeCache.time, php.strtotime(rest.data.data[c].updatetime) >= dtime, php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time);
+          // console.log(rest.data.data[c].updatetime, php.strtotime(rest.data.data[c].updatetime), ddate, dtime, updatetimeCache.time, php.strtotime(rest.data.data[c].updatetime) >= dtime, php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time);
           if (php.strtotime(rest.data.data[c].updatetime) >= updatetimeCache.time) {
             let cacheAllInfo = my.getStorageInfoSync();
-            console.log(cacheAllInfo);
             for (let i in cacheAllInfo.keys) {
 
               if (cacheAllInfo.keys[i].indexOf('store') > -1) {

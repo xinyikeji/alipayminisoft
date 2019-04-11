@@ -44,7 +44,7 @@ Page({
       key: 'userinfo', // 缓存数据的key
     });
     console.log("会员中心的userinfo-onShow时", UserCache.data)
-    if (UserCache.data === null) {
+    if (!UserCache.data || typeof UserCache.data == undefined) {
       console.log(UserCache.data)
       my.alert({
         title: '提示',

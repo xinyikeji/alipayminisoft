@@ -67,7 +67,7 @@ Page({
       key: 'userinfo', // 缓存数据的key
     });
     console.log("取餐列表的userinfo-onShow时", UserCache)
-    if (UserCache.data === null) {
+    if (!UserCache.data || typeof UserCache.data == undefined) {
       my.alert({
         title: '提示',
         content: '你还没有登录，请登录~',

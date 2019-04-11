@@ -1,0 +1,11 @@
+{
+  "extEnable": true,
+  "ext": {
+    "version":"1.0.11",
+    "appid":"100068",
+    "secret":"553c050a6f9b636832c62c40",
+    "aliappid":"2019031963609380",
+    "apiurl":"https://api.xinyisoft.net",
+    "xinyitoken" :"b4b8a0c3aa949099015fcf9f12f472b93e46dc19"
+  }
+}

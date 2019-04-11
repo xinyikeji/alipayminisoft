@@ -27,7 +27,7 @@ const getSign = function (data, secret) {
 const post = function (postdata, callback) {
   var postdataObj = getPostData(postdata);
   const extJson = my.getExtConfigSync();
-  console.log(postdataObj);
+  // console.log(postdataObj);
   my.request({
     url: extJson.apiurl || APIURL,
     data: postdataObj,
@@ -39,7 +39,7 @@ const post = function (postdata, callback) {
       callback(true, res)
     },
     fail(res) {
-        console.log('request',res);
+        // console.log('request',res);
       callback(false, res)
     }
   });

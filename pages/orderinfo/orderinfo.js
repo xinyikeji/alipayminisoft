@@ -9,7 +9,7 @@ Page({
     loading: true,
     order: {},
     remarks: {},
-    options: {}
+    options: {},
   },
   onUnload() {
     api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/orderinfo/orderinfo' } });
@@ -104,47 +104,64 @@ Page({
 
   //取消订单
   cancelOrder(e) {
-    console.log(this.data.order)
-    console.log(e)
     let _this = this;
-    api.getCancelReason({
-      success(reason) {
-        let items = [];
-        for (let r in reason) {
-          items[r] = reason[r].text;
-        }
-        // console.log('reason', reason);
-        my.showActionSheet({
-          title: '请选择取消理由',
-          items: items,
-          cancelButtonText: '取消好了',
-          success: (res) => {
-            if (res.index >= 0) {
+    // 重新拉取订单信息，判断isconfirm
+    api.getOrderDetail({
+      orderno: _this.data.options.orderno,
+      cache: true,
+      success: function (res) {
+        console.log(res.order)
+        if (!(res.order.rstatus == 0 && res.order.pstatus == 1 && res.order.status != 5)) {
+          my.alert({
+            title: '该订单已签收，请联系商户取消',
+          });
+          return false
+        } else {
+          api.getCancelReason({
+            success(reason) {
+              console.log('getCancelReason-success')
+              let items = [];
+              for (let r in reason) {
+                items[r] = reason[r].text;
+              }
+              // console.log('reason', reason);
+              my.showActionSheet({
+                title: '请选择取消理由',
+                items: items,
+                cancelButtonText: '取消好了',
+                success: (res) => {
+                  if (res.index >= 0) {
 
-              api.cancelOrder({
-                storeid: _this.data.order.order.storeid,//	是	int	2.0	门店ID
-                orderno: _this.data.order.order.orderno,//string	是	2.0	订单编号
-                dociid: reason[res.index].dociid,//	int	是	2.0	取消理由ID 拉取销单理由接口
-                canceltype: 3,
-                success(rest) {
-                  my.alert({
-                    title: '取消成功',
-                    success() {
-                      _this.reloadData(true);
-                    }
-                  });
+                    api.cancelOrder({
+                      storeid: _this.data.order.order.storeid,//	是	int	2.0	门店ID
+                      orderno: _this.data.order.order.orderno,//string	是	2.0	订单编号
+                      dociid: reason[res.index].dociid,//	int	是	2.0	取消理由ID 拉取销单理由接口
+                      canceltype: 3,
+                      success(rest) {
+                        my.alert({
+                          title: '取消成功',
+                          success() {
+                            _this.reloadData(true);
+                          }
+                        });
+                      },
+                      fail(err) {
+                        my.alert({
+                          title: err.msg
+                        });
+                      }
+                    });
+                  }
                 },
-                fail(err) {
-                  my.alert({
-                    title: err.msg
-                  });
-                }
               });
+            },
+            fail() {
+              console.log('getCancelReason-fail')
             }
-          },
-        });
+          });
+        }
       }
-    });
+    })
   },
   reloadData(reloadCache) {
     var _this = this;

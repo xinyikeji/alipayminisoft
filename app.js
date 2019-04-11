@@ -8,43 +8,21 @@ App({
     http.post(data, callback);
   },
   onLaunch(options) {
-    // let test = {
-    //   "query": {
-    //     "qrCode": "http://wx26ceb94a8cf0bc41.wx.qcywx.com/goodsinfo?id=1&token=066e858cb404a230d3df0b4fa59faa98&type=test"
-    //   }
-    // }
     this.query = options.query
 
-    console.warn("启动时的options", options)
-    console.warn("启动时的this.query", this.query)
+    // console.warn("启动时的options", options)
+    // console.warn("启动时的this.query", this.query)
 
     if (this.query) {
-      console.log('条件一：有options.query')
+      // console.log('条件一：有options.query')
       // 如果有query
       if (!this.query.id || this.query.id == '') {
-        console.log("条件二：没有options.query.id或者options.query.id是''")
-
-        console.log("this.query.qrCode",this.query.qrCode)
-        // if (this.query.qrCode) {
-          // console("条件三：有options.query.qrCode")
-          // 如果存在qrCode（则不存在id），把wrong.query.qrCode里的id取出来
+        // console.log("条件二：没有options.query.id或者options.query.id是''")
           let qrCode = this.query.qrCode
           let idStr = qrCode.slice(qrCode.indexOf('id='))
           this.query.id = idStr.split('&')[0].split('=')[1]
-
-          console.warn("处理后的id", this.query.id)
-          console.log("我是分割线111-----------------------------------------------")
-          console.warn("处理后的query", this.query)
-          console.log("我是分割线222-----------------------------------------------")
-          console.warn('生成url', `../shopping/shopping?id=${this.query.id}`)
-
-          // my.navigateTo({
-          //   url: `../shopping/shopping?id=${this.query.id}`
-          // })
-        // }
       }
     }
-
 
     const extJson = my.getExtConfigSync();
     var version = my.getStorageSync({

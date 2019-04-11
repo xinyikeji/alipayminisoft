@@ -28,7 +28,6 @@ var settab =
         },
         onLoad(options) {
             var _this = this
-            console.log("商品界面启动时的options", options)
             const UserCache = my.getStorageSync({
                 key: 'userinfo', // 缓存数据的key
             });
@@ -82,11 +81,9 @@ var settab =
 
             if (this.data.show) {
                 // 商品界面显示时的options
-                console.log("商品界面显示时的options", this.data.options)
                 const UserCache = my.getStorageSync({
                     key: 'userinfo', // 缓存数据的key
                 });
-                console.log("商品界面启动的userinfo-onshow时", UserCache)
                 let options = this.data.options;
                 if (!options.id) {
                     var querycache = my.getStorageSync({
@@ -144,11 +141,9 @@ var settab =
                         userInfo: userinfo
                     })
                 }
-
-               
                 api.getStoreInfo(_this.data.options.id, function (storeinfo) {
-                    // console.log("门店信息",storeinfo)
-                    my.hideLoading();
+                    console.log("门店信息",storeinfo)
+                    // my.hideLoading();
                     if (storeinfo) {
                         _this.setData({
                             storeData: storeinfo
@@ -183,10 +178,6 @@ var settab =
                                         }
                                     })
                                 }
-
-
-
-
                             },
                             fail(err) {
                                 my.hideLoading();
@@ -210,7 +201,6 @@ var settab =
                 api.getGoodsInfo(_this.data.options.id, function (goodsdata) {
                     if (Object.keys(goodsdata.goodsObj).length !== 0) {
                         // 如果门店有商品信息
-                        console.log('all goodsdata', goodsdata)
                         my.hideLoading();
                         //计算分类下每个商品区域的高度
                         _this.setData({
@@ -219,7 +209,6 @@ var settab =
                         my.showLoading({
                             content: "门店数据加载中"
                         })
-                        console.log(_this.data.goodsData.goodsTypeData)
                         var indexMap = [];
                         for (var i in goodsdata.goodstype) {
                             my.createSelectorQuery().select('.goodslist-item' + goodsdata.goodstype[i].gtid).boundingClientRect().exec(function (ret) {
@@ -233,8 +222,8 @@ var settab =
                         })
                         my.hideLoading();
                     } else {
-                        my.hideLoading();
                         // 如果门店没有商品信息
+                        my.hideLoading();
                         my.alert({
                             title: '错误提示',
                             content: "该门店暂无商品",
@@ -263,8 +252,7 @@ var settab =
             const UserCache = my.getStorageSync({
                 key: 'userinfo', // 缓存数据的key
             });
-            console.log("从商品列表去结算的userinfo", UserCache)
-            if (UserCache.data === null) {
+            if (!UserCache.data || typeof UserCache.data == undefined) {
                 my.alert({
                     title: '提示',
                     content: '你还没有登录，请登录~',
@@ -372,22 +360,13 @@ var settab =
         },
         // 在商品列表界面增加商品
         plusGoods(event) {
-            // console.log('停售商品goodsid数组',this.data.stopIdList)
-            // console.log('售罄商品goodsid数组',this.data.completeIdList)
-            console.log('event', event)
-            console.log(this.data.goodsData)
-            // goodsData.goodsTypeData[typeGoodsItemName.gtid]
             this.setData({
                 showGoodsInfo: false,
             });
             let currentId = event.currentTarget.dataset.goodsid;
 
-
-
-
-
             var goodsData = this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid];
-            console.log(this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid])
+            // console.log(this.data.goodsData.goodsObj[event.currentTarget.dataset.goodsid])
             var _this = this;
             if (goodsData.suitflag === 0 && goodsData.garnish.length === 0 && goodsData.remarks[0].data.length == 0 && _this.data.storeData.is_packageboxopen == 0) {
                 var goodsTmp = {
@@ -482,7 +461,6 @@ var settab =
                                             storeid: _this.data.options.id,
                                             store: _this.data.storeData,
                                             success: function (res) {
-                                                // console.log('showCart ', res)
                                                 _this.setData({
                                                     shopCart: res
                                                 })

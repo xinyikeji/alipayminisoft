@@ -94,7 +94,7 @@
         </text>
       </view>
       <view class="toolsbutton">
-        <block a:if="{{order.order.status !== 0}}">
+        <block a:if="{{order.order.rstatus == 0 && order.order.pstatus == 1 && order.order.status != 5}}">
           <button type="warn" size="mini" onTap="cancelOrder">取消订单                                                                      
           </button>
         </block>
