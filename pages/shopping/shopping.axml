@@ -18,9 +18,9 @@
       </view>
     </block>
   </view>
-  <view class="clickgoods" style="height:{{windowHeight-140}}px">
+  <view class="clickgoods" style="height:{{windowHeight-176.2}}px;" >
     <view class="goodstype">
-      <scroll-view style="height:{{windowHeight-140}}px;" scroll-y="{{true}}">
+      <scroll-view style="height:{{windowHeight-176.2}}px;" scroll-y="{{true}}">
         <view a:for="{{goodsData.goodstype}}" onTap="typeHandleClick" data-index="{{typeIdx}}" a:for-item="typeItemName" a:for-index="typeIdx" class="typelist-text {{avtiveType == typeIdx ? 'active':''}}">
           <block a:if="{{typeItemName.image == ''}}">
             <block a:if="{{shopCart.typenumbers[typeItemName.gtid]}}">
@@ -48,7 +48,7 @@
       </scroll-view>
     </view>
     <view class="goodslist">
-      <scroll-view style="height:{{windowHeight-140}}px" scroll-y="{{!showSelect && !showShoppingCart}}" scroll-with-animation="{{true}}" scroll-animation-duration="{{500}}" scroll-top="{{scrollTop}}" onScroll="goodsListOnScroll">
+      <scroll-view style="height:{{windowHeight-176.2}}px" scroll-y="{{!showSelect && !showShoppingCart}}" scroll-with-animation="{{true}}" scroll-animation-duration="{{500}}" scroll-top="{{scrollTop}}" onScroll="goodsListOnScroll">
         <list>
           <block a:for="{{goodsData.goodstype}}" a:for-item="typeGoodsItemName">
             <view class="goodslist-item{{typeGoodsItemName.gtid}}">

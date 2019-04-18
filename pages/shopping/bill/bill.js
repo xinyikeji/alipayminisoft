@@ -647,7 +647,7 @@ Page({
           else {
             my.alert({
               title: '提示',
-              content: result.data.msg
+              content: "该商品已下架，请选择其他商品或联系商家处理"
             });
           }
         })
