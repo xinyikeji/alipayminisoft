@@ -1,120 +1,133 @@
 <view class="takemeals">
-  <view class="onloading" a:if="{{loading}}">
-    加载中...
+  <view class="onloading" a:if="{{loading}}">    加载中...                        
   </view>
-  <view class="order-info" a:else>
-    <view class="padding10">
-      <view class="storename">{{order.order.storename}}                                           
-        <block a:if="{{order.order.pstatus === 0}}">
-          <text>待支付                                                                                             
-          </text>
-        </block>
-        <block a:else>
-          <block a:if="{{order.order.status == 5}}">
-            <text>已完成                                                                                                 
-            </text>
-          </block>
-          <block a:elif="{{order.order.status === 0}}">
-            <text>已取消                                                                                                
-            </text>
-          </block>
-          <block a:else>
-            <text>进行中                                                                                                 
-            </text>
-          </block>
-        </block>
-      </view>
-    </view>
-    <view class="padding10">
-      <block a:if="{{order.order.pstatus === 0}}">
-        <view class="sereilno">订单未支付                                                                                                    
-        </view>
-      </block>
-      <block a:else>
-        <block a:if="{{order.order.status == 5}}">
-          <view class="sereiltext">
-            <image src="/static/order/iconset0316.png" style="width:80px;height:80px;" mode="aspectFit" />                                                               
-          </view>
-          <view class="sereiltext">订单已经完成，感谢您的惠顾，期待下次光临！                                                                      
-          </view>
-        </block>
-        <block a:elif="{{order.order.status === 0}}">
-          <view class="sereiltext">订单已取消！                                                                      
-          </view>
-        </block>
-        <block a:else>
-          <view class="sereilno">{{order.order.serial}}                                                                                                                          
-          </view>
-          <view class="sereilno">
-            <image src="http://api.canruanshequ.cn/open/qrcode?text={{order.order.serial}}" data-src="http://api.canruanshequ.cn/open/qrcode?text={{order.order.serial}}" onTap="showQrcode" style="width:120px;height:120px;" mode="aspectFit" />
-          </view>
-          <view class="sereiltext">取餐号                                                                                                                    
-          </view>
-        </block>
-      </block>
-    </view>
-    <!-- 订单商品 -->
-    <view class="goodslist">
-      <view class="goods" a:for="{{order.goodsdata}}">
-        <view class="goodsname">
-          <image src="/static/package.png" a:if="{{item.dabao == 1}}" style="width:24px;height:24px;float:left;" mode="aspectFit" />
-          {{item.goodsname}} x {{item.goodsno}}                                                                                                              
-          <text class="price">￥{{(item.sprice/100).toFixed(2)}}                                                                                                          
-          </text>
-        </view>
-        <view class="remarks">
-          <view a:for="{{newGoodsdata.remarks}}" a:for-item="remarkItem" class="remark">{{remarks[remarkItem]}}  </view>
-        </view>
-      </view>
-    </view>
-
-    <view class="padding10">
-      <view class="allprice">      订单合计                                                                                              
-        <text>￥{{order.order.allpriceFormat}}                                                                                   
-        </text>
-      </view>
-      <view class="orderno" a:for="{{order.paytype}}">      {{item.pname}}：                                                                                       
-        <text>￥{{(item.price/100).toFixed(2)}}                                                                                   
-        </text>
-      </view>
-      <!-- <view class="orderno" a:for="{{order.paytype}}">      {{item.pname}}：                                                                                       
-        <text>￥{{(item.price/100).toFixed(2)}}                                                                                   
-        </text>
-      </view> -->
-      <view class="orderno">   订单编号：   
-        <text>{{order.order.orderno}} 
-        </text>
-      </view>
-      <view class="orderno">     下单时间： 
-        <text>{{order.order.addtimeFormat}}  
-        </text>
-      </view>
-      <view class="orderno">     就餐时间： 
-        <text>{{order.order.yytimeFormat}}  
-        </text>
-      </view>
-      <view class="toolsbutton">
+  <block a:else>
+    <!-- 底部控制栏 -->
+    <view class="btnArea">
         <block a:if="{{order.order.rstatus == 0 && order.order.pstatus == 1 && order.order.status != 5}}">
-          <button type="warn" size="mini" onTap="cancelOrder">取消订单                                                                      
-          </button>
+          <button class="btn cancelBtn" onTap="cancelOrder">取消订单</button>
         </block>
         <block a:if="{{order.order.pstatus === 0}}">
-          <button type="primary" size="mini" onTap="gotoPay">立即支付                                                                      
-          </button>
+          <button class="btn payBtn" onTap="gotoPay">立即支付</button>
         </block>
-        <block a:else>
-          <block a:if="{{order.order.status == 5}}">
-            <!-- <button type="primary" size="mini">订单留言                                                                        
-            </button> -->
-          </block>
-          <block a:elif="{{order.order.status === 0}}">
-          </block>
-          <block a:else>
-            <button type="primary" size="mini" onTap="setOrderComplete">我已取餐                                                                        
-            </button>
-          </block>
+        <block a:if="{{order.order.status == 1}}">
+            <button class="btn completeBtn" onTap="setOrderComplete">我已取餐</button>
         </block>
+    </view>
+    <view class="order-info">
+      <!-- 取餐号、取餐码区域 -->
+      <view class="padding0">
+        <!-- 虚线以上 -->
+        <view>
+          <!-- 待付款:complete -->
+          <view class="statusPayable" a:if="{{order.order.pstatus === 0}}">
+            <image class="fukuanIcon" src="/static/order/fukuan.png" mode="aspectFit" />
+            <view class="fukuanStatus">待付款：</view>
+            <view class="fukuanText">您的订单还未付款，越早支付，越快就餐，快去支付吧！超过15分钟未支付，订单将自动取消。                              
+            </view>
+          </view>
+          <!-- 已付款:新订单/已完成/已注销 -->
+          <view style="text-align:center" a:else>
+              <image class="qrcodeIcon" src="http://api.canruanshequ.cn/open/qrcode?text={{order.order.serial}}" data-src="http://api.canruanshequ.cn/open/qrcode?text={{order.order.serial}}" onTap="showQrcode" mode="aspectFit" />
+              <view style="padding-bottom:13px">
+                <text>取餐号：</text>
+                <text class="serialNum">{{order.order.serial}}</text>
+              </view>
+          </view>
+        </view>
+        <!-- 虚线以下 -->
+        <view style="border-top:1px solid #EAEAEA" a:if="{{order.order.pstatus !== 0}}">
+          <!-- 已付款 -->
+          <view class="statusText" a:if="{{order.order.status !== 0}}">
+            <text class="status">已付款：</text>
+            <text>您的订单已完成，欢迎下次惠顾</text>
+          </view>
+          <!-- 已注销 -->
+          <view class="statusText" a:else>
+            <text class="status">已注销：</text>
+            <text>您已取消了本次订单</text>
+          </view>
+        </view>
+      </view>
+      <!-- 商品明细 -->
+      <view class="padding10">
+        <view class="itemTitle">商品明细</view>
+        <view class="goodslist">
+          <view class="goods" a:for="{{order.goodsdata}}">
+            <view>
+              <text class="goodsname">{{item.goodsname}}</text>
+              <text class="goodsnum"> x {{item.goodsno}}</text>
+              <text class="goodsprice">￥{{(item.sprice/100).toFixed(2)}}</text>
+            </view>
+            <view class="remarks">
+              <view a:for="{{newGoodsdata.remarks}}" a:for-item="remarkItem" class="remark">{{remarks[remarkItem]}}                        
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 待支付 -->
+      <view class="padding10" a:if="{{order.order.pstatus === 0}}">
+        <view class="payableItem">
+          <text>待支付                
+          </text>
+          <text>￥{{order.order.allpriceFormat}}                
+          </text>
+        </view>
+        <view class="payableItem">
+          <text>总价                
+          </text>
+          <text>￥{{order.order.allpriceFormat}}                
+          </text>
+        </view>
+        <view class="payablePrice">
+          <text>未支付：</text>
+          <text class="price">￥{{order.order.allpriceFormat}}                
+          </text>
+        </view>
+      </view>
+
+      <!-- 订单信息 -->
+      <view class="padding10">
+        <view class="itemTitle">订单信息            
+        </view>
+        <view class="orderno" a:for="{{order.paytype}}">
+          <text class="ordernoLeft">{{item.pname}}：</text>
+          <text class="ordernoRight">￥{{(item.price/100).toFixed(2)}}</text>
+        </view>
+        <!-- <view class="orderno" a:for="{{order.paytype}}">      {{item.pname}}：                                                                                       
+        <text>￥{{(item.price/100).toFixed(2)}}                                                                                   
+        </text></view> -->
+        <view class="orderno">
+          <text class="ordernoLeft">订单流水号：</text>
+          <text class="ordernoRight">{{order.order.serial}}待修改</text>
+        </view>
+        <view class="orderno">
+          <text class="ordernoLeft">门店名称</text>
+          <text class="ordernoRight">{{order.order.storename}}</text>
+        </view>
+        <view class="orderno">
+          <text class="ordernoLeft">订单类型：</text>
+          <text class="ordernoRight" a:if="{{order.order.type == 1}}">外送</text>
+          <text class="ordernoRight" a:if="{{order.order.type == 2}}">外带</text>
+          <text class="ordernoRight" a:if="{{order.order.type == 3}}">堂食</text>
+          <text class="ordernoRight" a:if="{{order.order.type == 4}}">自助</text>
+        </view>
+        <view class="orderno">
+          <text class="ordernoLeft">订单编号：</text>
+          <text class="ordernoRight">{{order.order.orderno}}</text>
+        </view>
+        <view class="orderno">
+          <text class="ordernoLeft">下单时间：</text>
+          <text class="ordernoRight">{{order.order.addtimeFormat}}</text>
+        </view>
+        <view class="orderno">
+          <text class="ordernoLeft">就餐时间：</text>
+          <text class="ordernoRight">{{order.order.yytimeFormat}}</text>
+        </view>
       </view>
     </view>
-  </view>
+    <!-- 占位 -->
+    <view style="height:50px;" a:if="{{(order.order.rstatus == 0 && order.order.pstatus == 1 && order.order.status != 5) || order.order.pstatus === 0 || order.order.status == 1}}"></view>
+  </block>
 </view>

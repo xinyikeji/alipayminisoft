@@ -1,69 +1,95 @@
-.takemeals{
-  padding: 10px;
+/* 加载中 */
+.onloading{
+  display: block;
+  line-height: 100px;
+  text-align: center;
 }
 
+.takemeals{
+  padding: 10px;
+  background-color:#F4F4F4;
+}
 .order-info{
-  background-color: #FFF;
-  border-radius: 5px;
   overflow: hidden;
-  margin-bottom: 10px;
+}
+.padding0{
+  background-color: #FFF;
+  position:relative;
+  padding:40rpx 0 24rpx 0;
+  margin-bottom: 20rpx;
+  border-radius: 5px;
+  color:#919191;
 }
 .padding10{
-  padding: 10px;
+  background-color: #FFF;
+  position:relative;
+  padding:40rpx 62rpx 40rpx 42rpx;
+  margin-bottom: 20rpx;
+  border-radius: 5px;
+  color:#919191;
 }
-.storename{
-  font-size: 14px;
-  line-height: 24px;
-  border-bottom: 1px solid #F7F7F7;
+.itemTitle{
+  font-size: 32rpx;
+  color:#333333;
+  font-family: PingFangSC-Regular;
 }
-.storename text{
-  float: right;
-  font-size: 12px;
-  line-height: 24px;
-  color: #ffbe00;
+
+
+
+/* 顶部订单状态 */
+/* 待付款 */
+.statusPayable{
+  display: flex;
+  flex-direction: row;
+  padding:40rpx 62rpx 40rpx 42rpx;
 }
-.orderno{
-  font-size: 12px;
-  color: #909399;
-  line-height: 18px;
-  overflow: hidden;
+.fukuanIcon{
+  width: 80rpx;
+  height:80rpx;
+  position: absolute;
+  left:8rpx;
+  top:18rpx;
 }
-.orderno text{
-  float: right;
+.fukuanStatus{
+  color:#FF4D4F;
+  font-size: 30rpx;
+  width: 120rpx;
 }
-.sereilno{
-  font-size: 42px;
-  color: #F76260;
-  text-align: center;
-  line-height: 60px;
+.fukuanText{
+  flex: 1;
+  width:474rpx;
+  font-size: 28rpx;
+  margin-left: 38rpx;
 }
-.sereiltext{
-  font-size: 12px;
-  color: #909399;
-  line-height: 24px;
-  text-align: center;
-}
+/* 顶部订单状态 */
+
+
+
+
+/* 商品明细 */
 .goodslist{
   overflow: hidden;
-  background-color: #F7F7F7;
   border-left: 1px solid #FFF;
   border-right: 1px solid #FFF;
 }
 .goods{
-  min-height: 40px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-top: 1px solid #FFFFFF;
+  font-size: 28rpx;
+  padding-top:22rpx;
+}
+.goods text{
+  display: inline-block;
 }
 .goodsname{
-  font-size: 14px;
-  line-height: 32px;
+  width: 382rpx;
+  overflow: hidden;
+  white-space: nowrap;
 }
-.price{
-  float: right;
-  color: #F76260;
+.goodsnum{
+  vertical-align: top;
 }
-
+.goodsprice{
+  float:right;
+}
 .remarks{
   padding: 0px 0px 6px 0px;
 }
@@ -77,27 +103,123 @@
   color: #909399;
   margin-right: 2px;
 }
-.allprice{
-  font-size: 14px;
-  line-height: 32px;
-  border-bottom: 1px solid #F7F7F7;
-  margin-bottom: 10px;
+/* 商品明细 */
+
+
+
+/* 待支付 */
+.payableItem{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color:#333333;
+  font-size: 28rpx;
+  border-bottom:1px solid #F5F5F5;
+  padding:16rpx 0;
 }
-.allprice text{
-  float:right;
-}
-.toolsbutton{
+.payablePrice{
+  padding-top:34rpx;
   text-align: right;
-  padding-top: 5px;
-  margin-top: 5px;
-  border-top: 1px solid #F7F7F7;
+  font-size: 30rpx;
 }
-.toolsbutton button {
-  margin-left: 5px;
+.price{
+   color:#FF4D4F;
+   font-size:32rpx;
 }
-.onloading{
-  display: block;
-  
-  line-height: 100px;
+/* 待支付 */
+
+
+
+/* 订单信息 */
+.orderno{
+  font-size: 28rpx;
+  color: #919191;
+  padding:21rpx 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom:1px solid #F5F5F5;
+}
+.ordernoLeft{
+  width:200rpx;
+  font-size: 28rpx;
+}
+.orderRight{
+  font-size: 26rpx;
+  flex:1;
+  white-space: nowrap;
+  overflow: hidden;
+  color:#474747;
+}
+/* 订单信息 */
+
+
+
+
+/* 底部控制栏 */
+.btnArea{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom:0;
+  margin: auto;
+  background-color:#FFFFFF;
+  text-align: right;
+  z-index: 9999;
+}
+.btn{
+  display: inline-block;
+  width:186rpx;
+  height:64rpx;
+  line-height: 64rpx;
+  border-radius:5rpx;
+  font-size: 26rpx;
+  margin: 18rpx 20rpx 18rpx auto;
+  border: none;
+}
+/* 取消订单 */
+.cancelBtn{
+  border: 1px solid #BCBCBC;
+  color:#BCBCBC;
+}
+/* 我已取餐 */
+.completeBtn{
+  border: 1px solid #54ACF9;
+  color:#54ACF9;
+}
+/* 立即支付 */
+.payBtn{
+  background-color: #FF4D4F;
+  color:white;
+}
+/* 底部控制栏 */
+
+
+
+
+.qrcodeIcon{
+  width:164rpx;
+  height:164rpx;
+}
+
+.qucanSerial{
+  color: #BCBCBC;
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+}
+
+/* 取餐号 */
+.serialNum{
+  font-size: 60rpx;
+  color: #54ACF9;
+  font-family: PingFangSC-Regular;
+}
+/* 订单状态 */
+.statusText{
+  font-size: 30rpx;
   text-align: center;
+  color: #909399;
+  padding-top: 34rpx;
+}
+.status{
+  color:#6FB075;
 }
