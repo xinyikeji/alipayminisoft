@@ -10,6 +10,7 @@ Page({
     order: {},
     remarks: {},
     options: {},
+    qrcodeLoad:false, // 二维码加载
   },
   onUnload() {
     api.uploadBehavior({ data: { openid: this.data.userInfo.openid, mode: "uninstpage", query: this.data.options, path: '/pages/orderinfo/orderinfo' } });
@@ -30,6 +31,12 @@ Page({
       } else {
         api.uploadBehavior({ data: { mode: "instpage", query: options, path: '/pages/orderinfo/orderinfo' } });
       }
+    })
+  },
+  imageLoad(){
+    console.log("加载成功")
+    this.setData({
+      qrcodeLoad:true
     })
   },
   gotoPay() {

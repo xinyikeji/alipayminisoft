@@ -35,13 +35,12 @@
 }
 
 
-
 /* 顶部订单状态 */
 /* 待付款 */
 .statusPayable{
   display: flex;
   flex-direction: row;
-  padding:40rpx 62rpx 40rpx 42rpx;
+  padding: 0 62rpx 16rpx 42rpx;
 }
 .fukuanIcon{
   width: 80rpx;
@@ -53,9 +52,10 @@
 .fukuanStatus{
   color:#FF4D4F;
   font-size: 30rpx;
-  width: 120rpx;
+  width: 140rpx;
 }
 .fukuanText{
+  color:#B2B2B2;
   flex: 1;
   width:474rpx;
   font-size: 28rpx;
@@ -216,9 +216,8 @@
 /* 订单状态 */
 .statusText{
   font-size: 30rpx;
-  text-align: center;
   color: #909399;
-  padding-top: 34rpx;
+  padding: 34rpx 42rpx 0 42rpx;
 }
 .status{
   color:#6FB075;
