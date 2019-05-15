@@ -4,7 +4,7 @@
   <block a:else>
     <!-- 底部控制栏 -->
     <view class="btnArea">
-      <block a:if="{{order.order.rstatus == 0 && order.order.pstatus == 1 && order.order.status != 5}}">
+      <block a:if="{{order.order.rstatus == 0 && order.order.pstatus == 0}}">
         <button class="btn cancelBtn" onTap="cancelOrder">取消订单
         </button>
       </block>
@@ -25,7 +25,7 @@
           <!-- 待付款:complete -->
           <view class="statusPayable" a:if="{{order.order.pstatus === 0}}">
             <image class="fukuanIcon" src="/static/order/fukuan.png" mode="aspectFit" />
-            <view class="fukuanStatus">待付款：
+            <view class="fukuanStatus">待支付：
             </view>
             <view class="fukuanText">您的订单还未付款，越早支付，越快就餐，快去支付吧！超过15分钟未支付，订单将自动取消。                                          
             </view>
@@ -95,12 +95,23 @@
           <text>￥-{{item.ypriceFormat}}                          
           </text>
         </view>
-        <view class="payableItem" a:if="{{order.order.pstatus == 1}}">
+        <!-- 支付方式 -->
+        <!-- <view class="payableItem" a:if="{{order.order.pstatus == 1}}">
           <text>支付宝支付
           </text>
           <text>￥{{order.order.priceFormat}}          
           </text>
+        </view> -->
+        <view class="payableItem" a:if="{{order.order.pstatus == 1}}" a:for="{{order.paytype}}">
+          <text>{{item.pname}}
+          </text>
+          <text a:if="{{item.pname == '支付宝支付'}}">￥{{item.priceFormat}}          
+          </text>
+          <!-- 卡券等支付方式的金额显示为负 -->
+          <text a:else>-￥{{item.priceFormat}}
+          </text>
         </view>
+        
         <view class="payableItem">
           <text>总价
           </text>
@@ -119,6 +130,7 @@
           <text class="price">￥{{order.order.priceFormat}}                          
           </text>
         </view>
+
       </view>
       <!-- 信息来源：rder.orderinfo.getOrderInfoByOrderno -->
       <!-- 订单信息 -->
